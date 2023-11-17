@@ -12,7 +12,7 @@ public class YudeliveryApplication {
 		//정수열
 		//서예주
 		//신은석
-		//천성찬
+		//천성
 	}
 
 }
