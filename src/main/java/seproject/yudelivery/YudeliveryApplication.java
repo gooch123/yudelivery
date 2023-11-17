@@ -8,7 +8,7 @@ public class YudeliveryApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(YudeliveryApplication.class, args);
-		/
+
 	}
 
 }
