@@ -1,17 +1,25 @@
 package seproject.yudelivery.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.sql.Date;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Getter
 public class StoreEntity {
     @Id @GeneratedValue
     @Column(name = "store_id")
     private Long id;
 
     @OneToOne
-    @Column(name = "user_id")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @Column(name = "store_name")
@@ -26,13 +34,16 @@ public class StoreEntity {
     @Column(name = "address3")
     private String address3;
 
+    @Column(name = "category")
+    private String category;
+
     @Column(name = "phone")
     private String phone;
 
     @Column(name = "opening_time")
     private Date opening_time;
 
-    @Column(name = closing_time")
+    @Column(name = "closing_time")
     private Date closing_time;
     @Column(name = "delivery_time")
     private Date delivery_time;

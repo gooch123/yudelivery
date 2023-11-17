@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Store Information Form</h2>
+    <form action="/store/create" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" maxlength="50" required><br><br>
+
+        <label for="address1">Address 1:</label>
+        <input type="text" id="address1" name="address1" maxlength="255" required><br><br>
+
+        <label for="address2">Address 2:</label>
+        <input type="text" id="address2" name="address2" maxlength="255"><br><br>
+
+        <label for="address3">Address 3:</label>
+        <input type="text" id="address3" name="address3" maxlength="255"><br><br>
+
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category" maxlength="100" required><br><br>
+
+        <label for="openTime">Open Time:</label>
+        <input type="time" id="openTime" name="openTime" required><br><br>
+
+        <label for="closeTime">Close Time:</label>
+        <input type="time" id="closeTime" name="closeTime" required><br><br>
+
+        <label for="deliverTime">Deliver Time:</label>
+        <input type="text" id="deliverTime" name="deliverTime" required><br><br>
+
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" maxlength="20" required><br><br>
+
+        <label for="storeInfo">Store Information:</label>
+        <textarea id="storeInfo" name="storeInfo" rows="4" maxlength="255" required></textarea><br><br>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</body>
+</html>
