@@ -11,5 +11,6 @@ public class YudeliveryApplication {
 		//임구철
 		//정수열
 		//신은석
+		//서예주
 	}
 }
