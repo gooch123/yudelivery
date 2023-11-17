@@ -10,7 +10,9 @@ public class YudeliveryApplication {
 		SpringApplication.run(YudeliveryApplication.class, args);
 		//임구철
 		//정수열
-		//천성찬123
+		//서예주
+		//신은석
+		//천성찬
 	}
 
 }
