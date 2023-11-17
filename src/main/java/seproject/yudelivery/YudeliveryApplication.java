@@ -8,7 +8,8 @@ public class YudeliveryApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(YudeliveryApplication.class, args);
-		// 정수열......
+		//임구철
+		//정수열
 	}
 
 }
