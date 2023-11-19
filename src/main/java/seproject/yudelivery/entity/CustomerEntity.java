@@ -10,11 +10,6 @@ import java.sql.Date;
 @Getter @Setter
 public class CustomerEntity extends UserEntity{
 
-    @Id @GeneratedValue
-    @OneToOne
-    @Column(name = "userId")
-    private UserEntity id;
-
     @Column(name = "customer_name")
     private String customer_name;
 

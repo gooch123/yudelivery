@@ -23,5 +23,10 @@ public class BasketFoodEntity {
     @JoinColumn(name = "bakset_id")
     private BasketEntity basket;
 
+    private int food_quantity;
+
+    public int getTotalPrice(){
+        return food_quantity * food.getFood_price();
+    }
 
 }
