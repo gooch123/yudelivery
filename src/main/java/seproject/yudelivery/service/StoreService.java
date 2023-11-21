@@ -10,6 +10,6 @@ public class StoreService {
 
     @Transactional
     public StoreEntity createStore(StoreDTO storeDTO) {
-
+        return null;
     }
 }
