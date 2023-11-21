@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import seproject.yudelivery.entity.BasketEntity;
 import seproject.yudelivery.entity.BasketFoodEntity;
 
@@ -15,18 +16,33 @@ public class BasketRepository {
 
     private final EntityManager em;
 
-    public void save(BasketEntity basket){
+    public void saveNewBasket(BasketEntity basket){
         if(basket.getId() != null)
             em.persist(basket);
         else
             em.merge(basket);
     }
 
-    public Long find(Long id){
-        BasketEntity result = em.createQuery("select o from BasketEntity o where o.customer =:cusotmer", BasketEntity.class)
-                .setParameter("customer",id)
-                .getSingleResult();
-        return result.getId();
+    public List<BasketFoodEntity> findBasketFood(Long basketId){
+        List<BasketFoodEntity> basketfood = em.createQuery("select f from BasketFoodEntity f join fetch f.food where f.basket = :basketId", BasketFoodEntity.class)
+                .setParameter("basketId", basketId)
+                .getResultList();
+        return basketfood;
+    }
+
+    public void updateBasket(Long basketFoodId, int quantity){
+        BasketFoodEntity basketFood = em.find(BasketFoodEntity.class, basketFoodId);
+        basketFood.changeFoodQuantity(quantity);
+    }
+
+    public void cancelFood(Long basketFoodId){
+        BasketEntity basketEntity = em.find(BasketEntity.class, basketFoodId);
+        em.remove(basketFoodId);
+    }
+
+    public int getFoodQuantity(Long basketFoodId){
+        BasketFoodEntity basketFood = em.find(BasketFoodEntity.class, basketFoodId);
+        return basketFood.getFood_quantity();
     }
 
 }
