@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seproject.yudelivery.dto.BasketDTO;
 import seproject.yudelivery.entity.BasketEntity;
+import seproject.yudelivery.entity.BasketFoodEntity;
+import seproject.yudelivery.entity.FoodEntity;
 import seproject.yudelivery.repository.BasketRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,12 +19,23 @@ public class BasketService {
 
     private final BasketRepository basketRepository;
 
-    public List<BasketDTO> getBasket(Long id){
-        Long basketId = basketRepository.find(id);
+    public List<BasketDTO> getBasket(Long basketId){
+        List<BasketFoodEntity> basketFood = basketRepository.findBasketFood(basketId);
+        List<BasketDTO> basketDTOList = new ArrayList<>();
+        for (BasketFoodEntity food_in_basket : basketFood) {
+            FoodEntity food = food_in_basket.getFood();
+            BasketDTO basketDTO = new BasketDTO(food.getFood_name(), food_in_basket.getFood_quantity(), food.getFood_price());
+            basketDTOList.add(basketDTO);
+        }
 
+        return basketDTOList;
+    }
 
-//        BasketDTO basketDTO = new BasketDTO(StoreName,foodName,foodQuantity,foodPrice);
-        return null;
+    @Transactional
+    public void updateBasketFoodQuantity(Long basketFoodId, int quantity){
+        basketRepository.updateBasket(basketFoodId, quantity);
+        if(basketRepository.getFoodQuantity(basketFoodId) <= 0)
+            basketRepository.cancelFood(basketFoodId);
     }
 
 }

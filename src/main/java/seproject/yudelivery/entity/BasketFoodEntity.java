@@ -29,4 +29,7 @@ public class BasketFoodEntity {
         return food_quantity * food.getFood_price();
     }
 
+    public void changeFoodQuantity(int quantity){
+        food_quantity += quantity;
+    }
 }

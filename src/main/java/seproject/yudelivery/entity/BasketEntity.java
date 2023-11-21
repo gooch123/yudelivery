@@ -24,15 +24,4 @@ public class BasketEntity {
     @JoinColumn(name = "store_id")
     private StoreEntity store;
 
-    @OneToMany(mappedBy = "basket")
-    private List<BasketFoodEntity> basketFood;
-
-    public int getBasketPrice(){
-        int sum = 0;
-        for (BasketFoodEntity basketFoods : basketFood) {
-            sum += basketFoods.getTotalPrice();
-        }
-        return sum;
-    }
-
 }
