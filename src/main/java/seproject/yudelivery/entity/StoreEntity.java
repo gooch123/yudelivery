@@ -1,10 +1,7 @@
 package seproject.yudelivery.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import seproject.yudelivery.dto.StoreDTO;
 
 import java.sql.Date;
@@ -16,13 +13,14 @@ import static jakarta.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @ToString
 @Getter
+@Setter
 public class StoreEntity {
     @Id @GeneratedValue
     @Column(name = "store_id")
     private Long id;
 
     @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
+    @PrimaryKeyJoinColumn(name = "user_id")
     private UserEntity user;
 
     @Column(name = "store_name")
@@ -56,12 +54,6 @@ public class StoreEntity {
     private int sales;
 
     public StoreEntity createStore(StoreDTO dto){
-        if(dto.getStore_id() != null){ // id 존재하면 생성 불가
-            throw new IllegalArgumentException("이미 존재하는 가게입니다.");
-        }
-        else if(dto.getStore_name() != null) { // 이미 이름이 존재하는 가게이면 생성 불가
-            throw new IllegalArgumentException("이미 존재하는 가게입니다.");
-        }
         return new StoreEntity(
                 dto.getStore_id(),
                 user,
