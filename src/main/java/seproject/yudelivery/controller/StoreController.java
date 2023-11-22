@@ -26,17 +26,17 @@ public class StoreController {
         return "redirect:/store/main";
     }
 
-    @GetMapping("/store/{id}/delete")
+    @GetMapping("/{id}/delete")
     public String deleteStore(@PathVariable Long id) {
         return "";
     }
 
-    @GetMapping("/store/update")
+    @GetMapping("/update")
     public String updateStore() {
         return "";
     }
 
-    @GetMapping("/store/{id}") // store detail page
+    @GetMapping("/{id}") // store detail page
     public String getStore(@PathVariable Long id) {
         return "";
     }
