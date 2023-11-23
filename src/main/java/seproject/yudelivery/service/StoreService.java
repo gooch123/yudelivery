@@ -25,4 +25,8 @@ public class StoreService {
     public StoreEntity getStore(Long id) {
         return storeRepository.findStore(id);
     }
+
+    public StoreEntity getStoreExisting(Long user_id) {
+        return storeRepository.findStoreExisting(user_id);
+    }
 }
