@@ -18,7 +18,7 @@ public class ReviewDTO {
     private String comment;
     private final StoreRepository storeRepository;
 
-    public ReviewEntity toEntitiy(){
+    public ReviewEntity toEntity(){
         ReviewEntity reviewEntity = new ReviewEntity();
         reviewEntity.setId(this.id);
         reviewEntity.setReview_content(this.review_content);
