@@ -11,11 +11,16 @@ import seproject.yudelivery.repository.FoodRepository;
 
 @Slf4j
 @Controller
-@RequestMapping("/store/{storeId}/foods")
+@RequestMapping("/store/{storeId}/food")
 public class FoodController {
 
     @Autowired
     private FoodRepository foodRepository;
+
+    @GetMapping
+    public String foodMain(@PathVariable Long storeId) {
+        return "";
+    }
 
     @PostMapping("/create")
     public String createFood(@PathVariable Long storeId, FoodDTO foodDTO) {
@@ -41,9 +46,9 @@ public class FoodController {
     }
 
     @PostMapping("/update")
-    public String update(@PathVariable Long storeId, FoodDTO form) {
-        log.info(form.toString());
-        FoodEntity foodEntity = form.toEntity();
+    public String update(@PathVariable Long storeId, FoodDTO foodDTO) {
+        log.info(foodDTO.toString());
+        FoodEntity foodEntity = foodDTO.toEntity();
         log.info(foodEntity.toString());
         FoodEntity target = foodRepository.findById(foodEntity.getId()).orElse(null);
         if (target != null) {
