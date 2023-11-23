@@ -31,7 +31,7 @@ public class FoodController {
         FoodEntity foodEntity = foodDTO.toEntity();
         FoodEntity saved = foodRepository.save(foodEntity);
         log.info(saved.toString());
-        return "redirect:/store/" + storeId + "/foods/" + saved.getId();
+        return "redirect:/store/" + storeId + "/food/" + saved.getId();
     }
 
     @GetMapping("/{id}")
@@ -39,14 +39,14 @@ public class FoodController {
         log.info("Store ID: " + storeId + ", Food ID: " + id);
         FoodEntity foodEntity = foodRepository.findById(id).orElse(null);
         model.addAttribute("food", foodEntity);
-        return "foods/show";
+        return "food/show";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable Long storeId, @PathVariable Long id, Model model) {
         FoodEntity foodEntity = foodRepository.findById(id).orElse(null);
         model.addAttribute("food", foodEntity);
-        return "foods/edit";
+        return "food/edit";
     }
 
     @PostMapping("/update")
@@ -58,7 +58,7 @@ public class FoodController {
         if (target != null) {
             foodRepository.save(foodEntity);
         }
-        return "redirect:/store/" + storeId + "/foods/" + foodEntity.getId();
+        return "redirect:/store/" + storeId + "/food/" + foodEntity.getId();
     }
 
     @GetMapping("/{id}/delete")
@@ -69,7 +69,7 @@ public class FoodController {
         if (target != null) {
             foodRepository.delete(target);
         }
-        return "redirect:/store/" + storeId + "/foods";
+        return "redirect:/store/" + storeId + "/food";
     }
 }
 
