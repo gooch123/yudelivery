@@ -28,7 +28,10 @@ public class ReviewDTO {
         StoreEntity storeEntity = storeRepository.findStore(this.store_id);
         reviewEntity.setStore(storeEntity);
 
-        //customer해야함
+        /*customer해야함
+        CustomerEntity customerEntity = customerRepository.findCustomer(this.customer_id);
+        reviewEntity.setCustomer(customerEntity);
+         */
 
         return reviewEntity;
     }
