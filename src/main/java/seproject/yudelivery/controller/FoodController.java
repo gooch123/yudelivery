@@ -9,6 +9,8 @@ import seproject.yudelivery.dto.FoodDTO;
 import seproject.yudelivery.entity.FoodEntity;
 import seproject.yudelivery.repository.FoodRepository;
 
+import java.util.List;
+
 @Slf4j
 @Controller
 @RequestMapping("/store/{storeId}/food")
@@ -18,8 +20,10 @@ public class FoodController {
     private FoodRepository foodRepository;
 
     @GetMapping
-    public String foodMain(@PathVariable Long storeId) {
-        return "";
+    public String foodMain(@PathVariable Long storeId, Model model) {
+        List<FoodEntity> foodList = foodRepository.findAllByStoreId(storeId);
+        model.addAttribute("foodList", foodList);
+        return "food/list"; // 적절한 템플릿 이름으로 변경해주세요
     }
 
     @PostMapping("/create")

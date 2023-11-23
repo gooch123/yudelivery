@@ -3,11 +3,14 @@ package seproject.yudelivery.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 import java.util.Optional;
 import seproject.yudelivery.entity.FoodEntity;
 
 @Repository
 public interface FoodRepository extends JpaRepository<FoodEntity, Long> {
+    List<FoodEntity> findAllByStoreId(Long storeId);
     Optional<FoodEntity> findById(Long id);
 
     @Query("SELECT f FROM FoodEntity f WHERE f.food_name = :foodName")
