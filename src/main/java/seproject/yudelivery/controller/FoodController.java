@@ -23,7 +23,7 @@ public class FoodController {
     public String foodMain(@PathVariable Long storeId, Model model) {
         List<FoodEntity> foodList = foodRepository.findAllByStoreId(storeId);
         model.addAttribute("foodList", foodList);
-        return "food/list"; // 적절한 템플릿 이름으로 변경해주세요
+        return "food/list";
     }
 
     @PostMapping("/create")
