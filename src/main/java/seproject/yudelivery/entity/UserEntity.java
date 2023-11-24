@@ -10,11 +10,11 @@ import lombok.Data;
 @Data
 public class UserEntity {
     @Id @GeneratedValue
-    private long id;
+    private Long id;
     
     @Column(nullable = false)
     private String userId;
-    
+
     @Column(nullable = false)
     private String username;
 

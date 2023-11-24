@@ -11,4 +11,12 @@ public class BasketDTO {
     private int foodQuantity;
     private int foodPrice;
 
+    @Override
+    public String toString() {
+        return "BasketDTO{" +
+                "foodName='" + foodName + '\'' +
+                ", foodQuantity=" + foodQuantity +
+                ", foodPrice=" + foodPrice +
+                '}';
+    }
 }
