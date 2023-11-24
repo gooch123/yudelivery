@@ -1,20 +1,21 @@
 package seproject.yudelivery.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
+import seproject.yudelivery.dto.UserRole;
 
 @Entity
-@Data
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
+@Getter
 public class UserEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Column(nullable = false)
     private String userId;
-
+    
     @Column(nullable = false)
     private String username;
 
@@ -29,5 +30,7 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String email;
+
+    private UserRole role;
 
 }
