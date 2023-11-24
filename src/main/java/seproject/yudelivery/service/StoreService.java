@@ -6,17 +6,15 @@ import seproject.yudelivery.dto.StoreDTO;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.repository.StoreRepository;
 
-import java.util.Optional;
-
 @Service
 public class StoreService {
     private StoreRepository storeRepository;
 
     @Transactional
     public StoreEntity createStore(StoreDTO storeDTO) {
-        StoreEntity storeEntity = storeDTO.toEntity();
-        storeRepository.saveNewStore(storeEntity);
-        return storeEntity;
+        StoreEntity store = storeDTO.createStore();
+        storeRepository.saveNewStore(store);
+        return store;
     }
     public StoreEntity updateStore(StoreDTO storeDTO) {
         return null;

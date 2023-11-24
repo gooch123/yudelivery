@@ -23,10 +23,8 @@ public class StoreRepository {
     }
 
     public void saveNewStore(StoreEntity store){
-        if(store.getId() != null)
+        if(store.getId() == null)
             em.persist(store);
-        else
-            em.merge(store);
     }
 
     public void deleteStore(Long id){
