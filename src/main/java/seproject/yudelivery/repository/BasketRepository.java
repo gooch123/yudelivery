@@ -19,12 +19,16 @@ public class BasketRepository {
     public void saveNewBasket(BasketEntity basket){
         if(basket.getId() != null)
             em.persist(basket);
-        else
-            em.merge(basket);
+    }
+
+    public Long findBasketId(Long userId){
+        return em.createQuery("select b.id from BasketEntity b where b.customer.id =: userId", Long.class)
+                .setParameter("userId",userId)
+                .getSingleResult();
     }
 
     public List<BasketFoodEntity> findBasketFood(Long basketId){
-        List<BasketFoodEntity> basketfood = em.createQuery("select f from BasketFoodEntity f join fetch f.food where f.basket = :basketId", BasketFoodEntity.class)
+        List<BasketFoodEntity> basketfood = em.createQuery("select f from BasketFoodEntity f join fetch f.food where f.basket.id = :basketId", BasketFoodEntity.class)
                 .setParameter("basketId", basketId)
                 .getResultList();
         return basketfood;

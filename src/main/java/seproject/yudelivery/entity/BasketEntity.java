@@ -18,7 +18,7 @@ public class BasketEntity {
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "id")
-    private CustomerEntity customer;
+    private UserEntity customer;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id")
