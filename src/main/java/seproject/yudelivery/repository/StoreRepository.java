@@ -12,6 +12,10 @@ import seproject.yudelivery.entity.StoreEntity;
 public class StoreRepository {
     private final EntityManager em;
 
+    public StoreEntity findStore(Long id){
+        return em.find(StoreEntity.class, id);
+    }
+
     public StoreEntity findMyStore(Long user_id){
         return em.createQuery("select s from StoreEntity s where s.user.id  = :user_id", StoreEntity.class)
                 .setParameter("user_id", user_id)
@@ -33,8 +37,4 @@ public class StoreRepository {
     public void updateStore(StoreEntity store){
         em.merge(store);
     }
-
-
-
-
 }

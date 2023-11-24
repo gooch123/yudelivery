@@ -21,7 +21,8 @@ public class StoreController {
     private StoreService storeService;
     @RequestMapping("/create")
     public String createStore(StoreDTO storeDTO) {
-        StoreEntity store = storeService.createStore(storeDTO);
+        StoreEntity store = storeDTO.createStore();
+        storeService.createStore(storeDTO);
         log.info(store.toString());
         return "redirect:/store/main";
     }
