@@ -19,8 +19,6 @@ public class FoodDTO {
     private final StoreRepository storeRepository;
 
     public FoodEntity toEntity() {
-
-
         FoodEntity foodEntity = new FoodEntity();
         foodEntity.setId(this.id); // Setting foodId if needed
         foodEntity.setFood_name(this.food_name);
@@ -28,7 +26,7 @@ public class FoodDTO {
         foodEntity.setFood_info(this.food_info);
         foodEntity.setFood_size(this.food_size);
 
-        StoreEntity storeEntity = storeRepository.findStore(this.store_id);
+        StoreEntity storeEntity = storeRepository.findMyStore(this.store_id);
         foodEntity.setStore(storeEntity);
 
         return foodEntity;

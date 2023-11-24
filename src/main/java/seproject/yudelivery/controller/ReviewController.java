@@ -22,7 +22,7 @@ public class ReviewController {
     public String reviewMain(@PathVariable Long storeId, Model model){
         List<ReviewEntity> reviewList = reviewRepository.findAllByStoreId(storeId);
         model.addAttribute("reviewList", reviewList);
-        return "review/list";
+        return "store/review";
     }
 
     @PostMapping("/create")
@@ -47,10 +47,10 @@ public class ReviewController {
     public String edit(@PathVariable Long storeId, @PathVariable Long id, Model model) {
         ReviewEntity reviewEntity = reviewRepository.findById(id).orElse(null);
         model.addAttribute("food", reviewEntity);
-        return "review/edit";
+        return "review/comment/edit";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/{id}/update")
     public String update(@PathVariable Long storeId, ReviewDTO reviewDTO) {
         log.info(reviewDTO.toString());
         ReviewEntity reviewEntity = reviewDTO.toEntity();
@@ -59,10 +59,9 @@ public class ReviewController {
         if (target != null) {
             reviewRepository.save(reviewEntity);
         }
-        return "redirect:/store/" + storeId + "/review/" + reviewEntity.getId();
+        return "redirect:/store/" + storeId + "/review/" + reviewEntity.getId() ;
     }
-
-    @GetMapping("/{id}/delete")
+    @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long storeId, @PathVariable Long id) {
         log.info("Deletion request received!");
         ReviewEntity target = reviewRepository.findById(id).orElse(null);
@@ -72,4 +71,30 @@ public class ReviewController {
         }
         return "redirect:/store/" + storeId + "/review";
     }
+    @GetMapping("/{id}/comment")
+    public String editComment(@PathVariable Long storeId, @PathVariable Long id, Model model) {
+        ReviewEntity reviewEntity = reviewRepository.findById(id).orElse(null);
+        model.addAttribute("review", reviewEntity);
+        return "store/comment";
+    }
+
+    @PostMapping("/{id}/comment/update")
+    public String updateComment(@PathVariable Long storeId, @PathVariable Long id, @RequestParam String comment) {
+        ReviewEntity reviewEntity = reviewRepository.findById(id).orElse(null);
+        if (reviewEntity != null) {
+            reviewEntity.setComment(comment);
+            reviewRepository.save(reviewEntity);
+        }
+        return "redirect:/store/" + storeId + "/review";
+    }
+    @PostMapping("/{id}/comment/delete")
+    public String deleteComment(@PathVariable Long storeId, @PathVariable Long id) {
+        ReviewEntity reviewEntity = reviewRepository.findById(id).orElse(null);
+        if (reviewEntity != null) {
+            reviewEntity.setComment(null); // 코멘트 삭제(null로 초기화)
+            reviewRepository.save(reviewEntity);
+        }
+        return "redirect:/store/" + storeId + "/review";
+    }
+
 }
