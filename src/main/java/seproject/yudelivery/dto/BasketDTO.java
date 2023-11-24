@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 public class BasketDTO {
 
+    private Long id;
     private String foodName;
     private int foodQuantity;
     private int foodPrice;
