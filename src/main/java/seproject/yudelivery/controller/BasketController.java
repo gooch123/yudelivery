@@ -21,12 +21,13 @@ public class BasketController {
 
     @GetMapping("/main")
     public String basketHome(Model model, HttpSession httpSession){
-        UserEntity user = (UserEntity) httpSession.getAttribute("user");
-        if(user == null){
-            return "home"; //로그인이 안되어있으면 돌려보냄
-            // 유저 타입이 맞지 않아도 home 으로 돌려보냄
-        }
-        long userId = user.getId();
+//        UserEntity user = (UserEntity) httpSession.getAttribute("user");
+//        if(user == null){
+//            return "home"; //로그인이 안되어있으면 돌려보냄
+//            // 유저 타입이 맞지 않아도 home 으로 돌려보냄
+//        }
+//        long userId = user.getId();
+        Long userId = 1L;
         List<BasketDTO> basketDTOList = basketService.getBasket(userId);
         model.addAttribute("list",basketDTOList);
 
