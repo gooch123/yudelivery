@@ -14,7 +14,7 @@ public class StoreService {
 
     @Transactional
     public StoreEntity createStore(StoreDTO storeDTO) {
-        return null;
+         return null;
     }
     public StoreEntity updateStore(StoreDTO storeDTO) {
         return null;
@@ -22,11 +22,7 @@ public class StoreService {
     public StoreEntity deleteStore(StoreDTO storeDTO) {
         return null;
     }
-    public StoreEntity getStore(Long id) {
-        return storeRepository.findStore(id);
-    }
-
-    public StoreEntity getStoreExisting(Long user_id) {
-        return storeRepository.findStoreExisting(user_id);
+    public StoreEntity getMyStore(Long user_id) {
+        return storeRepository.findMyStore(user_id);
     }
 }

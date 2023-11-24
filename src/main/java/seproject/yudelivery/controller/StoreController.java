@@ -48,7 +48,7 @@ public class StoreController {
     @GetMapping("/new") // store 생성 페이지(user 의 store 없을 때만 가능)
     public String newStore(HttpServletRequest request, RedirectAttributes rttr) {
         UserEntity user = (UserEntity) request.getSession().getAttribute("user");
-        if(storeService.getStoreExisting(user.getId()) != null) {
+        if(storeService.getMyStore(user.getId()) != null) {
             rttr.addFlashAttribute("msg", "이미 가게가 존재합니다.");
             return "redirect:/store/main";
         }
