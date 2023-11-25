@@ -40,7 +40,6 @@ public class BasketRepository {
     }
 
     public void cancelFood(Long basketFoodId){
-        BasketEntity basketEntity = em.find(BasketEntity.class, basketFoodId);
         em.remove(basketFoodId);
     }
 
