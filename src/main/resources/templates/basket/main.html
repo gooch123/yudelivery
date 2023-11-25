@@ -86,7 +86,7 @@
                                 <table border="1" class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th>StoreName</th>
+                                        <th th:text="${store}">StoreName</th>
                                     </tr>
                                     <tr>
                                         <th>사진</th>
@@ -104,8 +104,10 @@
                                         <td th:text="${food.foodPrice}">0</td>
                                         <td th:text="${food.foodQuantity}">0</td>
                                         <td><a href="#"
+                                               th:href="'javascript:add('+${food.id}+')'"
                                                class="btn btn-outline-dark">+</a>
                                             <a href="#"
+                                               th:href="'javascript:sub('+${food.id}+')'"
                                                class="btn btn-outline-dark">-</a>
                                         </td>
                                         <td>
@@ -142,6 +144,18 @@
     function cancel(id) {
         var form = document.createElement("form");
         form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/cancel");
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function add(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/add");
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function sub(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/sub");
         document.body.appendChild(form);
         form.submit();
     }

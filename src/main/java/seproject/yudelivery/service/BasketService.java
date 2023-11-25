@@ -30,7 +30,7 @@ public class BasketService {
         List<BasketDTO> basketDTOList = new ArrayList<>();
         for (BasketFoodEntity food_in_basket : basketFood) {
             FoodEntity food = food_in_basket.getFood();
-            BasketDTO basketDTO = new BasketDTO(food.getId(),food.getFood_name(), food_in_basket.getFood_quantity(), food.getFood_price());
+            BasketDTO basketDTO = new BasketDTO(food_in_basket.getId(),food.getFood_name(), food_in_basket.getFood_quantity(), food.getFood_price());
             basketDTOList.add(basketDTO);
         }
 
@@ -68,6 +68,13 @@ public class BasketService {
         return totalPrice;
     }
 
+    public String getBasketStoreName(Long userId){
+        BasketEntity basket = basketRepository.findBasket(userId);
+        if(basket.getStore() == null)
+            return "비어있음";
+        else
+            return basket.getStore().getStore_name();
+    }
 
 
 }

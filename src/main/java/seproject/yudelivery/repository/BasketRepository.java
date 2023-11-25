@@ -73,7 +73,11 @@ public class BasketRepository {
 
     public void cancelFood(Long basketFoodId){ //장바구니에서 음식 삭제
         BasketFoodEntity findBasketFood = em.find(BasketFoodEntity.class, basketFoodId);
+        Long userId = findUserIdByBasketFoodId(basketFoodId); // 음식을 삭제하는 유저 id가져오기
         em.remove(findBasketFood);
+        List<BasketFoodEntity> basketFood = findBasketFood(userId);
+        if(basketFood.size() == 0) //삭제 후 장바구니가 비었다면 장바구니에 등록된 스토어 삭제
+            findBasket(userId).setStore(null);
     }
 
     public int getFoodQuantity(Long basketFoodId){ //장바구니에 있는 음식 하나의 수량 반환
@@ -81,7 +85,7 @@ public class BasketRepository {
         return basketFood.getFood_quantity();
     }
 
-    public boolean isStoreEmpty(Long userId){ //지금 장바구니가 비어있는지 확인
+    public boolean isStoreEmpty(Long userId){ //지금 장바구니에 등록된 가게가 비어있는지 확인
         BasketEntity basket = findBasket(userId);
         if(basket.getStore() == null)
             return true;
@@ -96,6 +100,16 @@ public class BasketRepository {
             return true;
         else
             return false;
+    }
+
+    public Long findUserIdByBasketFoodId(Long basketFoodId){
+        Long basketId = em.createQuery("select s.id from BasketFoodEntity b join b.basket s where b.id =:id", Long.class)
+                .setParameter("id", basketFoodId)
+                .getSingleResult();
+        Long userId = em.createQuery("select c.id from BasketEntity b join b.customer c where b.id =:id", Long.class)
+                .setParameter("id", basketId)
+                .getSingleResult();
+        return userId;
     }
 
 }
