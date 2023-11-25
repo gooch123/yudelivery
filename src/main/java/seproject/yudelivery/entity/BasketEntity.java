@@ -12,7 +12,7 @@ import static jakarta.persistence.FetchType.*;
 @Getter @Setter
 public class BasketEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "basket_id")
     private Long id;
 

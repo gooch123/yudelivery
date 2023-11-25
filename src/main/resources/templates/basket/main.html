@@ -41,13 +41,9 @@
     <div class="row">
         <div class="col-md-3 mt-5">
             <div class="text-center" style="margin-bottom: 5px ">
-<<<<<<< HEAD
-                <span class="material-icons">shopping_cart</span>
-=======
                 <a href="/basket/main">
                     <span class="material-icons">shopping_cart</span>
                 </a>
->>>>>>> master
             </div>
         </div>
         <div class="mt-3 col-md-6" style="height: 50px">
@@ -101,10 +97,6 @@
                                 <tr th:each="food : ${list}">
                                     <td th:text="사진">사진</td>
                                     <td th:text="${food.foodName}">0</td>
-<<<<<<< HEAD
-                                    <td th:text="${food.foodQuantity}">0</td>
-                                    <td th:text="${food.foodPrice}">0</td>
-=======
                                     <td th:text="${food.foodPrice}">0</td>
                                     <td th:text="${food.foodQuantity}">0</td>
                                     <td><a href="#"
@@ -118,7 +110,6 @@
                                            class="btn btn-danger">X</a>
                                     </td>
                                     <td></td>
->>>>>>> master
                                 </tr>
                             </table>
                         </div>
@@ -137,8 +128,6 @@
 </div>
 
 </body>
-<<<<<<< HEAD
-=======
 <script>
     function cancel(id) {
         var form = document.createElement("form");
@@ -147,5 +136,4 @@
         form.submit();
     }
 </script>
->>>>>>> master
 </html>

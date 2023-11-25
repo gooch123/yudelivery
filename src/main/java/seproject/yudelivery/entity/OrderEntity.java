@@ -1,26 +1,30 @@
 package seproject.yudelivery.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+
 import java.sql.Date;
 
 @Entity
+@Builder
 public class OrderEntity {
     @Id @GeneratedValue
     @Column(name = "order_id")
-    private Long id;
+    private Long order_id;
 
     @ManyToOne
     @JoinColumn(name = "store_id")
-    private StoreEntity storeEntity;
+    private StoreEntity store_id;
 
     @ManyToOne
     @JoinColumn(name = "food_id")
-    private FoodEntity foodEntity;
+    private FoodEntity food_id;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private CustomerEntity customerEntity;
+    private CustomerEntity customer_id;
 
     @Column(name = "order_time")
-    private Date time;
+    private Date order_time;
+
 }

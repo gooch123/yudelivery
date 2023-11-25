@@ -1,14 +1,16 @@
 package seproject.yudelivery.service;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import seproject.yudelivery.dto.StoreDTO;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.repository.StoreRepository;
 
 @Service
+@RequiredArgsConstructor
 public class StoreService {
-    private StoreRepository storeRepository;
+    private final StoreRepository storeRepository;
 
     @Transactional
     public StoreEntity createStore(StoreDTO storeDTO) {
