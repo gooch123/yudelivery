@@ -9,6 +9,7 @@ import seproject.yudelivery.dto.UserRole;
 @Builder
 @NoArgsConstructor
 @Getter
+@Setter
 public class UserEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

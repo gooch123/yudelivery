@@ -4,9 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
 import seproject.yudelivery.dto.StoreDTO;
@@ -21,11 +19,11 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
     @RequestMapping("/create")
-    public String createStore(StoreDTO storeDTO, RedirectAttributes rttr) {
+    public String createStore(@ModelAttribute("storeDTO") StoreDTO storeDTO, RedirectAttributes rttr) {
         StoreEntity store = storeService.createStore(storeDTO);
-        rttr.addFlashAttribute("msg", "°¡°Ô°¡ »ı¼ºµÇ¾ú½À´Ï´Ù.");
+        rttr.addFlashAttribute("msg", "ê°€ê²Œê°€ ìƒì„±ë˜ì—ˆìŠµë‹ˆë‹¤.");
         log.info(store.toString());
-        return "redirect:/store/main";
+        return "redirect:/store/"+store.getId();
     }
 
     @GetMapping("/{id}/delete")
@@ -40,24 +38,39 @@ public class StoreController {
 
     @GetMapping("/{id}") // store detail page
     public String getStore(@PathVariable Long id, Model model) {
-        StoreEntity store = storeService.getStore(id);
+        StoreEntity store = storeService.getStoreById(id);
         model.addAttribute("store", store);
-        return "store/"+store.getStore_name();
+        return "store/show";
+    }
+
+    @GetMapping("/my") // my store page
+    public String getMyStore(HttpServletRequest request, Model model) {
+        UserEntity user = (UserEntity) request.getSession().getAttribute("user");
+        if(user == null) { // ë¡œê·¸ì¸ ì•ˆí–ˆì„ë•Œ (ì„ì‹œ)
+            user = new UserEntity();
+            user.setId(1L);
+        }
+        StoreEntity store = storeService.getMyStore(user.getId());
+        model.addAttribute("store", store);
+        return "store/show";
     }
 
     @GetMapping// store main page
     public String storeMain() {
         return "store/main";
     }
-    @GetMapping("/new") // store »ı¼º ÆäÀÌÁö(user ÀÇ store ¾øÀ» ¶§¸¸ °¡´É)
-    public String newStore(HttpServletRequest request, RedirectAttributes rttr) {
+    @GetMapping("/new") // store ìƒì„± í˜ì´ì§€(user ì˜ store ì—†ì„ ë•Œë§Œ ê°€ëŠ¥)
+    public String newStore(Model model, HttpServletRequest request, RedirectAttributes rttr) {
         UserEntity user = (UserEntity) request.getSession().getAttribute("user");
-        if(user != null) { // ·Î±×ÀÎ ¾ÈÇßÀ»¶§ (ÀÓ½Ã)
-            if (storeService.getMyStore(user.getId()) != null) { // ÀÌ¹Ì °¡°Ô°¡ ÀÖÀ»¶§
-                rttr.addFlashAttribute("msg", "ÀÌ¹Ì °¡°Ô°¡ Á¸ÀçÇÕ´Ï´Ù.");
-                return "redirect:/store/main";
+        if(user == null) { // ë¡œê·¸ì¸ ì•ˆí–ˆì„ë•Œ (ì„ì‹œ)
+            user = new UserEntity();
+            user.setId(1L);
+            if (storeService.getMyStore(user.getId()) != null) { // ì´ë¯¸ ê°€ê²Œê°€ ìˆì„ë•Œ
+                rttr.addFlashAttribute("msg", "ì´ë¯¸ ê°€ê²Œê°€ ì¡´ì¬í•©ë‹ˆë‹¤.");
+                return "redirect:/store";
             }
         }
+        model.addAttribute("storeDTO", new StoreDTO());
         return "store/new";
     }
 }

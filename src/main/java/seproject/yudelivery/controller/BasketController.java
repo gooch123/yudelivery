@@ -28,7 +28,7 @@ public class BasketController {
 //        }
 //        long userId = user.getId();
         Long userId = 1L;
-        List<BasketDTO> basketDTOList = basketService.getBasket(userId);
+        List<BasketDTO> basketDTOList = basketService.getBasketList(userId);
         model.addAttribute("list",basketDTOList);
 
         return "basket/main";

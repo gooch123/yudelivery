@@ -30,7 +30,7 @@ public class FoodService {
         foodEntity.setFood_size(dto.getFood_size());
 
         if (dto.getStore_id() != null) {
-            StoreEntity storeEntity = storeRepository.findStore(dto.getStore_id());
+            StoreEntity storeEntity = storeRepository.findStoreById(dto.getStore_id());
             if (storeEntity == null) {
                 throw new EntityNotFoundException("Store not found");
             }

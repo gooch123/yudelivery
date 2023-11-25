@@ -1,39 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>yu delivery</title>
 </head>
 <body>
     <h2>Store Information Form</h2>
-    <form action="/store/create" method="post">
+    <form action="/store/create" th:object="${storeDTO}" method="post">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" maxlength="50" required><br><br>
+        <input type="text" id="name" th:field="*{store_name}" name="name" maxlength="50" required><br><br>
 
-        <input type="text" id="address1" name="address1" placeholder="우편번호" required>
+        <input type="text" id="address1" name="address1" placeholder="우편번호">
         <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
         <input type="text" id="address2" name="address2" placeholder="주소"><br>
         <input type="text" id="address3" name="address3" placeholder="상세주소"><br><br>
 
         <label for="category">Category:</label>
-        <input type="text" id="category" name="category" maxlength="100" required><br><br>
+        <input type="text" id="category" name="category" maxlength="100"><br><br>
 
         <label for="openTime">Open Time:</label>
-        <input type="time" id="openTime" name="openTime" required><br><br>
+        <input type="time" id="openTime" name="openTime"><br><br>
 
         <label for="closeTime">Close Time:</label>
-        <input type="time" id="closeTime" name="closeTime" required><br><br>
+        <input type="time" id="closeTime" name="closeTime"><br><br>
 
         <label for="deliverTime">Deliver Time:</label>
-        <input type="text" id="deliverTime" name="deliverTime" required><br><br>
+        <input type="text" id="deliverTime" name="deliverTime"><br><br>
 
         <label for="phone">Phone:</label>
-        <input type="tel" id="phone" name="phone" maxlength="20" required><br><br>
+        <input type="tel" id="phone" name="phone" maxlength="20"><br><br>
 
         <label for="storeInfo">Store Information:</label>
-        <textarea id="storeInfo" name="storeInfo" rows="4" maxlength="255" required></textarea><br><br>
+        <textarea id="storeInfo" name="storeInfo" rows="4" maxlength="255"></textarea><br><br>
 
         <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="/store" class="btn btn-secondary">Cancel</a>
     </form>
 
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
