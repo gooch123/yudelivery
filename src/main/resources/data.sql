@@ -1,0 +1,1 @@
+insert into user (name, email, passw) values ('admin', 'admin@localhost', 'admin');

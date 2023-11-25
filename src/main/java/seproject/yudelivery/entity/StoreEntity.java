@@ -16,7 +16,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Setter
 @Builder
 public class StoreEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
     private Long id;
 
