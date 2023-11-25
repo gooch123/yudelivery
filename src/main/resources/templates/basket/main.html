@@ -77,43 +77,53 @@
                     </div>
                 </div>
                 <div class="col-md-8 border border-1" >
-                    <div class=" h-75 row mb-2">
-                        <div>
-                            <p class="text-center"> 정보 </p>
+                    <form role="form" action="/order" method="post">
+                        <div class=" h-75 row mb-2">
+                            <div>
+                                <p class="text-center"> 정보 </p>
+                            </div>
+                            <div class="h-100 d-inline-block border border-1">
+                                <table border="1" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>StoreName</th>
+                                    </tr>
+                                    <tr>
+                                        <th>사진</th>
+                                        <th>주문 상품</th>
+                                        <th>가격</th>
+                                        <th>수량</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tr th:each="food : ${list}">
+                                        <td th:text="사진">사진</td>
+                                        <td th:text="${food.foodName}">0</td>
+                                        <td th:text="${food.foodPrice}">0</td>
+                                        <td th:text="${food.foodQuantity}">0</td>
+                                        <td><a href="#"
+                                               class="btn btn-outline-dark">+</a>
+                                            <a href="#"
+                                               class="btn btn-outline-dark">-</a>
+                                        </td>
+                                        <td>
+                                            <a href="#"
+                                               th:href="'javascript:cancel('+${food.id}+')'"
+                                               class="btn btn-danger">X</a>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="bottom-0">
+                                <div class="col-form-label" th:text="${totalPrice}">
+                                </div>
+                                <button type="submit">주문</button>
+                            </div>
                         </div>
-                        <div class="h-100 d-inline-block border border-1">
-                            <table border="1" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>사진</th>
-                                    <th>주문 상품</th>
-                                    <th>가격</th>
-                                    <th>수량</th>
-                                    <th>추가/감소</th>
-                                    <th>취소</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tr th:each="food : ${list}">
-                                    <td th:text="사진">사진</td>
-                                    <td th:text="${food.foodName}">0</td>
-                                    <td th:text="${food.foodPrice}">0</td>
-                                    <td th:text="${food.foodQuantity}">0</td>
-                                    <td><a href="#"
-                                           class="btn btn-outline-dark">+</a>
-                                        <a href="#"
-                                           class="btn btn-outline-dark">-</a>
-                                    </td>
-                                    <td>
-                                        <a href="#"
-                                           th:href="'javascript:cancel('+${food.id}+')'"
-                                           class="btn btn-danger">X</a>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="col-md-2 border border-1">
                     사용자 정보
