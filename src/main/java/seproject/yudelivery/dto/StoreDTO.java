@@ -1,6 +1,5 @@
 package seproject.yudelivery.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,8 +23,8 @@ public class StoreDTO {
     private String address3;
     private String category;
     private String phone;
-    private Time open_time;
-    private Time close_time;
+    private String open_time;
+    private String close_time;
     private int deliver_time;
     private String store_info;
     private int sales;
@@ -40,8 +39,8 @@ public class StoreDTO {
                 .address3(this.address3)
                 .category(this.category)
                 .phone(this.phone)
-                .open_time(this.open_time)
-                .close_time(this.close_time)
+                .open_time(Time.valueOf(this.open_time))
+                .close_time(Time.valueOf(this.close_time))
                 .deliver_time(this.deliver_time)
                 .store_info(this.store_info)
                 .sales(this.sales)
@@ -56,11 +55,25 @@ public class StoreDTO {
                 .address3(this.address3)
                 .category(this.category)
                 .phone(this.phone)
-                .open_time(this.open_time)
-                .close_time(this.close_time)
+                .open_time(getOpenTimeAsSqlTime())
+                .close_time(getCloseTimeAsSqlTime())
                 .deliver_time(this.deliver_time)
                 .store_info(this.store_info)
                 .sales(0)
                 .build();
+    }
+
+    public Time getOpenTimeAsSqlTime() {
+        if (this.open_time == null || this.open_time.trim().isEmpty()) {
+            return null;
+        }
+        return Time.valueOf(this.open_time);
+    }
+
+    public Time getCloseTimeAsSqlTime() {
+        if (this.close_time == null || this.close_time.trim().isEmpty()) {
+            return null;
+        }
+        return Time.valueOf(this.close_time);
     }
 }
