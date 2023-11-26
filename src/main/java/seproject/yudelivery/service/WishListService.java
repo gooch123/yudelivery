@@ -47,4 +47,7 @@ public class WishListService {
         }
     }
 
+    public void deleteWishList(Long wishListId) {
+        wishListRepository.deleteById(wishListId);
+    }
 }
