@@ -3,9 +3,9 @@ values ( 1,'gooch123','임구철','goo6485','goochul','01041451370','gooch123@na
        ( 2,'guyoon119','임구윤','goo1234','guyoon','01045256267','guyoon119@naver.com','CUSTOMER' ),
        ( 3,'soon2115','김정순','882992','soon','01011111111','soon2115@naver.com','CUSTOMER' );
 
-insert into STORE_ENTITY(store_name,SALES,STORE_INFO)
-values ( 'YU 치킨과 피자',10,'치킨과 피자를 판매합니다.')
-        ,('YU 족발과 보쌈 그리고 덮밥',20,'족발, 보쌈, 덮밥을 팝니다');
+insert into STORE_ENTITY(store_name,SALES,STORE_INFO,DELIVER_TIME)
+values ( 'YU 치킨과 피자',10,'치킨과 피자를 판매합니다.',10)
+        ,('YU 족발과 보쌈 그리고 덮밥',20,'족발, 보쌈, 덮밥을 팝니다',20);
 
 insert into BASKET_ENTITY(id,STORE_ID)
 values ( 1,1 ), (2,1), (3,null);
@@ -22,4 +22,5 @@ values ( 1,3,3 ),(1,4,2),(1,5,5)
      ,( 2,1,2 ),(2,2,4);
 
 insert into WISH_LIST_ENTITY(customer_id, store_id) values ( 1,1 ),(1,2),(2,1);
+
 
