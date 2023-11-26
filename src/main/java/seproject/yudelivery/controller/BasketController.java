@@ -21,7 +21,6 @@ import java.util.List;
 public class BasketController {
 
     private final BasketService basketService;
-    private final StoreService storeService;
 
     @GetMapping("/main")
     public String basketHome(Model model, HttpSession httpSession){
@@ -61,6 +60,8 @@ public class BasketController {
         basketService.updateBasketFoodQuantity(basketFoodId,-1);
         return "redirect:/basket/main";
     }
+
+    //장바구니 추가 기능 구현
 
 
 }
