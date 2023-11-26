@@ -90,9 +90,6 @@
                                 <table border="1" class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th th:text="${store}">StoreName</th>
-                                    </tr>
-                                    <tr>
                                         <th>사진</th>
                                         <th>가게 이름</th>
                                         <th></th>
@@ -102,21 +99,13 @@
                                         <th></th>
                                     </tr>
                                     </thead>
-                                    <tr th:each="food : ${list}">
+                                    <tr th:each="list : ${wishList}">
                                         <td th:text="사진">사진</td>
-                                        <td th:text="${food.foodName}">0</td>
-                                        <td th:text="${food.foodPrice}">0</td>
-                                        <td th:text="${food.foodQuantity}">0</td>
-                                        <td><a href="#"
-                                               th:href="'javascript:add('+${food.id}+')'"
-                                               class="btn btn-outline-dark">+</a>
-                                            <a href="#"
-                                               th:href="'javascript:sub('+${food.id}+')'"
-                                               class="btn btn-outline-dark">-</a>
-                                        </td>
+                                        <td th:text="${list.storeName}">0</td>
+                                        <td th:text="${list.storeInfo}">0</td>
                                         <td>
                                             <a href="#"
-                                               th:href="'javascript:cancel('+${food.id}+')'"
+                                               th:href="'javascript:cancel('+${list.wishListId}+')'"
                                                class="btn btn-danger">X</a>
                                         </td>
                                         <td></td>
@@ -141,21 +130,10 @@
 <script>
     function cancel(id) {
         var form = document.createElement("form");
-        form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/cancel");
+        form.setAttribute("method", "post"); form.setAttribute("action", "/info/wishList/" + id + "/delete");
         document.body.appendChild(form);
         form.submit();
     }
-    function add(id) {
-        var form = document.createElement("form");
-        form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/add");
-        document.body.appendChild(form);
-        form.submit();
-    }
-    function sub(id) {
-        var form = document.createElement("form");
-        form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/sub");
-        document.body.appendChild(form);
-        form.submit();
-    }
+
 </script>
 </html>

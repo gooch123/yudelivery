@@ -28,7 +28,9 @@ public class WishListService {
         List<WishListEntity> wishLists = wishListRepository.findByCustomer_Id(userId);
         List<WishListDTO> wishListDTOList = new ArrayList<>();
         for (WishListEntity wishList : wishLists) {
-            wishListDTOList.add(new WishListDTO(wishList.getStore().getStore_name(),
+            wishListDTOList.add(new WishListDTO(
+                    wishList.getId(),
+                    wishList.getStore().getStore_name(),
                     wishList.getStore().getId(),
                     wishList.getStore().getStore_info()));
         }

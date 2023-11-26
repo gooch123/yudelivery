@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class WishListDTO {
 
+    private Long wishListId;
     private String storeName;
     private Long storeId;
     private String storeInfo;
