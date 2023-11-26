@@ -48,7 +48,7 @@ public class BasketService {
     public void addFoodToBasket(Long foodId, int quantity, Long userId){
         FoodEntity food = foodRepository.findById(foodId).get();
         Long storeId = food.getStore().getId();
-        StoreEntity store = storeRepository.findStore(storeId);
+        StoreEntity store = storeRepository.findStoreById(storeId);
         BasketEntity basket = basketRepository.findBasket(userId);
         BasketFoodEntity basketFood = new BasketFoodEntity(food, basket, quantity);
         basketRepository.addFood(basketFood,userId,store);

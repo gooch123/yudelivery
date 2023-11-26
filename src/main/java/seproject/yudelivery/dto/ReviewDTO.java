@@ -25,7 +25,7 @@ public class ReviewDTO {
         reviewEntity.setReview_starpoint(this.review_starpoint);
         reviewEntity.setComment(this.comment);
 
-        StoreEntity storeEntity = storeRepository.findStore(this.store_id);
+        StoreEntity storeEntity = storeRepository.findStoreById(this.store_id);
         reviewEntity.setStore(storeEntity);
 
         /*customer해야함

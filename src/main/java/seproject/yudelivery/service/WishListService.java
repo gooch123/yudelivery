@@ -40,7 +40,7 @@ public class WishListService {
         if(wishListRepository.existsByCustomer_IdAndStoreId(userId,storeId))
             throw new IllegalStateException("이미 찜한 가게입니다.");
         else{
-            StoreEntity store = storeRepository.findStore(storeId);
+            StoreEntity store = storeRepository.findStoreById(storeId);
             UserEntity userEntity = userRepository.findById(userId).get();
             WishListEntity wishList = new WishListEntity(userEntity, store); //추후 customer로 바꿔야 함
             wishListRepository.save(wishList);

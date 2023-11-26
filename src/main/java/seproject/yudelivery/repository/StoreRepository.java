@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import seproject.yudelivery.dto.StoreDTO;
 import seproject.yudelivery.entity.StoreEntity;
 
 
@@ -12,7 +13,7 @@ import seproject.yudelivery.entity.StoreEntity;
 public class StoreRepository {
     private final EntityManager em;
 
-    public StoreEntity findStore(Long id){
+    public StoreEntity findStoreById(Long id){
         return em.find(StoreEntity.class, id);
     }
 

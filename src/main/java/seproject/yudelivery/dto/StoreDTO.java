@@ -1,17 +1,20 @@
 package seproject.yudelivery.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.entity.UserEntity;
 
 
-import java.sql.Date;
+import java.sql.Time;
 
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
+@Setter
 public class StoreDTO {
     private Long store_id;
     private UserEntity user;
@@ -21,9 +24,9 @@ public class StoreDTO {
     private String address3;
     private String category;
     private String phone;
-    private Date open_time;
-    private Date close_time;
-    private Date deliver_time;
+    private Time open_time;
+    private Time close_time;
+    private int deliver_time;
     private String store_info;
     private int sales;
 

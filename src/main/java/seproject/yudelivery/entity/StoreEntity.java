@@ -5,6 +5,7 @@ import lombok.*;
 import seproject.yudelivery.dto.StoreDTO;
 
 import java.sql.Date;
+import java.sql.Time;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -16,12 +17,12 @@ import static jakarta.persistence.FetchType.LAZY;
 @Setter
 @Builder
 public class StoreEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
     private Long id;
 
     @OneToOne(fetch = LAZY)
-    @PrimaryKeyJoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id" , referencedColumnName = "id")
     private UserEntity user;
 
     @Column(name = "store_name")
@@ -43,12 +44,12 @@ public class StoreEntity {
     private String phone;
 
     @Column(name = "open_time")
-    private Date open_time;
+    private Time open_time;
 
     @Column(name = "close_time")
-    private Date close_time;
+    private Time close_time;
     @Column(name = "deliver_time")
-    private Date deliver_time;
+    private int deliver_time;
     @Column(name = "store_info")
     private String store_info;
     @Column(name = "sales")
