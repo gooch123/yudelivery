@@ -37,4 +37,5 @@ public class WishListController {
         return "redirect:/info/wishList";
     }
 
+
 }

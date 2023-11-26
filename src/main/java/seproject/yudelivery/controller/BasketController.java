@@ -21,7 +21,6 @@ import java.util.List;
 public class BasketController {
 
     private final BasketService basketService;
-    private final StoreService storeService;
 
     @GetMapping("/main")
     public String basketHome(Model model, HttpSession httpSession){
