@@ -1,16 +1,14 @@
 package seproject.yudelivery.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Date;
 
 @Entity
 @Builder
 @Getter
+@Setter
 public class OrderEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +29,9 @@ public class OrderEntity {
     @Column(name = "order_time")
     private Date order_time;
 
+    @Column(name = "delivery_address")
+    private String deliveryAddress;
+
     public OrderEntity() {
     }
 
@@ -45,5 +46,9 @@ public class OrderEntity {
         this.store = store;
         this.customer = customer;
         this.order_time = order_time;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 }

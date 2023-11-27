@@ -65,22 +65,13 @@ public class OrderService {
         return orderFoodDTOList;
     }
 
-    // 상세 주문 조회
-    public OrderDTO getOrderDetail(Long orderId) {
+    // 주소 변경 (확인필요)
+    public void updateOrderAddress(Long orderId, String newAddress){
         OrderEntity order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("주문을 찾을 수 없습니다."));
-
-        //return convertOrderToDTO(order);
-        return null; // 임시(지우기)
+        order.setDeliveryAddress(newAddress);
+        orderRepository.save(order); // 에러 발생
     }
-
-    // 주소 변경
-//    public void updateOrderAddress(Long orderId, String newAddress){
-//        OrderEntity order = orderRepository.findById(orderId)
-//                .orElseThrow(() -> new EntityNotFoundException("주문을 찾을 수 없습니다."));
-//        //order.setDeliveryAddress(newAddress);
-//        orderRepository.updateOrder(order); //에러 발생
-//    }
 
     // 주문 삭제
     public void deleteOrder(Long orderId) {
@@ -89,20 +80,4 @@ public class OrderService {
         orderRepository.delete(order);
     }
 
-//   private OrderEntity convertBasketToOrder(Long userId, List<BasketDTO> basketItems) {
-//        // BasketDTO를 이용, OrderEntity 생성
-//        new OrderEntity();
-//
-//        return order; //
-//    }
-
-//    private OrderDTO convertOrderToDTO(OrderEntity order){
-//        // OrderEntity를 이용, OrderDTO를 생성
-//        return orderDTO;
-//    }
-//
-//    private List<OrderDTO> convertOrderListToDTO(List<OrderEntity> orders) {
-//        // OrderEntity를 이용, OrderDTO의 리스트 생성
-//        return orderDTOList;
-//
 }

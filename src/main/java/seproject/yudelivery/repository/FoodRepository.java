@@ -24,7 +24,7 @@ public interface FoodRepository extends JpaRepository<FoodEntity, Long> {
         deleteById(id); // 음식 삭제
     }
 
-    default FoodEntity updateFood(FoodEntity food) {
+    default FoodEntity updateFood(FoodEntity food)   {
         return save(food); // 음식 업데이트
     }
 }
