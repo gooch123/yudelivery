@@ -1,23 +1,24 @@
 package seproject.yudelivery.repository;
 
-import jakarta.persistence.criteria.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
+import seproject.yudelivery.entity.CustomerEntity;
 import seproject.yudelivery.entity.OrderEntity;
+
 import java.util.*;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     /** 사용자 주문 조회 */
-    List<OrderEntity> findAllByUserId(Long userId);
+    List<OrderEntity> findAllByCustomer_Id(Long customerId);
 
     /** 상세 주문 조회 */
-    Optional<OrderEntity> findById(Long orderId);
+    Optional<OrderEntity> findById(Long id);
 
     /** 주문 생성 */
-    void saveNewOrder(OrderEntity order);
+//    void saveNewOrder(OrderEntity order); //에러 발생
     
     /** 주문 수정 */
-    void updateOrder(OrderEntity order);
+//    void updateOrder(OrderEntity order); //에러 발생
 
     /** 주문 삭제 */
-    void deleteOrder(Long orderId);
+//    void deleteOrder(Long orderId);
 }

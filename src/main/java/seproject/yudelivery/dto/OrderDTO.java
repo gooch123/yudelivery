@@ -15,17 +15,17 @@ import java.sql.Date;
 @ToString
 public class OrderDTO {
     private Long id;
-    private StoreEntity store_id;
-    private FoodEntity food_id;
-    private CustomerEntity customer_id;
+    private StoreEntity store;
+//    private FoodEntity food_id;
+    private CustomerEntity customer;
     private Date order_time;
 
     public OrderEntity toEntity() {
         return OrderEntity.builder()
-                .order_id(this.id)
-                .store_id(this.store_id)
-                .food_id(this.food_id)
-                .customer_id(this.customer_id)
+                .id(this.id)
+                .store(this.store)
+//                .food_id(this.food_id)
+                .customer(this.customer)
                 .order_time(this.order_time)
                 .build();
     }
