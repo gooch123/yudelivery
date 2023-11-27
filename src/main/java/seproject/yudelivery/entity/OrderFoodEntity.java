@@ -13,7 +13,6 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class OrderFoodEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +27,12 @@ public class OrderFoodEntity {
     @JoinColumn(name = "food_id")
     private FoodEntity food;
 
+    @Column(name = "quantity")
+    private int quantity;
+
+    public OrderFoodEntity(OrderEntity order, FoodEntity food, int quantity) {
+        this.order = order;
+        this.food = food;
+        this.quantity = quantity;
+    }
 }
