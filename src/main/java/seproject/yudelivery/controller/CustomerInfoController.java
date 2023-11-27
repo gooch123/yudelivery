@@ -29,8 +29,8 @@ public class CustomerInfoController {
 
         Long userId = 1L;
 
-//        List<OrderDTO> orderList = orderService.getOrdersByUserId(userId);
-//        model.addAttribute("orderList",orderList);
+        List<OrderDTO> orderList = orderService.getOrdersByUserId(userId);
+        model.addAttribute("orderList",orderList);
         return null;
     }
 

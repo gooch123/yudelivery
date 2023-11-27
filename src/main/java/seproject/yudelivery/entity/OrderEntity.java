@@ -3,15 +3,15 @@ package seproject.yudelivery.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
 @Entity
 @Builder
-@AllArgsConstructor
+@Getter
 public class OrderEntity {
-    public OrderEntity() {}
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
@@ -25,10 +25,25 @@ public class OrderEntity {
 
     // user
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private CustomerEntity customer;
+    @JoinColumn(name = "id")
+    private UserEntity customer;
 
     @Column(name = "order_time")
     private Date order_time;
 
+    public OrderEntity() {
+    }
+
+    public OrderEntity(StoreEntity store, UserEntity customer, Date order_time) {
+        this.store = store;
+        this.customer = customer;
+        this.order_time = order_time;
+    }
+
+    public OrderEntity(Long id, StoreEntity store, UserEntity customer, Date order_time) {
+        this.id = id;
+        this.store = store;
+        this.customer = customer;
+        this.order_time = order_time;
+    }
 }

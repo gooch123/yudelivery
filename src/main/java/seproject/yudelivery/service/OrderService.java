@@ -6,10 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seproject.yudelivery.dto.BasketDTO;
 import seproject.yudelivery.dto.OrderDTO;
-import seproject.yudelivery.entity.CustomerEntity;
-import seproject.yudelivery.entity.OrderEntity;
+import seproject.yudelivery.dto.OrderFoodDTO;
+import seproject.yudelivery.entity.*;
+import seproject.yudelivery.repository.BasketRepository;
+import seproject.yudelivery.repository.OrderFoodRepository;
 import seproject.yudelivery.repository.OrderRepository;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,22 +21,27 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final BasketService basketService; // 장바구니 기능 사용
+    private final OrderFoodRepository orderFoodRepository;
+    private final BasketRepository basketRepository; //장바구니 기능 사용
 
-    public void createOrder(Long userId){
-        List<BasketDTO> basketItems = basketService.getBasketList(userId);
+    public OrderEntity createOrder(Long userId){
 
-        if(basketItems.isEmpty()){
-            throw new IllegalStateException("빈 장바구니");
+        List<BasketFoodEntity> basketFoods = basketRepository.findBasketFood(userId); // 장바구니에 담긴 음식 찾기
+        BasketEntity basket = basketRepository.findBasket(userId); // 유저의 장바구니 찾기
+        StoreEntity store = basket.getStore();
+        UserEntity customer = basket.getCustomer();
+        Date date = new Date();
+        long now_date = date.getTime();
+        OrderEntity order = new OrderEntity(store, customer, new java.sql.Date(now_date));
+        orderRepository.save(order);
+        for (BasketFoodEntity basketFood : basketFoods) {
+            OrderFoodEntity orderFoodEntity = new OrderFoodEntity(order, basketFood.getFood(), basketFood.getFood_quantity());
+            orderFoodRepository.save(orderFoodEntity);
         }
 
-        /** 주문 생성, BasketDTO를 orderEntity로 변환하는 함수 */
-        //OrderEntity order = convertBasketToOrder(userId, basketItems);
-        //orderRepository.saveNewOrder(order);
-
         /** 주문 후, 장바구니 비우기 */
-        //basketService.clearBasket(userId);
-
+        basketRepository.clear(userId);
+        return order;
     }
 
     // 사용자 주문 조회
@@ -43,6 +52,18 @@ public class OrderService {
     }
 
     //사용자 주문의 음식들 조회
+    public List<OrderFoodDTO> getOrderFoods(Long orderId){
+        List<OrderFoodEntity> list = orderFoodRepository.findAllByOrder_Id(orderId);
+        List<OrderFoodDTO> orderFoodDTOList = new ArrayList<>();
+        for (OrderFoodEntity orderFoodEntity : list) {
+            orderFoodDTOList.add(new OrderFoodDTO(
+                    orderFoodEntity.getFood().getId(),
+                    orderFoodEntity.getFood().getFood_name(),
+                    orderFoodEntity.getQuantity()
+            ));
+        }
+        return orderFoodDTOList;
+    }
 
     // 상세 주문 조회
     public OrderDTO getOrderDetail(Long orderId) {
@@ -68,20 +89,20 @@ public class OrderService {
         orderRepository.delete(order);
     }
 
-/*    private OrderEntity convertBasketToOrder(Long userId, List<BasketDTO> basketItems) {
-        // BasketDTO를 이용, OrderEntity 생성
+//   private OrderEntity convertBasketToOrder(Long userId, List<BasketDTO> basketItems) {
+//        // BasketDTO를 이용, OrderEntity 생성
+//        new OrderEntity();
+//
+//        return order; //
+//    }
 
-
-        return order; //
-    }
-
-    private OrderDTO convertOrderToDTO(OrderEntity order){
-        // OrderEntity를 이용, OrderDTO를 생성
-        return orderDTO;
-    }
-
-    private List<OrderDTO> convertOrderListToDTO(List<OrderEntity> orders) {
-        // OrderEntity를 이용, OrderDTO의 리스트 생성
-        return orderDTOList;
-    }*/
+//    private OrderDTO convertOrderToDTO(OrderEntity order){
+//        // OrderEntity를 이용, OrderDTO를 생성
+//        return orderDTO;
+//    }
+//
+//    private List<OrderDTO> convertOrderListToDTO(List<OrderEntity> orders) {
+//        // OrderEntity를 이용, OrderDTO의 리스트 생성
+//        return orderDTOList;
+//
 }

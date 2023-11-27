@@ -1,16 +1,16 @@
 package seproject.yudelivery.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seproject.yudelivery.dto.BasketDTO;
-import seproject.yudelivery.entity.BasketEntity;
-import seproject.yudelivery.entity.BasketFoodEntity;
-import seproject.yudelivery.entity.FoodEntity;
-import seproject.yudelivery.entity.StoreEntity;
+import seproject.yudelivery.dto.OrderForm;
+import seproject.yudelivery.entity.*;
 import seproject.yudelivery.repository.BasketRepository;
 import seproject.yudelivery.repository.FoodRepository;
 import seproject.yudelivery.repository.StoreRepository;
+import seproject.yudelivery.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,7 @@ public class BasketService {
     private final BasketRepository basketRepository;
     private final FoodRepository foodRepository;
     private final StoreRepository storeRepository;
+    private final UserRepository userRepository;
 
     /**
      * @return 특정 유저의 장바구니 목록
@@ -99,5 +100,15 @@ public class BasketService {
             return basket.getStore().getStore_name();
     }
 
+    public OrderForm basketToOrder(Long userId){
+        StoreEntity store = basketRepository.findBasket(userId).getStore();
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 유저가 없습니다."));
+        return new OrderForm((CustomerEntity) userEntity,store);
+    }
 
+
+    public void clearBasket(Long userId) {
+
+    }
 }
