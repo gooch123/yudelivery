@@ -14,6 +14,6 @@ public class YudeliveryApplication {
 		//신은석
 		//손병하1231234
 		//천성찬
+		//이민재
 	}
-//
 }
