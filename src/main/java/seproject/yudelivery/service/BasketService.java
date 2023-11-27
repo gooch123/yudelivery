@@ -108,7 +108,10 @@ public class BasketService {
     }
 
 
+    /**
+     * 장바구니 초기화
+     */
     public void clearBasket(Long userId) {
-
+        basketRepository.clear(userId);
     }
 }

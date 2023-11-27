@@ -5,11 +5,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import seproject.yudelivery.dto.WishListDTO;
+import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.service.WishListService;
 
 import java.util.List;
@@ -22,8 +20,11 @@ public class WishListController {
     private final WishListService wishListService;
 
     @GetMapping
-    public String home(Model model, HttpSession httpSession){
-
+    public String home(Model model, @SessionAttribute(name = "user",required = false) UserEntity user){
+//        if(user == null || user.getRole() != UserRole.CUSTOMER){
+//            return null;
+//        }
+//        Long userId = user.getId();
         Long userId = 1L;
         List<WishListDTO> wishList = wishListService.getWishList(userId);
         model.addAttribute("wishList",wishList);

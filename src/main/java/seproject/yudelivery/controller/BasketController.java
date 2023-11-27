@@ -4,12 +4,11 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import seproject.yudelivery.dto.BasketDTO;
+import seproject.yudelivery.dto.UserRole;
 import seproject.yudelivery.entity.StoreEntity;
+import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.service.BasketService;
 import seproject.yudelivery.service.StoreService;
 
@@ -23,13 +22,11 @@ public class BasketController {
     private final BasketService basketService;
 
     @GetMapping("/main")
-    public String basketHome(Model model, HttpSession httpSession){
-//        UserEntity user = (UserEntity) httpSession.getAttribute("user");
-//        if(user == null){
-//            return "home"; //로그인이 안되어있으면 돌려보냄
-//            // 유저 타입이 맞지 않아도 home 으로 돌려보냄
+    public String basketHome(Model model, @SessionAttribute(name = "user",required = false) UserEntity user){
+//        if(user == null || user.getRole() != UserRole.CUSTOMER){
+//            return null;
 //        }
-//        long userId = user.getId();
+//        Long userId = user.getId();
         Long userId = 1L;
         List<BasketDTO> basketDTOList = basketService.getBasketList(userId);
         int totalPrice = basketService.getTotalPrice(userId);
