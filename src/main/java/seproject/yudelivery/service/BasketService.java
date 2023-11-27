@@ -51,7 +51,11 @@ public class BasketService {
         StoreEntity store = storeRepository.findStoreById(storeId);
         BasketEntity basket = basketRepository.findBasket(userId);
         BasketFoodEntity basketFood = new BasketFoodEntity(food, basket, quantity);
-        basketRepository.addFood(basketFood,userId,store);
+        try {
+            basketRepository.addFood(basketFood,userId,store);
+        } catch (Exception e) {
+            throw new IllegalStateException(e.getMessage());
+        }
     }
 
     @Transactional
