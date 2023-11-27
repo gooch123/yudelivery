@@ -6,11 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seproject.yudelivery.dto.BasketDTO;
 import seproject.yudelivery.dto.OrderDTO;
+import seproject.yudelivery.entity.CustomerEntity;
 import seproject.yudelivery.entity.OrderEntity;
-import seproject.yudelivery.entity.UserEntity;
-import seproject.yudelivery.repository.BasketRepository;
 import seproject.yudelivery.repository.OrderRepository;
-import seproject.yudelivery.repository.UserRepository;
 
 import java.util.List;
 
@@ -34,14 +32,17 @@ public class OrderService {
 
         /** 주문 후, 장바구니 비우기 */
         //basketService.clearBasket(userId);
+
     }
 
     // 사용자 주문 조회
-    public List<OrderDTO> getOrdersByUserId(Long userId){
-        List<OrderEntity> orders = orderRepository.findAllByUserId(userId);
+    public List<OrderDTO> getOrdersByUserId(Long customerId){
+        List<OrderEntity> orders = orderRepository.findAllByCustomer_Id(customerId);
         //return convertOrderListToDTO(orders);
         return null; // 임시 (지우기)
     }
+
+    //사용자 주문의 음식들 조회
 
     // 상세 주문 조회
     public OrderDTO getOrderDetail(Long orderId) {
@@ -53,16 +54,18 @@ public class OrderService {
     }
 
     // 주소 변경
-    public void updateOrderAddress(Long orderId, String newAddress){
-        OrderEntity order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new EntityNotFoundException("주문을 찾을 수 없습니다."));
-        //order.setDeliveryAddress(newAddress);
-        orderRepository.updateOrder(order);
-    }
+//    public void updateOrderAddress(Long orderId, String newAddress){
+//        OrderEntity order = orderRepository.findById(orderId)
+//                .orElseThrow(() -> new EntityNotFoundException("주문을 찾을 수 없습니다."));
+//        //order.setDeliveryAddress(newAddress);
+//        orderRepository.updateOrder(order); //에러 발생
+//    }
 
     // 주문 삭제
     public void deleteOrder(Long orderId) {
-        orderRepository.deleteOrder(orderId);
+        OrderEntity order = orderRepository.findById(orderId).
+                orElseThrow(() -> new EntityNotFoundException("주문을 찾을 수 없습니다"));
+        orderRepository.delete(order);
     }
 
 /*    private OrderEntity convertBasketToOrder(Long userId, List<BasketDTO> basketItems) {
