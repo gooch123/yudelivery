@@ -9,20 +9,20 @@ import seproject.yudelivery.repository.StoreRepository;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class StoreService {
     private final StoreRepository storeRepository;
-
-    @Transactional
     public StoreEntity createStore(StoreDTO storeDTO) {
         StoreEntity store = storeDTO.createStore();
         storeRepository.saveNewStore(store);
         return store;
     }
     public StoreEntity updateStore(StoreDTO storeDTO) {
-        return null;
+        StoreEntity store = storeDTO.toEntity();
+        return storeRepository.updateStore(store);
     }
-    public StoreEntity deleteStore(StoreDTO storeDTO) {
-        return null;
+    public void deleteMyStore(Long user_id) {
+        storeRepository.deleteMyStore(user_id);
     }
     public StoreEntity getMyStore(Long user_id) {
         return storeRepository.findMyStore(user_id);

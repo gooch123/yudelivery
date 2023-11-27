@@ -2,9 +2,7 @@ package seproject.yudelivery.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import seproject.yudelivery.dto.StoreDTO;
 
-import java.sql.Date;
 import java.sql.Time;
 
 import static jakarta.persistence.FetchType.LAZY;
