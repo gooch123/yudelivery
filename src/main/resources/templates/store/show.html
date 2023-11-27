@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Store Details</title>
+</head>
+<body>
+
+<h2>Store Details</h2>
+
+<div>
+  <strong>ID:</strong> <span th:text="${store.id}"></span><br>
+  <strong>Name:</strong> <span th:text="${store.store_name}"></span><br>
+  <strong>Address1:</strong> <span th:text="${store.address1}"></span><br>
+  <strong>Address2:</strong> <span th:text="${store.address2}"></span><br>
+  <strong>Address3:</strong> <span th:text="${store.address3}"></span><br>
+  <strong>Category:</strong> <span th:text="${store.category}"></span><br>
+  <strong>Phone:</strong> <span th:text="${store.phone}"></span><br>
+  <strong>Open Time:</strong> <span th:text="${store.open_time}"></span><br>
+  <strong>Close Time:</strong> <span th:text="${store.close_time}"></span><br>
+  <strong>Deliver Time:</strong> <span th:text="${store.deliver_time}"></span><br>
+  <strong>Store Info:</strong> <span th:text="${store.store_info}"></span><br>
+  <strong>Sales:</strong> <span th:text="${store.sales}"></span><br>
+</div>
+<a href="/store">Back to Menu</a>
+<a href="/store/edit">Edit</a>
+<a href="javascript:void(0);" onclick="confirmDelete()">Delete</a>
+<script>
+    function confirmDelete() {
+    var result = confirm("Are you sure you want to delete?");
+    if (result) {
+      // 사용자가 'OK'를 누른 경우, 페이지를 이동하여 삭제 처리
+      window.location.href = "/store/delete";
+    }
+      // 사용자가 'Cancel'을 누른 경우, 아무것도 하지 않음
+    }
+</script>
+
+</body>
+</html>

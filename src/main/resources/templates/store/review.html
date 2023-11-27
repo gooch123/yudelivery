@@ -1,0 +1,57 @@
+<!-- main.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Store Review</title>
+    <style>
+        /* 스타일은 여기에 포함 */
+    </style>
+</head>
+<body>
+<h1>매장 리뷰 관리</h1>
+
+<!-- 리뷰 목록을 동적으로 표시하는 영역 -->
+<ul id="reviewList"></ul>
+
+<script>
+    // 서버에서 받아온 리뷰 데이터 (예시로 배열 사용)
+    const reviews = [
+        { id: 1, content: '리뷰 내용 1' },
+        { id: 2, content: '리뷰 내용 2' },
+        { id: 3, content: '리뷰 내용 3' },
+        // ... 동적으로 받아온 리뷰 데이터를 포함시켜야 합니다.
+    ];
+
+    // 리뷰 목록을 동적으로 생성하는 함수
+    function renderReviews() {
+        const reviewList = document.getElementById('reviewList');
+        reviewList.innerHTML = ''; // 기존 목록을 초기화
+
+        reviews.forEach(review => {
+            const li = document.createElement('li');
+            li.textContent = review.content;
+
+            // 댓글 남기기 버튼
+            const commentButton = document.createElement('button');
+            commentButton.textContent = '댓글 남기기';
+
+            // 댓글 남기기 버튼 클릭 시 comment.html로 이동
+            commentButton.addEventListener('click', function() {
+                const currentUrl = window.location.href; // 현재 페이지 URL 가져오기
+                //const storeId = '{store_id}'; // 여기에 실제 store_id 값이 있어야 합니다.
+                const commentUrl = `${currentUrl}/${review.id}/comment`; // 댓글 작성 페이지 URL
+
+                window.location.href = commentUrl; // 댓글 작성 페이지로 이동
+            });
+
+            li.appendChild(commentButton);
+            reviewList.appendChild(li);
+        });
+    }
+
+    // 페이지 로드 시 리뷰 목록 생성
+    window.onload = renderReviews;
+</script>
+
+</body>
+</html>
