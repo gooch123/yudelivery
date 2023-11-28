@@ -21,7 +21,7 @@ public class BasketController {
 
     private final BasketService basketService;
 
-    @GetMapping("/main")
+    @GetMapping
     public String basketHome(Model model, @SessionAttribute(name = "user",required = false) UserEntity user){
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
 //            return null;

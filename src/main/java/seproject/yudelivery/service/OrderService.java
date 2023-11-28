@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import seproject.yudelivery.dto.OrderStatus;
 import seproject.yudelivery.dto.OrderViewDTO;
 import seproject.yudelivery.dto.OrderFoodDTO;
 import seproject.yudelivery.dto.OrderForm;
@@ -24,6 +25,10 @@ public class OrderService {
     private final OrderFoodRepository orderFoodRepository;
     private final BasketRepository basketRepository; //장바구니 기능 사용
 
+    /**
+     * 주문을 생성
+     * @return 생성한 주문 ID
+     */
     public OrderEntity createOrder(Long userId){
 
         List<BasketFoodEntity> basketFoods = basketRepository.findBasketFood(userId); // 장바구니에 담긴 음식 찾기
@@ -38,7 +43,7 @@ public class OrderService {
             totalPrice += basketFood.getTotalPrice();
         }
 
-        OrderEntity order = new OrderEntity(store, customer, new java.sql.Date(now_date),totalPrice);
+        OrderEntity order = new OrderEntity(store, customer, new java.sql.Date(now_date),totalPrice, OrderStatus.WAIT);
         orderRepository.save(order);
         for (BasketFoodEntity basketFood : basketFoods) {
             OrderFoodEntity orderFoodEntity = new OrderFoodEntity(order, basketFood.getFood(), basketFood.getFood_quantity());
