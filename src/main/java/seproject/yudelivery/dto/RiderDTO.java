@@ -1,60 +1,28 @@
 package seproject.yudelivery.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import seproject.yudelivery.entity.RiderEntity;
+
+@Data
 public class RiderDTO {
 
     private Long id;
+
+    @NotBlank(message = "Delivery status cannot be blank")
     private String deliveryStatus;
+
+    @NotBlank(message = "Delivery address1 cannot be blank")
     private String deliveryAddress1;
+
+    @NotBlank(message = "Delivery address2 cannot be blank")
     private String deliveryAddress2;
+
+    @NotBlank(message = "Delivery address3 cannot be blank")
     private String deliveryAddress3;
+
+    @NotBlank(message = "Phone cannot be blank")
     private String phone;
 
-    // 게터 및 세터 추가
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDeliveryStatus() {
-        return deliveryStatus;
-    }
-
-    public void setDeliveryStatus(String deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
-    }
-
-    public String getDeliveryAddress1() {
-        return deliveryAddress1;
-    }
-
-    public void setDeliveryAddress1(String deliveryAddress1) {
-        this.deliveryAddress1 = deliveryAddress1;
-    }
-
-    public String getDeliveryAddress2() {
-        return deliveryAddress2;
-    }
-
-    public void setDeliveryAddress2(String deliveryAddress2) {
-        this.deliveryAddress2 = deliveryAddress2;
-    }
-
-    public String getDeliveryAddress3() {
-        return deliveryAddress3;
-    }
-
-    public void setDeliveryAddress3(String deliveryAddress3) {
-        this.deliveryAddress3 = deliveryAddress3;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 }
