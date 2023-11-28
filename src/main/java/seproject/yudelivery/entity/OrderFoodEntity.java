@@ -35,4 +35,8 @@ public class OrderFoodEntity {
         this.food = food;
         this.quantity = quantity;
     }
+
+    public int foodsPrice(){
+        return food.getFood_price() * quantity;
+    }
 }
