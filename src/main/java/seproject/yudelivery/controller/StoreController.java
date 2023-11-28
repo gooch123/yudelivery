@@ -57,6 +57,7 @@ public class StoreController {
             user = userRepository.findByUserId("admin").orElse(null);
         }
         storeDTO.setUser(user);
+        log.info(storeDTO.toString());
         StoreEntity store = storeService.updateStore(storeDTO);
         rttr.addFlashAttribute("msg", "가게가 수정되었습니다.");
         log.info(store.toString());
@@ -64,11 +65,11 @@ public class StoreController {
         return "redirect:/store/my";
     }
 
-    @GetMapping("/edit")
+    @GetMapping("/editStore")
     public String editStore(HttpServletRequest request, Model model) { // 점주 스토어 수정
         StoreEntity store = findUserStore(request);
         model.addAttribute("store", store);
-        return "store/edit";
+        return "store/editStore";
     }
 
     private StoreEntity findUserStore(HttpServletRequest request) {
@@ -102,7 +103,7 @@ public class StoreController {
             return "redirect:/store";
         }
         model.addAttribute("store", store);
-        return "store/show";
+        return "store/info";
     }
 
     @GetMapping// store main page

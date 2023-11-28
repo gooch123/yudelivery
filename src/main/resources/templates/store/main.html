@@ -2,35 +2,38 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Store Main</title>
-    <style>
-        span {
-            display: inline-block;
-            width: 50px;
-            margin-top: 15px;
-            margin-left: 10px;
-            font-weight: bold;
-        }
-    </style>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.css">
 
-    <div th:if="${msg}" class="alert alert-primary alert-dismissible">
-        <span th:text="${msg}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
 </head>
 <body>
-<h1>매장 관리 시스템</h1>
+<h1 class="text-center my-4">매장 관리 시스템</h1>
+<div th:if="${msg}" class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+    <span th:text="${msg}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 
-
-<a th:href="@{/store/new}" class="btn btn-primary">매장 등록</a>
-<button onclick="navigateToStoreReview()">리뷰 관리</button>
-<a href="javascript:void(0)" onclick="openSalesPopup()" class="btn btn-primary">매출 확인</a>
+<div class="d-flex justify-content-center my-3">
+    <a th:href="@{/store/new}" class="btn btn-primary mx-2">매장 등록</a>
+    <button onclick="navigateToStoreReview()" class="btn btn-secondary mx-2">리뷰 관리</button>
+    <a href="javascript:void(0)" onclick="openSalesPopup()" class="btn btn-primary mx-2">매출 확인</a>
+    <button onclick="" class="btn btn-secondary mx-2">요청된 주문</button>
+    <a th:href="@{/store/my}" class="btn btn-primary mx-2">매장 정보</a>
+</div>
 <script>
+    function navigateToStoreReview() {
+        // 리뷰 관리 버튼 클릭 시 동작 정의 (원하는 기능 추가)
+        console.log('리뷰 관리 페이지로 이동');
+        // 여기에 store_id를 동적으로 가져와서 URL에 포함시켜주세요
+        let storeId = 123; // 예시로 임의의 storeId를 설정함
+
+        // storeId를 이용하여 해당 URL로 이동
+        window.location.href = `/store/${storeId}/review`;
+    }
     function openSalesPopup() {
         var popupWindow = window.open(
             '/store/sales', // 매출 정보를 보여줄 URL
@@ -43,19 +46,6 @@
         }
     }
 </script>
-
-<button onclick="">요청된 주문</button>
-<a th:href="@{/store/my}" class="btn btn-primary">매장 정보</a>
-<script>
-    function navigateToStoreReview() {
-        // 리뷰 관리 버튼 클릭 시 동작 정의 (원하는 기능 추가)
-        console.log('리뷰 관리 페이지로 이동');
-        // 여기에 store_id를 동적으로 가져와서 URL에 포함시켜주세요
-        let storeId = 123; // 예시로 임의의 storeId를 설정함
-
-        // storeId를 이용하여 해당 URL로 이동
-        window.location.href = `/store/${storeId}/review`;
-    }
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
