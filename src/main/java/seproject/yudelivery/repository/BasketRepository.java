@@ -8,7 +8,6 @@ import seproject.yudelivery.entity.BasketFoodEntity;
 import seproject.yudelivery.entity.StoreEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -112,4 +111,12 @@ public class BasketRepository {
         return userId;
     }
 
+    public void clear(Long userId) {
+        BasketEntity basket = findBasket(userId);
+        BasketEntity basket1 = em.find(BasketEntity.class, basket.getId());
+        basket1.clearStore();
+        em.createQuery("delete from BasketFoodEntity b where  b.basket.id =:basket")
+                .setParameter("basket",basket.getId())
+                .executeUpdate();
+    }
 }

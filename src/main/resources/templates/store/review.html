@@ -1,57 +1,85 @@
-<!-- main.html -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Store Review</title>
-    <style>
-        /* 스타일은 여기에 포함 */
-    </style>
+    <title>Review Page</title>
+    <script>
+        const reviewList = [
+            { content: '첫 번째 리뷰', comment: '첫 번째 댓글' },
+            { content: '두 번째 리뷰', comment: '' }, // 댓글이 없는 경우도 있을 수 있습니다.
+            // 다른 리뷰들의 내용도 추가할 수 있습니다.
+        ];
+
+        function renderReviews() {
+            const reviewsContainer = document.getElementById('reviewsContainer');
+
+            reviewList.forEach((review, index) => {
+                const reviewItem = document.createElement('li');
+                reviewItem.innerHTML = `
+                    <p>${review.content}</p>
+                    <div id="commentDisplay-${index}">
+                        <p id="commentContent-${index}">${review.comment}</p>
+                        <button id="editButton-${index}" onclick="toggleCommentForm(${index})">${review.comment ? '댓글 수정' : '댓글 등록'}</button>
+                        <button id="deleteButton-${index}" style="${review.comment ? 'display: inline-block;' : 'display: none;'}" onclick="deleteComment(${index})">댓글 삭제</button>
+                    </div>
+                    <div id="commentForm-${index}" style="display: none;">
+                        <textarea id="commentInput-${index}" placeholder="댓글 입력"></textarea>
+                        <button onclick="saveComment(${index})">등록/수정</button>
+                    </div>
+                `;
+                reviewsContainer.appendChild(reviewItem);
+            });
+        }
+
+        function toggleCommentForm(commentId) {
+            const commentDisplay = document.getElementById(`commentDisplay-${commentId}`);
+            const commentForm = document.getElementById(`commentForm-${commentId}`);
+
+            if (commentDisplay.style.display === 'none') {
+                commentDisplay.style.display = 'block';
+                commentForm.style.display = 'none';
+            } else {
+                commentDisplay.style.display = 'none';
+                commentForm.style.display = 'block';
+            }
+        }
+
+        function saveComment(reviewId) {
+            var commentInput = document.getElementById('commentInput-' + reviewId);
+            var commentContent = document.getElementById('commentContent-' + reviewId);
+            var editButton = document.getElementById('editButton-' + reviewId);
+            var deleteButton = document.getElementById('deleteButton-' + reviewId);
+
+            if (commentContent.textContent.trim() === '') { // 댓글 없을 경우
+                commentContent.textContent = commentInput.value.trim(); // 댓글 내용 출력
+                editButton.textContent = '댓글 수정';
+                deleteButton.style.display = 'inline-block';
+            } else { // 댓글 있을 경우
+                commentContent.textContent = commentInput.value.trim(); // 댓글 내용 수정
+            }
+            toggleCommentForm(reviewId); // 수정창 숨기기
+        }
+
+        function deleteComment(reviewId) {
+            var commentContent = document.getElementById('commentContent-' + reviewId);
+            var editButton = document.getElementById('editButton-' + reviewId);
+            var deleteButton = document.getElementById('deleteButton-' + reviewId);
+
+            if (confirm('댓글을 삭제하시겠습니까?')) {
+                commentContent.textContent = ''; // 댓글 내용 삭제
+                editButton.textContent = '댓글 등록';
+                deleteButton.style.display = 'none';
+            }
+        }
+
+        window.onload = renderReviews;
+    </script>
 </head>
 <body>
-<h1>매장 리뷰 관리</h1>
-
-<!-- 리뷰 목록을 동적으로 표시하는 영역 -->
-<ul id="reviewList"></ul>
-
-<script>
-    // 서버에서 받아온 리뷰 데이터 (예시로 배열 사용)
-    const reviews = [
-        { id: 1, content: '리뷰 내용 1' },
-        { id: 2, content: '리뷰 내용 2' },
-        { id: 3, content: '리뷰 내용 3' },
-        // ... 동적으로 받아온 리뷰 데이터를 포함시켜야 합니다.
-    ];
-
-    // 리뷰 목록을 동적으로 생성하는 함수
-    function renderReviews() {
-        const reviewList = document.getElementById('reviewList');
-        reviewList.innerHTML = ''; // 기존 목록을 초기화
-
-        reviews.forEach(review => {
-            const li = document.createElement('li');
-            li.textContent = review.content;
-
-            // 댓글 남기기 버튼
-            const commentButton = document.createElement('button');
-            commentButton.textContent = '댓글 남기기';
-
-            // 댓글 남기기 버튼 클릭 시 comment.html로 이동
-            commentButton.addEventListener('click', function() {
-                const currentUrl = window.location.href; // 현재 페이지 URL 가져오기
-                //const storeId = '{store_id}'; // 여기에 실제 store_id 값이 있어야 합니다.
-                const commentUrl = `${currentUrl}/${review.id}/comment`; // 댓글 작성 페이지 URL
-
-                window.location.href = commentUrl; // 댓글 작성 페이지로 이동
-            });
-
-            li.appendChild(commentButton);
-            reviewList.appendChild(li);
-        });
-    }
-
-    // 페이지 로드 시 리뷰 목록 생성
-    window.onload = renderReviews;
-</script>
-
+<div>
+    <!-- 리뷰 목록 출력 -->
+    <ul id="reviewsContainer">
+        <!-- JavaScript로 동적으로 생성될 리뷰 목록이 여기에 추가될 것입니다. -->
+    </ul>
+</div>
 </body>
 </html>
