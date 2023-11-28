@@ -35,6 +35,7 @@ public class UserService {
     //로그인기능 LoginRequest를 입력받아 userID와 password가 일치하면 UserEntity return
     //아이디가 존재하지않거나 비밀번호 틀릴 시 null return
 
+
     public UserEntity Login(LoginRequest req) {
         Optional<UserEntity> optionalUserEntity = userRepository.findByUserId(req.getUserId());
 
