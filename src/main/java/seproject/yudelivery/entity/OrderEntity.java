@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.sql.Date;
 
 @Entity
+@Builder
 @Getter
 public class OrderEntity {
 
@@ -30,17 +31,13 @@ public class OrderEntity {
     @Column(name = "order_time")
     private Date order_time;
 
-    @Column(name = "total_price")
-    private int totalPrice;
-
     public OrderEntity() {
     }
 
-    public OrderEntity(StoreEntity store, UserEntity customer, Date order_time, int totalPrice) {
+    public OrderEntity(StoreEntity store, UserEntity customer, Date order_time) {
         this.store = store;
         this.customer = customer;
         this.order_time = order_time;
-        this.totalPrice = totalPrice;
     }
 
     public OrderEntity(Long id, StoreEntity store, UserEntity customer, Date order_time) {
