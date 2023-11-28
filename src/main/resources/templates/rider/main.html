@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배달기사 홈페이지</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>라이더 홈페이지</h1>
+</header>
+
+<main>
+    <section id="order">
+        <h2>배송 목록</h2>
+        <!-- 여기에 배송 목록이 표시될 부분 -->
+    </section>
+
+    <section id="status">
+        <h2>배송 상태 업데이트</h2>
+        <form id="statusForm">
+            <label for="orderID">주문 ID:</label>
+            <input type="text" id="orderID" name="orderID" required>
+
+            <label for="status">상태 업데이트:</label>
+            <select id="status" name="status" required>
+                <option value="배송 준비 중">배송 준비 중</option>
+                <option value="배송 중">배송 중</option>
+                <option value="배송 완료">배송 완료</option>
+            </select>
+
+            <button type="submit">상태 업데이트</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2023 배달기사 홈페이지. 모든 권리 보유.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
