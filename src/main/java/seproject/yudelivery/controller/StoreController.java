@@ -13,12 +13,9 @@ import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.repository.FoodRepository;
 import seproject.yudelivery.repository.UserRepository;
-import seproject.yudelivery.service.FoodService;
 import seproject.yudelivery.service.StoreService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @Slf4j
@@ -40,7 +37,7 @@ public class StoreController {
         StoreEntity store = storeService.createStore(storeDTO);
         rttr.addFlashAttribute("msg", "가게가 생성되었습니다.");
         log.info(store.toString());
-        return "redirect:/store/"+store.getId();
+        return "redirect:/store/my";
     }
 
     @GetMapping("/delete") // 점주 스토어 삭제
@@ -78,7 +75,7 @@ public class StoreController {
         return "store/editStore";
     }
 
-    private StoreEntity findUserStore(HttpServletRequest request) {
+    public StoreEntity findUserStore(HttpServletRequest request) {
         UserEntity user = (UserEntity) request.getSession().getAttribute("user");
         if(user == null) { // 로그인 안했을때 (임시)
             user = userRepository.findByUserId("admin").orElse(null);
@@ -93,13 +90,6 @@ public class StoreController {
             //request.getSession().setAttribute("store", store);
         }
         return store;
-    }
-
-    @GetMapping("/{id}") // store detail page
-    public String getStore(@PathVariable Long id, Model model) {
-        StoreEntity store = storeService.getStoreById(id);
-        model.addAttribute("store", store);
-        return "store/show";
     }
 
     @GetMapping("/my") // my store page

@@ -13,7 +13,6 @@
 
 <div id="Food" class="tabcontent" style="display:block">
   <div class="container mt-5">
-    <div class="container mt-5">
       <div class="row justify-content-center">
         <div class="col-md-8">
           <div class="card">
@@ -21,20 +20,40 @@
               <h3 class="card-title">음식 정보</h3>
             </div>
             <div class="card-body">
-              <td th:each="food : ${food}">
-                <tr><strong>Name:</strong> <span th:text="${food.food_name}"></span></tr>
-                <tr><strong>Price:</strong> <span th:text="${food.food_price}"></span></tr>
-                <tr><strong>Food Info:</strong> <span th:text="${food.food_info}"></span></tr>
-              </td>
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Food Info</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="food : ${food}">
+                  <td th:text="${food.food_name}"></td>
+                  <td th:text="${food.food_price}"></td>
+                  <td th:text="${food.food_info}"></td>
+                  <td>
+                    <a th:href="@{/food/edit/{id}(id=${food.id})}" class="btn btn-primary">편집</a>
+                    <a th:href="@{/food/delete/{id}(id=${food.id})}" class="btn btn-danger">삭제</a>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer">
+              <a th:href="@{/food/new}" class="btn btn-primary">Create New Food!!</a>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div id="Store" class="tabcontent">
+
+
+  <div id="Store" class="tabcontent">
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-8">
