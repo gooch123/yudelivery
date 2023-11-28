@@ -9,6 +9,7 @@ public class OrderFoodDTO {
 
     private Long foodId;
     private String foodName;
+    private int foodsPrice;
     private int quantity;
 
     @Override
