@@ -3,42 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <title>yu delivery</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
 </head>
 <body>
-    <h2>Store Information Form</h2>
-    <form action="/store/create" th:object="${storeDTO}" method="post">
-        <label for="name">Name:</label>
-        <input type="text" id="name" th:field="*{store_name}" name="name" maxlength="50" required><br><br>
+<h2 class="text-center">Store Information Form</h2>
+<form action="/store/create" th:object="${storeDTO}" method="post" class="m-3">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name:</label>
+        <input type="text" id="name" th:field="*{store_name}" name="name" maxlength="50" required class="form-control">
+    </div>
 
-        <input type="text" id="address1" th:field="*{address1}" name="address1" placeholder="우편번호">
-        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-        <input type="text" id="address2" th:field="*{address2}" name="address2" placeholder="주소"><br>
-        <input type="text" id="address3" th:field="*{address3}" name="address3" placeholder="상세주소"><br>
-        <input type="text" id="extraAddress" name="extraAddress" placeholder="참고항목"><br><br>
+    <div class="mb-3">
+        <label for="address1" class="form-label">Address:</label>
+        <div class="input-group">
+            <input type="text" id="address1" th:field="*{address1}" name="address1" placeholder="우편번호" class="form-control">
+            <button type="button" onclick="execDaumPostcode()" class="btn btn-outline-secondary">우편번호 찾기</button>
+        </div>
+        <input type="text" id="address2" th:field="*{address2}" name="address2" placeholder="주소" class="form-control mt-2">
+        <input type="text" id="address3" th:field="*{address3}" name="address3" placeholder="상세주소" class="form-control mt-2">
+        <input type="text" id="extraAddress" name="extraAddress" placeholder="참고항목" class="form-control mt-2">
+    </div>
 
-        <label for="category">Category:</label>
-        <input type="text" id="category" th:field="*{category}" name="category" maxlength="100"><br><br>
+    <div class="mb-3">
+        <label for="category" class="form-label">Category:</label>
+        <input type="text" id="category" th:field="*{category}" name="category" maxlength="100" class="form-control">
+    </div>
 
-        <label for="openTime">Open Time:</label>
-        <input type="time" id="openTime" th:field="*{open_time}" name="open_time"><br><br>
+    <div class="mb-3">
+        <label for="openTime" class="form-label">Open Time:</label>
+        <input type="time" id="openTime" th:field="*{open_time}" name="open_time" class="form-control">
+    </div>
 
-        <label for="closeTime">Close Time:</label>
-        <input type="time" id="closeTime" th:field="*{close_time}" name="close_time"><br><br>
+    <div class="mb-3">
+        <label for="closeTime" class="form-label">Close Time:</label>
+        <input type="time" id="closeTime" th:field="*{close_time}" name="close_time" class="form-control">
+    </div>
 
-        <label for="deliverTime">Deliver Time:</label>
-        <input type="text" id="deliverTime" th:field="*{deliver_time}" name="deliver_time"><br><br>
+    <div class="mb-3">
+        <label for="deliverTime" class="form-label">Deliver Time:</label>
+        <input type="text" id="deliverTime" th:field="*{deliver_time}" name="deliver_time" class="form-control">
+    </div>
 
-        <label for="phone">Phone:</label>
-        <input type="tel" id="phone" th:field="*{phone}" name="phone" maxlength="20"><br><br>
+    <div class="mb-3">
+        <label for="phone1" class="form-label">Phone:</label>
+        <div class="input-group">
+            <input type="tel" id="phone1" name="phone1" maxlength="3" class="form-control" placeholder="010" oninput="handlePhoneInput(event, 'phone2')">
+            <span class="input-group-text">-</span>
+            <input type="tel" id="phone2" name="phone2" maxlength="4" class="form-control" oninput="handlePhoneInput(event, 'phone3')">
+            <span class="input-group-text">-</span>
+            <input type="tel" id="phone3" name="phone3" maxlength="4" class="form-control" oninput="handleSubmit()">
+        </div>
+    </div>
+    <input type="text" id="phone" th:field="*{phone}" name="phone" class="form-control">
 
-        <label for="storeInfo">Store Information:</label>
-        <textarea id="storeInfo" th:field="*{store_info}" name="storeInfo" rows="4" maxlength="255"></textarea><br><br>
+    <div class="mb-3">
+        <label for="storeInfo" class="form-label">Store Information:</label>
+        <textarea id="storeInfo" th:field="*{store_info}" name="storeInfo" rows="4" maxlength="255" class="form-control"></textarea>
+    </div>
 
+    <div class="text-center">
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="/store" class="btn btn-secondary">Cancel</a>
-    </form>
+    </div>
+</form>
 
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         function execDaumPostcode() {
             new daum.Postcode({
@@ -86,6 +116,19 @@
                     document.getElementById("address3").focus();
                 }
             }).open();
+        }
+        function handlePhoneInput(event, nextFieldId) {
+            if (event.target.value.length === event.target.maxLength) {
+                document.getElementById(nextFieldId).focus();
+            }
+        }
+
+        function handleSubmit() {
+            var phone1 = document.getElementById('phone1').value;
+            var phone2 = document.getElementById('phone2').value;
+            var phone3 = document.getElementById('phone3').value;
+            // 'fullPhone' 변수에 전체 전화번호가 합쳐진 형태로 저장됩니다.
+            document.getElementById('phone').value = phone1 + '-' + phone2 + '-' + phone3;
         }
     </script>
 </body>
