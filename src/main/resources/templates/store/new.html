@@ -9,12 +9,12 @@
 <h2 class="text-center">Store Information Form</h2>
 <form action="/store/create" th:object="${storeDTO}" method="post" class="m-3">
     <div class="mb-3">
-        <label for="name" class="form-label">Name:</label>
+        <label for="name" class="form-label">Store Name:</label>
         <input type="text" id="name" th:field="*{store_name}" name="name" maxlength="50" required class="form-control">
     </div>
 
     <div class="mb-3">
-        <label for="address1" class="form-label">Address:</label>
+        <label for="address1" class="form-label">Address:</label><br>
         <div class="input-group">
             <input type="text" id="address1" th:field="*{address1}" name="address1" placeholder="우편번호" class="form-control">
             <button type="button" onclick="execDaumPostcode()" class="btn btn-outline-secondary">우편번호 찾기</button>

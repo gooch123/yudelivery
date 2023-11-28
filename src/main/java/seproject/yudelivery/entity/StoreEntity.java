@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -22,6 +24,9 @@ public class StoreEntity {
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "user_id" , referencedColumnName = "id")
     private UserEntity user;
+
+    @OneToMany(mappedBy = "store" , cascade = CascadeType.ALL)
+    private List<FoodEntity> foods = new ArrayList<>();
 
     @Column(name = "store_name")
     private String store_name;

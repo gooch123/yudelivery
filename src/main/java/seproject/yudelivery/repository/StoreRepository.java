@@ -16,6 +16,21 @@ public class StoreRepository {
     public StoreEntity findStoreById(Long id){
         return em.find(StoreEntity.class, id);
     }
+    public List<StoreEntity> findAllStore(){
+        return em.createQuery("select s from StoreEntity s", StoreEntity.class)
+                .getResultList();
+    }
+    public List<StoreEntity> findStoreByCategory(String category){
+        return em.createQuery("select s from StoreEntity s where s.category = :category", StoreEntity.class)
+                .setParameter("category", category)
+                .getResultList();
+    }
+
+    public List<StoreEntity> findStoreByKeyword(String keyword){
+        return em.createQuery("select s from StoreEntity s where s.store_name like :keyword", StoreEntity.class)
+                .setParameter("keyword", "%"+keyword+"%")
+                .getResultList();
+    }
 
     public StoreEntity findMyStore(Long user_id){
         List<StoreEntity> store = em.createQuery("select s from StoreEntity s where s.user.id = :user_id", StoreEntity.class)

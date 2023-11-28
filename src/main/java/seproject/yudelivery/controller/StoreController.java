@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
 import seproject.yudelivery.dto.StoreDTO;
+import seproject.yudelivery.entity.FoodEntity;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.entity.UserEntity;
+import seproject.yudelivery.repository.FoodRepository;
 import seproject.yudelivery.repository.UserRepository;
 import seproject.yudelivery.service.StoreService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -24,6 +25,8 @@ public class StoreController {
     private StoreService storeService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private FoodRepository foodRepository;
     @RequestMapping("/create")
     public String createStore(@ModelAttribute("storeDTO") StoreDTO storeDTO, RedirectAttributes rttr, HttpServletRequest request) {
         UserEntity user = (UserEntity) request.getSession().getAttribute("user");
@@ -34,7 +37,7 @@ public class StoreController {
         StoreEntity store = storeService.createStore(storeDTO);
         rttr.addFlashAttribute("msg", "가게가 생성되었습니다.");
         log.info(store.toString());
-        return "redirect:/store/"+store.getId();
+        return "redirect:/store/my";
     }
 
     @GetMapping("/delete") // 점주 스토어 삭제
@@ -72,7 +75,7 @@ public class StoreController {
         return "store/editStore";
     }
 
-    private StoreEntity findUserStore(HttpServletRequest request) {
+    public StoreEntity findUserStore(HttpServletRequest request) {
         UserEntity user = (UserEntity) request.getSession().getAttribute("user");
         if(user == null) { // 로그인 안했을때 (임시)
             user = userRepository.findByUserId("admin").orElse(null);
@@ -81,6 +84,7 @@ public class StoreController {
         log.info("store : " + store);
 
         // 세션에 스토어 정보가 없으면 데이터베이스에서 가져와 세션에 저장
+        // 세션에 대한 정보에 따른 처리 필요
         if (store == null) {
             store = storeService.getMyStore(user.getId());
             //request.getSession().setAttribute("store", store);
@@ -88,21 +92,16 @@ public class StoreController {
         return store;
     }
 
-    @GetMapping("/{id}") // store detail page
-    public String getStore(@PathVariable Long id, Model model) {
-        StoreEntity store = storeService.getStoreById(id);
-        model.addAttribute("store", store);
-        return "store/show";
-    }
-
     @GetMapping("/my") // my store page
     public String getMyStore(HttpServletRequest request, Model model,RedirectAttributes rttr) {
         StoreEntity store = findUserStore(request);
+        List<FoodEntity> foods = foodRepository.findAllByStoreId(store.getId());
         if(store == null) {
             rttr.addFlashAttribute("msg", "가게가 존재하지 않습니다");
             return "redirect:/store";
         }
         model.addAttribute("store", store);
+        model.addAttribute("food", foods);
         return "store/info";
     }
 
