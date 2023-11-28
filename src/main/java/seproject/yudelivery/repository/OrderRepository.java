@@ -14,10 +14,10 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     Optional<OrderEntity> findById(Long id);
 
     /** 주문 생성 */
-//    OrderEntity saveNewOrder(OrderEntity order); //에러 발생
-    
+//    void saveNewOrder(OrderEntity order); //에러 발생
+
     /** 주문 수정 */
-//    OrderEntity updateOrder(OrderEntity order); //에러 발생
+//    void updateOrder(OrderEntity order); //에러 발생
 
     /** 주문 삭제 */
 //    void deleteOrder(Long orderId);
