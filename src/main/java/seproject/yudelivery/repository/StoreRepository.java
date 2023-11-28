@@ -61,4 +61,8 @@ public class StoreRepository {
         store = em.merge(store);
         return store;
     }
+
+    public StoreEntity findStoreDetail(Long store_id){
+        return em.find(StoreEntity.class, store_id);
+    }
 }

@@ -131,4 +131,20 @@ public class StoreController {
         log.info("sales : " + store.getSales());
         return "/store/sales";
     }
+
+
+    //////
+    @GetMapping("/{storeId}")
+    public String storeDetail(@PathVariable Long storeId, Model model){
+        StoreEntity detail = storeService.getStoreDetail(storeId);
+        model.addAttribute("store", detail);
+        return "store/detail";
+    }
+
+    @GetMapping("/search")
+    public String searchStores(@PathVariable String Keyword, Model model){
+        List<StoreEntity> searchResult = storeService.searchStores(Keyword);
+        model.addAttribute("searchResult", searchResult);
+        return "store/search";
+    }
 }

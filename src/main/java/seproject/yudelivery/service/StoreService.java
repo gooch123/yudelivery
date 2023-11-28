@@ -7,6 +7,8 @@ import seproject.yudelivery.dto.StoreDTO;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.repository.StoreRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -30,4 +32,13 @@ public class StoreService {
     public StoreEntity getStoreById(Long store_id) {
         return storeRepository.findStoreById(store_id);
     }
+
+    public StoreEntity getStoreDetail(Long store_id){
+        return storeRepository.findStoreDetail(store_id);
+    }
+
+    public List<StoreEntity> searchStores(String Keyword) {
+        return storeRepository.findStoreByKeyword(Keyword);
+    }
+
 }
