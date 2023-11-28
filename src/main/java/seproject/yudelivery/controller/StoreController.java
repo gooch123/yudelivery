@@ -111,6 +111,7 @@ public class StoreController {
             return "redirect:/store";
         }
         model.addAttribute("store", store);
+        model.addAttribute("food", foods);
         return "store/info";
     }
 
