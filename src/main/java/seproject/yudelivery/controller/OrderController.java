@@ -32,11 +32,11 @@ public class OrderController {
         List<BasketDTO> basketList = basketService.getBasketList(userId);
         if(basketList.isEmpty()){
             //리다이렉트 팝업창
-            return "redirect:/basket/main";
+            return "redirect:/basket";
         }
 
         orderService.createOrder(userId);
-        return "redirect:/basket/main";
+        return "redirect:/basket";
     }
 
 }

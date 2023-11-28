@@ -43,19 +43,19 @@ public class BasketController {
     @PostMapping("/{id}/cancel")
     public String cancel(@PathVariable(name = "id") Long basketFoodId){
         basketService.cancelFood(basketFoodId);
-        return "redirect:/basket/main";
+        return "redirect:/basket";
     }
 
     @PostMapping("/{id}/add")
     public String addFoodQuantity(@PathVariable(name = "id") Long basketFoodId){
         basketService.updateBasketFoodQuantity(basketFoodId,1);
-        return "redirect:/basket/main";
+        return "redirect:/basket";
     }
 
     @PostMapping("/{id}/sub")
     public String subFoodQuantity(@PathVariable(name = "id") Long basketFoodId){
         basketService.updateBasketFoodQuantity(basketFoodId,-1);
-        return "redirect:/basket/main";
+        return "redirect:/basket";
     }
 
     //장바구니 추가 기능 구현
