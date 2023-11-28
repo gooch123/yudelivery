@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
 import seproject.yudelivery.dto.StoreDTO;
+import seproject.yudelivery.entity.FoodEntity;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.entity.UserEntity;
+import seproject.yudelivery.repository.FoodRepository;
 import seproject.yudelivery.repository.UserRepository;
+import seproject.yudelivery.service.FoodService;
 import seproject.yudelivery.service.StoreService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -24,6 +28,8 @@ public class StoreController {
     private StoreService storeService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private FoodRepository foodRepository;
     @RequestMapping("/create")
     public String createStore(@ModelAttribute("storeDTO") StoreDTO storeDTO, RedirectAttributes rttr, HttpServletRequest request) {
         UserEntity user = (UserEntity) request.getSession().getAttribute("user");
@@ -81,6 +87,7 @@ public class StoreController {
         log.info("store : " + store);
 
         // 세션에 스토어 정보가 없으면 데이터베이스에서 가져와 세션에 저장
+        // 세션에 대한 정보에 따른 처리 필요
         if (store == null) {
             store = storeService.getMyStore(user.getId());
             //request.getSession().setAttribute("store", store);
@@ -98,6 +105,7 @@ public class StoreController {
     @GetMapping("/my") // my store page
     public String getMyStore(HttpServletRequest request, Model model,RedirectAttributes rttr) {
         StoreEntity store = findUserStore(request);
+        List<FoodEntity> foods = foodRepository.findAllByStoreId(store.getId());
         if(store == null) {
             rttr.addFlashAttribute("msg", "가게가 존재하지 않습니다");
             return "redirect:/store";
