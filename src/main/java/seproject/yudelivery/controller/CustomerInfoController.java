@@ -5,10 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import seproject.yudelivery.dto.CustomerReviewDTO;
 import seproject.yudelivery.dto.OrderFoodDTO;
 import seproject.yudelivery.dto.OrderViewDTO;
 import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.service.OrderService;
+import seproject.yudelivery.service.ReviewService;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ import java.util.List;
 public class CustomerInfoController {
 
     private final OrderService orderService;
+    private final ReviewService reviewService;
 
     @GetMapping("/orderList")
     public String orderList(@SessionAttribute(name = "user",required = false) UserEntity user, Model model){
@@ -41,10 +44,29 @@ public class CustomerInfoController {
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
 //            return null;
 //        }
-//        Long userId = user.getId();
         List<OrderFoodDTO> orderFoods = orderService.getOrderFoods(orderId);
         model.addAttribute("orderFoods",orderFoods);
         return "info/orderDetail";
+    }
+
+    @GetMapping("/review")
+    public String reviewList(
+            @SessionAttribute(name = "user",required = false) UserEntity user,
+            Model model){
+//        if(user == null || user.getRole() != UserRole.CUSTOMER){
+//            return null;
+//        }
+//        Long userId = user.getId();
+        Long userId = 1L;
+        List<CustomerReviewDTO> reviewList = reviewService.getReviewListByCustomer(userId);
+        model.addAttribute("reviewList",reviewList);
+        return "info/reviewList";
+    }
+
+    @PostMapping("/review/{id}/delete")
+    public String deleteReview(@PathVariable("id") Long reviewId){
+        reviewService.deleteReview(reviewId);
+        return "redirect:/info/review";
     }
 
 }

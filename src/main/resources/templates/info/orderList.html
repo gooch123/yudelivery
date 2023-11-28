@@ -99,19 +99,25 @@
                                         <th></th>
                                     </tr>
                                     </thead>
-                                    <tr th:each="list : ${orderList}"
-                                        th:onclick="detail([[${list.orderId}]])"
-                                        style="cursor: pointer" >
+                                    <tr th:each="list : ${orderList}"  >
                                         <td th:text="사진">사진</td>
                                         <td th:text="${list.storeName}">0</td>
                                         <td th:text="${list.order_time}">0</td>
                                         <td th:text="${list.totalPrice}">0</td>
+
                                         <td>
                                             <a href="#"
                                                th:href="'javascript:reorder('+${list.orderId}+')'"
                                                class="btn btn-outline-primary">재주문</a>
                                         </td>
-                                        <td></td>
+
+                                        <td>
+                                        <a href="#"
+                                           th:href="'javascript:detail('+${list.orderId}+')'"
+                                           class="btn btn-outline-info">주문상세</a>
+                                        </td>
+                                        <td>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
