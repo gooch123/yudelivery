@@ -23,7 +23,7 @@ public class RiderController {
     // 배달완료로 상태 변경
     @PutMapping("/completeDelivery/{riderId}")
     public void completeDelivery(@PathVariable Long riderId) {
-        riderRepository.updateDeliveryStatusToDelivered(riderId);
+//        riderRepository.updateDeliveryStatusToDelivered(riderId);
     }
 
     // Add other CRUD operations as needed

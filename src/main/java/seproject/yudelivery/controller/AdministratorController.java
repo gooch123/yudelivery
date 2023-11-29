@@ -16,7 +16,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdministratorController {
-    // 커밋 테스트
 
     @Autowired
     private AdministratorRepository administratorRepository;

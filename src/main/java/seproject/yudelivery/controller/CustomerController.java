@@ -1,28 +1,29 @@
 package seproject.yudelivery.controller;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import seproject.yudelivery.dto.CustomerReviewDTO;
 import seproject.yudelivery.dto.OrderFoodDTO;
 import seproject.yudelivery.dto.OrderViewDTO;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.service.OrderService;
+import seproject.yudelivery.service.ReviewService;
 import seproject.yudelivery.service.StoreService;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/info")
-public class CustomerInfoController {
+public class CustomerController {
 
     private final OrderService orderService;
     private final StoreService storeService;
+    private final ReviewService reviewService;
 
-    @GetMapping("/orderList")
+    @GetMapping("/info/orderList")
     public String orderList(@SessionAttribute(name = "user",required = false) UserEntity user, Model model){
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
 //            return null;
@@ -36,7 +37,7 @@ public class CustomerInfoController {
         return "info/orderList";
     }
 
-    @GetMapping("/orderDetail/{id}")
+    @GetMapping("/info/orderDetail/{id}")
     public String orderDetail(
             Model model,
             @SessionAttribute(name = "user",required = false) UserEntity user,
@@ -44,10 +45,29 @@ public class CustomerInfoController {
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
 //            return null;
 //        }
-//        Long userId = user.getId();
         List<OrderFoodDTO> orderFoods = orderService.getOrderFoods(orderId);
         model.addAttribute("orderFoods",orderFoods);
         return "info/orderDetail";
+    }
+
+    @GetMapping("/info/review")
+    public String reviewList(
+            @SessionAttribute(name = "user",required = false) UserEntity user,
+            Model model){
+//        if(user == null || user.getRole() != UserRole.CUSTOMER){
+//            return null;
+//        }
+//        Long userId = user.getId();
+        Long userId = 1L;
+        List<CustomerReviewDTO> reviewList = reviewService.getReviewListByCustomer(userId);
+        model.addAttribute("reviewList",reviewList);
+        return "info/reviewList";
+    }
+
+    @PostMapping("/info/review/{id}/delete")
+    public String deleteReview(@PathVariable("id") Long reviewId){
+        reviewService.deleteReview(reviewId);
+        return "redirect:/info/review";
     }
 
     @GetMapping("store/{storeId}")
