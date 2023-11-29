@@ -1,6 +1,7 @@
 package seproject.yudelivery.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,9 @@ public class CustomerController {
     private final StoreService storeService;
     private final ReviewService reviewService;
 
+    /**
+     * 주문내역(완료) 출력
+     */
     @GetMapping("/info/orderList")
     public String orderList(@SessionAttribute(name = "user",required = false) UserEntity user, Model model){
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
@@ -37,6 +41,9 @@ public class CustomerController {
         return "info/orderList";
     }
 
+    /**
+     * 주문 세부내역 출력
+     */
     @GetMapping("/info/orderDetail/{id}")
     public String orderDetail(
             Model model,
@@ -50,6 +57,19 @@ public class CustomerController {
         return "info/orderDetail";
     }
 
+    @GetMapping("/info/orderStatus")
+    public String orderStatus(
+            Model model,
+            @SessionAttribute(name = "user",required = false)UserEntity user
+            ){
+
+
+        return null;
+    }
+
+    /**
+     * 자신의 리뷰 목록 출력
+     */
     @GetMapping("/info/review")
     public String reviewList(
             @SessionAttribute(name = "user",required = false) UserEntity user,
@@ -64,6 +84,9 @@ public class CustomerController {
         return "info/reviewList";
     }
 
+    /**
+     * 특정 리뷰 삭제
+     */
     @PostMapping("/info/review/{id}/delete")
     public String deleteReview(@PathVariable("id") Long reviewId){
         reviewService.deleteReview(reviewId);

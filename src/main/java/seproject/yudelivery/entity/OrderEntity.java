@@ -25,8 +25,8 @@ public class OrderEntity {
 
     // user
     @ManyToOne
-    @JoinColumn(name = "id")
-    private UserEntity customer;
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customer;
 
     @Column(name = "order_time")
     private Date order_time;
@@ -41,7 +41,7 @@ public class OrderEntity {
     public OrderEntity() {
     }
 
-    public OrderEntity(StoreEntity store, UserEntity customer, Date order_time, int totalPrice, OrderStatus status) {
+    public OrderEntity(StoreEntity store, CustomerEntity customer, Date order_time, int totalPrice, OrderStatus status) {
         this.store = store;
         this.customer = customer;
         this.order_time = order_time;
