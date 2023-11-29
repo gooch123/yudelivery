@@ -8,6 +8,7 @@ import lombok.Getter;
 public class CustomerReviewDTO {
 
     private Long id;
+    private Long storeId;
     private String storeName;
     private String content;
     private Double starPoint;

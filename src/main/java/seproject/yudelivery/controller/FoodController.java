@@ -11,6 +11,7 @@ import seproject.yudelivery.entity.FoodEntity;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.repository.FoodRepository;
+import seproject.yudelivery.repository.StoreRepository;
 
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class FoodController{
     private FoodRepository foodRepository;
     @Autowired
     private StoreController storeController;
+    @Autowired
+    private StoreRepository storeRepository;
 
     @PostMapping("/create")
     public String create(@ModelAttribute("foodDTO") FoodDTO foodDTO, HttpServletRequest request ) {
@@ -43,15 +46,16 @@ public class FoodController{
     }
 
     @PostMapping("/update")
-    public String update( FoodDTO foodDTO) {
+    public String update(@ModelAttribute("foodDTO") FoodDTO foodDTO) {
         log.info(foodDTO.toString());
+        FoodEntity target = foodRepository.findById(foodDTO.getId()).orElse(null);
+        foodDTO.setStore(target.getStore());
         FoodEntity foodEntity = foodDTO.toEntity();
         log.info(foodEntity.toString());
-        FoodEntity target = foodRepository.findById(foodEntity.getId()).orElse(null);
         if (target != null) {
             foodRepository.save(foodEntity);
         }
-        return "redirect:/store/" + "/food/" + foodEntity.getId();
+        return "redirect:/store/my";
     }
 
     @GetMapping("/new")
@@ -63,12 +67,8 @@ public class FoodController{
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         log.info("Deletion request received!");
-        FoodEntity target = foodRepository.findById(id).orElse(null);
-        log.info(target.toString());
-        if (target != null) {
-            foodRepository.delete(target);
-        }
-        return "redirect:/store/" + "/food";
+        foodRepository.findById(id).ifPresent(target -> foodRepository.delete(target));
+        return "redirect:/store/my";
     }
 }
 

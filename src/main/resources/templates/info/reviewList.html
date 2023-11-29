@@ -41,7 +41,7 @@
     <div class="row">
         <div class="col-md-3 mt-5">
             <div class="text-center" style="margin-bottom: 5px ">
-                <a href="/basket/main">
+                <a href="/basket">
                     <span class="material-icons">shopping_cart</span>
                 </a>
             </div>
@@ -99,18 +99,17 @@
                                         <th></th>
                                     </tr>
                                     </thead>
-                                    <tr th:each="list : ${orderList}"
-                                        th:onclick="detail([[${list.orderId}]])"
-                                        style="cursor: pointer" >
+                                    <tr th:each="list : ${reviewList}">
                                         <td th:text="사진">사진</td>
                                         <td th:text="${list.storeName}">0</td>
-                                        <td th:text="${list.order_time}">0</td>
-                                        <td th:text="${list.totalPrice}">0</td>
+                                        <td th:text="${list.content}">0</td>
+                                        <td th:text="${list.starPoint}">0</td>
                                         <td>
                                             <a href="#"
-                                               th:href="'javascript:cancel('+${list.orderId}+')'"
+                                               th:href="'javascript:cancel('+${list.id}+')'"
                                                class="btn btn-danger">X</a>
                                         </td>
+                                        <td></td>
                                         <td></td>
                                     </tr>
                                 </table>
@@ -131,13 +130,11 @@
 
 </body>
 <script>
-
     function cancel(id) {
         var form = document.createElement("form");
-        form.setAttribute("method", "post"); form.setAttribute("action", "/info/review" + id + "/list");
+        form.setAttribute("method", "post"); form.setAttribute("action", "/info/review/" + id + "/delete");
         document.body.appendChild(form);
         form.submit();
     }
-
 </script>
 </html>
