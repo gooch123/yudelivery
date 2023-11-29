@@ -7,8 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import seproject.yudelivery.dto.OrderFoodDTO;
 import seproject.yudelivery.dto.OrderViewDTO;
+import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.service.OrderService;
+import seproject.yudelivery.service.StoreService;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ import java.util.List;
 public class CustomerInfoController {
 
     private final OrderService orderService;
+    private final StoreService storeService;
 
     @GetMapping("/orderList")
     public String orderList(@SessionAttribute(name = "user",required = false) UserEntity user, Model model){
@@ -45,6 +48,20 @@ public class CustomerInfoController {
         List<OrderFoodDTO> orderFoods = orderService.getOrderFoods(orderId);
         model.addAttribute("orderFoods",orderFoods);
         return "info/orderDetail";
+    }
+
+    @GetMapping("store/{storeId}")
+    public String storeDetail(@PathVariable Long storeId, Model model){
+        StoreEntity detail = storeService.getStoreDetail(storeId);
+        model.addAttribute("store", detail);
+        return "store/detail";
+    }
+
+    @GetMapping("/store/search")
+    public String searchStores(@PathVariable String Keyword, Model model){
+        List<StoreEntity> searchResult = storeService.searchStores(Keyword);
+        model.addAttribute("searchResult", searchResult);
+        return "store/search";
     }
 
 }
