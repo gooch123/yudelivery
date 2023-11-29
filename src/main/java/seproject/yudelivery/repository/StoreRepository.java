@@ -58,8 +58,19 @@ public class StoreRepository {
     }
 
     public StoreEntity updateStore(StoreEntity store){
-        store = em.merge(store);
-        return store;
+        StoreEntity target_store = findMyStore(store.getUser().getId());
+        target_store.setStore_name(store.getStore_name());
+        target_store.setAddress1(store.getAddress1());
+        target_store.setAddress2(store.getAddress2());
+        target_store.setAddress3(store.getAddress3());
+        target_store.setCategory(store.getCategory());
+        target_store.setPhone(store.getPhone());
+        target_store.setOpen_time(store.getOpen_time());
+        target_store.setClose_time(store.getClose_time());
+        target_store.setDeliver_time(store.getDeliver_time());
+        target_store.setStore_info(store.getStore_info());
+        em.merge(target_store);
+        return target_store;
     }
 
     public StoreEntity findStoreDetail(Long store_id){

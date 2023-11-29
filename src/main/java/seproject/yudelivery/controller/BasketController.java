@@ -21,7 +21,7 @@ public class BasketController {
 
     private final BasketService basketService;
 
-    @GetMapping("/main")
+    @GetMapping
     public String basketHome(Model model, @SessionAttribute(name = "user",required = false) UserEntity user){
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
 //            return null;
@@ -43,19 +43,19 @@ public class BasketController {
     @PostMapping("/{id}/cancel")
     public String cancel(@PathVariable(name = "id") Long basketFoodId){
         basketService.cancelFood(basketFoodId);
-        return "redirect:/basket/main";
+        return "redirect:/basket";
     }
 
     @PostMapping("/{id}/add")
     public String addFoodQuantity(@PathVariable(name = "id") Long basketFoodId){
         basketService.updateBasketFoodQuantity(basketFoodId,1);
-        return "redirect:/basket/main";
+        return "redirect:/basket";
     }
 
     @PostMapping("/{id}/sub")
     public String subFoodQuantity(@PathVariable(name = "id") Long basketFoodId){
         basketService.updateBasketFoodQuantity(basketFoodId,-1);
-        return "redirect:/basket/main";
+        return "redirect:/basket";
     }
 
     //장바구니 추가 기능 구현

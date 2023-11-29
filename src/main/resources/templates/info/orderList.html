@@ -41,7 +41,7 @@
     <div class="row">
         <div class="col-md-3 mt-5">
             <div class="text-center" style="margin-bottom: 5px ">
-                <a href="/basket/main">
+                <a href="/basket">
                     <span class="material-icons">shopping_cart</span>
                 </a>
             </div>
@@ -90,7 +90,7 @@
                                 <table border="1" class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th>사진</th>
+                                        <th></th>
                                         <th>가게 이름</th>
                                         <th>주문 날짜</th>
                                         <th>주문 가격</th>
@@ -99,19 +99,25 @@
                                         <th></th>
                                     </tr>
                                     </thead>
-                                    <tr th:each="list : ${orderList}"
-                                        th:onclick="detail([[${list.orderId}]])"
-                                        style="cursor: pointer" >
+                                    <tr th:each="list : ${orderList}"  >
                                         <td th:text="사진">사진</td>
                                         <td th:text="${list.storeName}">0</td>
                                         <td th:text="${list.order_time}">0</td>
                                         <td th:text="${list.totalPrice}">0</td>
+
                                         <td>
                                             <a href="#"
                                                th:href="'javascript:reorder('+${list.orderId}+')'"
                                                class="btn btn-outline-primary">재주문</a>
                                         </td>
-                                        <td></td>
+
+                                        <td>
+                                        <a href="#"
+                                           th:href="'javascript:detail('+${list.orderId}+')'"
+                                           class="btn btn-outline-info">주문상세</a>
+                                        </td>
+                                        <td>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
