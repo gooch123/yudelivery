@@ -25,5 +25,7 @@ public class RiderEntity {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "customer_id")
+    private Long customerId;
 
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import seproject.yudelivery.dto.OrderStatus;
 
 import java.sql.Date;
 
@@ -24,8 +25,8 @@ public class OrderEntity {
 
     // user
     @ManyToOne
-    @JoinColumn(name = "id")
-    private UserEntity customer;
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customer;
 
     @Column(name = "order_time")
     private Date order_time;
@@ -33,20 +34,23 @@ public class OrderEntity {
     @Column(name = "total_price")
     private int totalPrice;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "status")
+    private OrderStatus status;
+
     public OrderEntity() {
     }
 
-    public OrderEntity(StoreEntity store, UserEntity customer, Date order_time, int totalPrice) {
+    public OrderEntity(StoreEntity store, CustomerEntity customer, Date order_time, int totalPrice, OrderStatus status) {
         this.store = store;
         this.customer = customer;
         this.order_time = order_time;
         this.totalPrice = totalPrice;
+        this.status = status;
     }
 
-    public OrderEntity(Long id, StoreEntity store, UserEntity customer, Date order_time) {
-        this.id = id;
-        this.store = store;
-        this.customer = customer;
-        this.order_time = order_time;
+    public void changeStatus(OrderStatus status){
+        this.status = status;
     }
+
 }

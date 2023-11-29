@@ -75,13 +75,13 @@ public class ReviewService {
     }
 
     // 다른 필요한 메서드
-
     public List<CustomerReviewDTO> getReviewListByCustomer(Long customerId){
         List<ReviewEntity> review = reviewRepository.findAllByCustomer_Id(customerId);
         List<CustomerReviewDTO> reviewDTOList = new ArrayList<>();
         for (ReviewEntity reviewEntity : review) {
             reviewDTOList.add(new CustomerReviewDTO(
                     reviewEntity.getId(),
+                    reviewEntity.getStore().getId(),
                     reviewEntity.getStore().getStore_name(),
                     reviewEntity.getReview_content(),
                     reviewEntity.getReview_starpoint()

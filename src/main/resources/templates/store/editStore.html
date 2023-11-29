@@ -17,8 +17,7 @@
           <form action="/store/update" method="post" th:object="${store}" class="needs-validation" novalidate>
             <div class="form-group">
               <!-- Hidden ID Field -->
-              <input type="hidden" name="store_id" th:field="*{id}" />
-
+              <input type="hidden" name="user_id" th:field="*{user}"/>
               <!-- Name Field -->
               <label for="store_name"><strong>Name:</strong></label>
               <input type="text" class="form-control" id="store_name" th:field="*{store_name}" placeholder="Enter store name" required>
@@ -36,15 +35,22 @@
               <input type="text" class="form-control mb-4" id="extraAddress" name="extraAddress" placeholder="참고항목">
 
               <!-- Other Fields -->
-              <label for="category"><strong>Category:</strong></label>
-              <input type="text" class="form-control" id="category" th:field="*{category}" placeholder="Enter category" required>
+              <div class="mb-3">
+                <label for="category" class="form-label">Category:</label>
+                <select id="category" th:field="*{category}" name="category" class="form-control">
+                  <option value="한식">한식</option>
+                  <option value="중식">중식</option>
+                  <option value="양식">양식</option>
+                  <option value="일식">일식</option>
+                </select>
+              </div>
               <label for="phone"><strong>Phone:</strong></label>
               <input type="tel" class="form-control" id="phone" th:field="*{phone}" placeholder="Enter phone number" required>
               <label for="open_time"><strong>Open Time:</strong></label>
               <input type="time" class="form-control" id="open_time" th:field="*{open_time}" required>
               <label for="close_time"><strong>Close Time:</strong></label>
               <input type="time" class="form-control" id="close_time" th:field="*{close_time}" required>
-              <label for="deliver_time"><strong>Deliver Time:</strong></label>
+              <label for="deliver_time"><strong>Deliver Time(분):</strong></label>
               <input type="text" class="form-control" id="deliver_time" th:field="*{deliver_time}" placeholder="Enter deliver time" required>
               <label for="store_info"><strong>Store Info:</strong></label>
               <textarea class="form-control" id="store_info" th:field="*{store_info}" placeholder="Enter store info"></textarea>

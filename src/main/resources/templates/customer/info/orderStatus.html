@@ -41,7 +41,7 @@
     <div class="row">
         <div class="col-md-3 mt-5">
             <div class="text-center" style="margin-bottom: 5px ">
-                <a href="/basket/main">
+                <a href="/basket">
                     <span class="material-icons">shopping_cart</span>
                 </a>
             </div>
@@ -64,7 +64,7 @@
                             <p class="text-center" style="margin-bottom: 0px">리뷰 목록</p>
                         </div>
                         <div class="ms-2 px-2 bg-light border" onclick="location.href='/info/wishList'"
-                             style="cursor: pointer">
+                            style="cursor: pointer">
                             <p class="text-center" style="margin-bottom: 0px">찜 목록</p>
                         </div>
                         <div class="ms-2 px-2 bg-light border" onclick="location.href='/info/orderList'"
@@ -75,62 +75,47 @@
                              style="cursor: pointer">
                             <p class="text-center" style="margin-bottom: 0px">정보 수정</p>
                         </div>
-                        <div class="ms-2 px-2 bg-light border" onclick="location.href='/info/orderStatus'"
+                        <div class="ms-2 px-2 bg-gradient border" onclick="location.href='/info/orderStatus'"
                              style="cursor: pointer">
                             <p class="text-center" style="margin-bottom: 0px">주문 현황</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-8 border border-1" >
-                    <form role="form" action="/order" method="post">
                         <div class=" h-75 row mb-2">
                             <div>
-                                <p class="text-center"> 장바구니 </p>
+                                <p class="text-center"> 주문 현황 </p>
                             </div>
                             <div class="h-100 d-inline-block border border-1">
                                 <table border="1" class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th th:text="${store}">StoreName</th>
-                                    </tr>
-                                    <tr>
-                                        <th>사진</th>
-                                        <th>주문 상품</th>
-                                        <th>가격</th>
-                                        <th>수량</th>
                                         <th></th>
+                                        <th>가게 이름</th>
+                                        <th>주문 날짜</th>
+                                        <th>주문 가격</th>
+                                        <th>상태</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
                                     </thead>
-                                    <tr th:each="food : ${list}">
+                                    <tr th:each="list : ${orderList}"  >
                                         <td th:text="사진">사진</td>
-                                        <td th:text="${food.foodName}">0</td>
-                                        <td th:text="${food.foodPrice}">0</td>
-                                        <td th:text="${food.foodQuantity}">0</td>
-                                        <td><a href="#"
-                                               th:href="'javascript:add('+${food.id}+')'"
-                                               class="btn btn-outline-dark">+</a>
-                                            <a href="#"
-                                               th:href="'javascript:sub('+${food.id}+')'"
-                                               class="btn btn-outline-dark">-</a>
+                                        <td th:text="${list.storeName}">0</td>
+                                        <td th:text="${list.order_time}">0</td>
+                                        <td th:text="${list.totalPrice}">0</td>
+                                        <td th:text="${list.status}"></td>
+                                        <td>
                                         </td>
                                         <td>
                                             <a href="#"
-                                               th:href="'javascript:cancel('+${food.id}+')'"
-                                               class="btn btn-danger">X</a>
+                                               th:href="'javascript:detail('+${list.orderId}+')'"
+                                               class="btn btn-outline-info">주문상세</a>
                                         </td>
-                                        <td></td>
                                     </tr>
                                 </table>
                             </div>
-                            <div class="bottom-0">
-                                <div class="col-form-label" th:text="${totalPrice}">
-                                </div>
-                                <button type="submit">주문</button>
-                            </div>
                         </div>
-                    </form>
                 </div>
                 <div class="col-md-2 border border-1">
                     사용자 정보
@@ -146,23 +131,13 @@
 
 </body>
 <script>
-    function cancel(id) {
+    function detail(id) {
         var form = document.createElement("form");
-        form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/cancel");
+        form.setAttribute("method", "get"); form.setAttribute("action", "/info/orderDetail/" + id);
         document.body.appendChild(form);
         form.submit();
     }
-    function add(id) {
-        var form = document.createElement("form");
-        form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/add");
-        document.body.appendChild(form);
-        form.submit();
-    }
-    function sub(id) {
-        var form = document.createElement("form");
-        form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/sub");
-        document.body.appendChild(form);
-        form.submit();
-    }
+
+
 </script>
 </html>

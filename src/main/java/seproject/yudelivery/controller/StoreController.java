@@ -27,6 +27,12 @@ public class StoreController {
     private UserRepository userRepository;
     @Autowired
     private FoodRepository foodRepository;
+
+    @GetMapping// store main page
+    public String storeMain() {
+        return "store/main";
+    }
+
     @RequestMapping("/create")
     public String createStore(@ModelAttribute("storeDTO") StoreDTO storeDTO, RedirectAttributes rttr, HttpServletRequest request) {
         UserEntity user = (UserEntity) request.getSession().getAttribute("user");
@@ -59,7 +65,6 @@ public class StoreController {
             //return "redirect:/home";
             user = userRepository.findByUserId("admin").orElse(null);
         }
-        storeDTO.setUser(user);
         log.info(storeDTO.toString());
         StoreEntity store = storeService.updateStore(storeDTO);
         rttr.addFlashAttribute("msg", "가게가 수정되었습니다.");
@@ -68,7 +73,7 @@ public class StoreController {
         return "redirect:/store/my";
     }
 
-    @GetMapping("/editStore")
+    @GetMapping("/edit")
     public String editStore(HttpServletRequest request, Model model) { // 점주 스토어 수정
         StoreEntity store = findUserStore(request);
         model.addAttribute("store", store);
@@ -95,20 +100,16 @@ public class StoreController {
     @GetMapping("/my") // my store page
     public String getMyStore(HttpServletRequest request, Model model,RedirectAttributes rttr) {
         StoreEntity store = findUserStore(request);
-        List<FoodEntity> foods = foodRepository.findAllByStoreId(store.getId());
         if(store == null) {
             rttr.addFlashAttribute("msg", "가게가 존재하지 않습니다");
             return "redirect:/store";
         }
+        List<FoodEntity> foods = foodRepository.findAllByStoreId(store.getId());
         model.addAttribute("store", store);
         model.addAttribute("food", foods);
         return "store/info";
     }
 
-    @GetMapping// store main page
-    public String storeMain() {
-        return "store/main";
-    }
     @GetMapping("/new") // store 생성 페이지(user 의 store 없을 때만 가능)
     public String newStore(Model model, HttpServletRequest request, RedirectAttributes rttr) {
         UserEntity user = (UserEntity) request.getSession().getAttribute("user");
@@ -131,4 +132,8 @@ public class StoreController {
         log.info("sales : " + store.getSales());
         return "/store/sales";
     }
+
+
+    //////
+
 }
