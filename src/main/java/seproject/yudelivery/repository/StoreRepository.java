@@ -76,11 +76,11 @@ public class StoreRepository {
 
     public StoreEntity findStoreDetail(Long store_id){
         return em.find(StoreEntity.class, store_id);
-    }
+    } // Cheon
 
     public List<FoodEntity> findFoodsByStoreId(Long store_id){
         return em.createQuery("select f from FoodEntity f where f.store.id = :storeId", FoodEntity.class)
                 .setParameter("store_id", store_id)
                 .getResultList();
-    }
+    } // Cheon
 }
