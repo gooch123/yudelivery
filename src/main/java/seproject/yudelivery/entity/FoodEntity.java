@@ -14,7 +14,7 @@ public class FoodEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "store_id")
+    @JoinColumn(name = "store_id", referencedColumnName = "store_id")
     private StoreEntity store;
 
     @Column(name = "food_name")

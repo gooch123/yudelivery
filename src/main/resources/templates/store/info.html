@@ -44,6 +44,7 @@
             </div>
             <div class="card-footer">
               <a th:href="@{/food/new}" class="btn btn-primary">Create New Food!!</a>
+              <a href="/store" class="btn btn-secondary">Back</a>
             </div>
           </div>
         </div>
@@ -63,19 +64,21 @@
           </div>
           <div class="card-body">
             <p><strong>Name:</strong> <span th:text="${store.store_name}"></span></p>
-            <p><strong>Address:</strong> <span th:text="${store.address1}"></span><br>
+            <p><strong>Address:</strong><br>
+              <span th:text="${store.address1}"></span><br>
               <span th:text="${store.address2}"></span><br>
               <span th:text="${store.address3}"></span></p>
             <p><strong>Category:</strong> <span th:text="${store.category}"></span></p>
             <p><strong>Phone:</strong> <span th:text="${store.phone}"></span></p>
             <p><strong>Open Time:</strong> <span th:text="${store.open_time}"></span></p>
             <p><strong>Close Time:</strong> <span th:text="${store.close_time}"></span></p>
-            <p><strong>Deliver Time:</strong> <span th:text="${store.deliver_time}"></span></p>
+            <p><strong>Deliver Time(분):</strong> <span th:text="${store.deliver_time}"></span></p>
             <p><strong>Store Info:</strong> <span th:text="${store.store_info}"></span></p>
           </div>
           <div class="card-footer">
-            <a href="/store/editStore" class="btn btn-primary">Edit</a>
+            <a href="/store/edit" class="btn btn-primary">Edit</a>
             <button onclick="confirmDelete()" class="btn btn-danger">Delete</button>
+            <a href="/store" class="btn btn-secondary">Back</a>
           </div>
         </div>
       </div>

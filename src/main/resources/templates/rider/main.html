@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>배달기사 홈페이지</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>라이더 홈페이지</title>
+    <link rel="stylesheet" href="rider.css">
 </head>
 <body>
 
@@ -13,9 +13,12 @@
 </header>
 
 <main>
-    <section id="order">
+    <section id="orders">
         <h2>배송 목록</h2>
         <!-- 여기에 배송 목록이 표시될 부분 -->
+
+        <!-- Adding a link to order information page -->
+        <p>주문자 정보: <a href="order_information.html">주문 상세보기</a></p>
     </section>
 
     <section id="status">
@@ -25,7 +28,7 @@
             <input type="text" id="orderID" name="orderID" required>
 
             <label for="status">상태 업데이트:</label>
-            <select id="status" name="status" required>
+            <select id="status1" name="status" required>
                 <option value="배송 준비 중">배송 준비 중</option>
                 <option value="배송 중">배송 중</option>
                 <option value="배송 완료">배송 완료</option>
@@ -37,9 +40,55 @@
 </main>
 
 <footer>
-    <p>&copy; 2023 배달기사 홈페이지. 모든 권리 보유.</p>
+    <p>&copy; 라이더 홈페이지.</p>
 </footer>
 
-<script src="script.js"></script>
+<script>
+    document.getElementById("statusForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var orderID = document.getElementById("orderID").value;
+        var status = document.getElementById("status1").value;
+
+        // 예시: 서버로 요청을 보내는 부분
+        fetch("/riders/getByCustomerId/" + orderID)
+            .then(response => response.json())
+            .then(data => {
+                if (data.customerId) {
+                    // 서버로부터 받은 customerId를 이용해 주문자 정보 업데이트
+                    updateCustomerInfo(data.customerId, status);
+                } else {
+                    alert("주문자 정보를 찾을 수 없습니다.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("서버와의 통신 중 오류가 발생했습니다.");
+            });
+    });
+
+    // 서버로 주문자 정보 업데이트 요청을 보내는 함수
+    function updateCustomerInfo(customerId, status) {
+        fetch("/riders/completeDelivery/" + customerId, {
+            method: "PUT"
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                // 여기서는 간단하게 성공/실패 여부를 확인하고, 성공 시 주문 정보 페이지로 이동
+                if (data === "success") {
+                    window.location.href = "order_information.html";
+                } else {
+                    alert("주문자 정보 업데이트에 실패했습니다.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("서버와의 통신 중 오류가 발생했습니다.");
+            });
+    }
+</script>
+
+<script src="rider.js"></script>
 </body>
 </html>
