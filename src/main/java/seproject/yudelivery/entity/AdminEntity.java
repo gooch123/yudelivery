@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 public class AdminEntity {
     @Id @GeneratedValue
-    @Column(name = "report_target_id") // 리뷰의 id 외래키
+    @Column(name = "review_id") // 리뷰의 id 외래키
     private Long id;
 
     @Column(name = "content")

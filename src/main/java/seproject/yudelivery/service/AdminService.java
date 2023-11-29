@@ -12,16 +12,16 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class AdminService {
-    private final AdminRepository administratorRepository;
+    private final AdminRepository adminRepository;
 
-    public List<AdminEntity> findAllReportedReview() {
-        return administratorRepository.findAllReportedReview();
+    public List<AdminEntity> findAllReview() {
+        return adminRepository.findAllReview();
     }
-    public AdminEntity findReportedReviewById(Long reportedId) {
-        return administratorRepository.findReportedReviewById(reportedId);
+    public AdminEntity findReviewById(Long reportedId) {
+        return adminRepository.findReviewById(reportedId);
     }
 
-    public void deleteReportedReviewById(Long reportedId){
-        administratorRepository.deleteReportedReviewById(reportedId);
+    public void deleteReviewById(Long reportedId){
+        adminRepository.deleteReviewById(reportedId);
     }
 }

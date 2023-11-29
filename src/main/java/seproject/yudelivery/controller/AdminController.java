@@ -16,7 +16,7 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    private AdminService administratorService;
+    private AdminService adminService;
 
     @GetMapping // admin main page
     public String adminMain() {
@@ -25,15 +25,15 @@ public class AdminController {
 
     @GetMapping("/review")
     public String getReview(Model model) {
-        List<AdminEntity> reportedReview = administratorService.findAllReportedReview();
+        List<AdminEntity> reviews = adminService.findAllReview();
 
-        model.addAttribute("reportedReview", reportedReview);
+        model.addAttribute("reviews", reviews);
         return "admin/review";
     }
 
     @GetMapping("/review/delete/{id}")
     public String deleteReview(@PathVariable Long id) {
-        administratorService.deleteReportedReviewById(id);
+        adminService.deleteReviewById(id);
         return "redirect:/admin/review";
     }
 }

@@ -14,21 +14,21 @@ import java.util.List;
 public class AdminRepository {
     private final EntityManager em;
 
-    public List<AdminEntity> findAllReportedReview() {
+    public List<AdminEntity> findAllReview() {
         return em.createQuery("select s from AdminEntity s", AdminEntity.class)
                 .getResultList();
     }
-    public AdminEntity findReportedReviewById(Long reportedId) {
+    public AdminEntity findReviewById(Long reportedId) {
         return em.find(AdminEntity.class, reportedId);
     }
 
-    public void deleteReportedReviewById(Long reportedId){
-        AdminEntity reportedReview = findReportedReviewById(reportedId);
-        if(reportedReview != null) {
-            em.remove(reportedReview);
+    public void deleteReviewById(Long reportedId){
+        AdminEntity review = findReviewById(reportedId);
+        if(review != null) {
+            em.remove(review);
         }
         else {
-            log.info("error : no reported review id.");
+            log.info("error : no review id.");
         }
     }
 }
