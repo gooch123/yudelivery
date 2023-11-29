@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>어드민 악성 리뷰 관리</title>
+</head>
+<body>
+<h1>악성 리뷰 리스트</h1>
+<table border="1">
+    <tr>
+        <th>id</th>
+        <th>content</th>
+        <th></th>
+    </tr>
+    <tr th:each="review : ${reviews}">
+        <td th:text="${review.id}">id</td>
+        <td th:text="${review.content}">content</td>
+        <td><a th:href="@{|/admin/review/delete/${review.id}|}">삭제</a></td>
+    </tr>
+</table>
+</body>
+</html>
