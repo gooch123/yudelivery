@@ -1,6 +1,7 @@
 package seproject.yudelivery.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import seproject.yudelivery.dto.OrderStatus;
 import seproject.yudelivery.entity.CustomerEntity;
 import seproject.yudelivery.entity.OrderEntity;
 
@@ -9,6 +10,11 @@ import java.util.*;
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     /** 사용자 주문 조회 */
     List<OrderEntity> findAllByCustomer_Id(Long customerId);
+
+    /**
+     * 사용자와 주문상태에 따른 주문 조회
+     */
+    List<OrderEntity> findAllByCustomer_IdAndStatus(Long customerId, OrderStatus status);
 
     /** 상세 주문 조회 */
     Optional<OrderEntity> findById(Long id);
