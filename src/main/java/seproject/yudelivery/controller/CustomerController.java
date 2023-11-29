@@ -74,14 +74,15 @@ public class CustomerController {
     public String storeDetail(@PathVariable Long storeId, Model model){
         StoreEntity detail = storeService.getStoreDetail(storeId);
         model.addAttribute("store", detail);
-        return "store/detail";
+        return "store/detail"; //템플릿 만들기
     }
 
     @GetMapping("/store/search")
-    public String searchStores(@PathVariable String Keyword, Model model){
-        List<StoreEntity> searchResult = storeService.searchStores(Keyword);
+    public String searchStores(Model model){
+        String keyword = "null";
+        List<StoreEntity> searchResult = storeService.searchStores(keyword);
         model.addAttribute("searchResult", searchResult);
-        return "store/search";
+        return "store/search"; //템플릿 만들기
     }
 
 }
