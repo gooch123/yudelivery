@@ -13,12 +13,10 @@ import seproject.yudelivery.dto.OrderFoodDTO;
 import seproject.yudelivery.dto.OrderViewDTO;
 import seproject.yudelivery.dto.UpdateCustomerForm;
 import seproject.yudelivery.entity.CustomerEntity;
+import seproject.yudelivery.entity.FoodEntity;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.entity.UserEntity;
-import seproject.yudelivery.service.OrderService;
-import seproject.yudelivery.service.ReviewService;
-import seproject.yudelivery.service.StoreService;
-import seproject.yudelivery.service.UserService;
+import seproject.yudelivery.service.*;
 
 import java.util.List;
 
@@ -108,7 +106,9 @@ public class CustomerController {
     @GetMapping("/store/{storeId}")
     public String storeDetail(@PathVariable Long storeId, Model model){
         StoreEntity detail = storeService.getStoreDetail(storeId);
+        List<FoodEntity> foodList = storeService.getFoodsByStoreId(storeId);
         model.addAttribute("store", detail);
+        model.addAttribute("foodList", foodList);
         return "store/detail"; //템플릿 만들기
     }
 

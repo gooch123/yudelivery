@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가게 상세 정보</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        th {
+            padding: 8px;
+            text-align: left;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .food-table {
+            margin: 3 auto;
+        }
+
+        .food-table th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>가게 상세 정보</h2>
+    <hr>
+    <div>
+        <table border="1" class="table">
+            <thead>
+            <tr>
+                <th>가게 이름 : <span th:text="${storeDetail.storeName}"></span></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="5">
+                        <h3>음식 정보</h3>
+                        <table border="1" class="food-table">
+                            <thead>
+                                <tr>
+                                    <th>음식 이름</th>
+                                    <th>가격</th>
+                                    <th>음식 상세 설명</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="food : ${storeDetail.foods}">
+                                    <td th:text="${food.name}"></td>
+                                    <td th:text="${food.price}"></td>
+                                    <td th:text="${food.description}"></td>
+                                    <td>
+                                        <form th:action="@{/basket/add/{foodId}(foodId=${food.id})}" method="post">
+                                            <input type="number" name="quantity" value="1" min="1" max="10" />
+                                            <button type="submit">담기</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <th>가게 주소 : <span th:text="${storeDetail.address}"></span></th>
+                </tr>
+                <tr>
+                    <th>전화번호 : <span th:text="${storeDetail.phone}"></span></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
