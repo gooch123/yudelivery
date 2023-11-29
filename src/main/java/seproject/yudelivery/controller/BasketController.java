@@ -37,7 +37,7 @@ public class BasketController {
         model.addAttribute("store",basketStoreName);
 
 
-        return "basket/main";
+        return "customer/basket/main";
     }
 
     @PostMapping("/{id}/cancel")

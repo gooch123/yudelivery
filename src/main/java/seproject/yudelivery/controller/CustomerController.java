@@ -1,7 +1,6 @@
 package seproject.yudelivery.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +35,9 @@ public class CustomerController {
 
         Long userId = 1L;
 
-        List<OrderViewDTO> orderList = orderService.getCompleteOrderViewList(userId);
+        List<OrderViewDTO> orderList = orderService.getCompleteCancelOrderViewList(userId);
         model.addAttribute("orderList",orderList);
-        return "info/orderList";
+        return "customer/info/orderList";
     }
 
     /**
@@ -54,17 +53,22 @@ public class CustomerController {
 //        }
         List<OrderFoodDTO> orderFoods = orderService.getOrderFoods(orderId);
         model.addAttribute("orderFoods",orderFoods);
-        return "info/orderDetail";
+        return "customer/info/orderDetail";
     }
 
+    /**
+     * 주문 현황 확인
+     */
     @GetMapping("/info/orderStatus")
     public String orderStatus(
             Model model,
             @SessionAttribute(name = "user",required = false)UserEntity user
             ){
 
-
-        return null;
+        Long customerId = 1L;
+        List<OrderViewDTO> orderList = orderService.getCookingDeliveringWaitOrderViewList(customerId);
+        model.addAttribute("orderList",orderList);
+        return "customer/info/orderStatus";
     }
 
     /**
@@ -81,7 +85,7 @@ public class CustomerController {
         Long userId = 1L;
         List<CustomerReviewDTO> reviewList = reviewService.getReviewListByCustomer(userId);
         model.addAttribute("reviewList",reviewList);
-        return "info/reviewList";
+        return "customer/info/reviewList";
     }
 
     /**

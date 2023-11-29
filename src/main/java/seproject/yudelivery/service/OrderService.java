@@ -16,6 +16,8 @@ import seproject.yudelivery.repository.OrderRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -55,10 +57,28 @@ public class OrderService {
         return order;
     }
 
-    // 사용자 주문 조회 - 완료된 주문
-    public List<OrderViewDTO> getCompleteOrderViewList(Long customerId){
-        List<OrderEntity> orders = orderRepository.findAllByCustomer_IdAndStatus(customerId,OrderStatus.COMPLETE);
-        List<OrderViewDTO> orderViewDTOList = getOrderViewDTOList(orders,OrderStatus.COMPLETE);
+    // 사용자 주문 조회 - 완료되거나 취소된 주문
+    public List<OrderViewDTO> getCompleteCancelOrderViewList(Long customerId){
+        List<OrderEntity> ordersComplete = orderRepository.findAllByCustomer_IdAndStatus(customerId,OrderStatus.COMPLETE);
+        List<OrderEntity> ordersCancel = orderRepository.findAllByCustomer_IdAndStatus(customerId,OrderStatus.CANCEL);
+        List<OrderViewDTO> completeDTO = getOrderViewDTOList(ordersComplete,OrderStatus.COMPLETE);
+        List<OrderViewDTO> cancelDTO = getOrderViewDTOList(ordersCancel,OrderStatus.CANCEL);
+        List<OrderViewDTO> orderViewDTOList = Stream.concat(completeDTO.stream(),cancelDTO.stream())
+                .collect(Collectors.toList());
+        return orderViewDTOList;
+    }
+
+    // 사용자 주문 조회 - 조리중이거나 배달중이거나 대기중인 주문
+    public List<OrderViewDTO> getCookingDeliveringWaitOrderViewList(Long customerId){
+        List<OrderEntity> ordersComplete = orderRepository.findAllByCustomer_IdAndStatus(customerId,OrderStatus.COOKING);
+        List<OrderEntity> ordersCancel = orderRepository.findAllByCustomer_IdAndStatus(customerId,OrderStatus.DELIVERING);
+        List<OrderEntity> ordersWait = orderRepository.findAllByCustomer_IdAndStatus(customerId,OrderStatus.WAIT);
+        List<OrderViewDTO> cookingDTO = getOrderViewDTOList(ordersComplete,OrderStatus.COOKING);
+        List<OrderViewDTO> cancelDTO = getOrderViewDTOList(ordersCancel,OrderStatus.DELIVERING);
+        List<OrderViewDTO> waitDTO = getOrderViewDTOList(ordersWait,OrderStatus.WAIT);
+        List<OrderViewDTO> orderViewDTOList = Stream.concat(waitDTO.stream(),cancelDTO.stream())
+                .collect(Collectors.toList());
+        orderViewDTOList.addAll(cookingDTO);
         return orderViewDTOList;
     }
 
@@ -93,6 +113,8 @@ public class OrderService {
             statusStr = "배달 중";
         else if (status == OrderStatus.COMPLETE)
             statusStr = "배달 완료";
+        else
+            statusStr = "주문 거절";
         List<OrderViewDTO> orderViewDTOList = new ArrayList<>();
         for (OrderEntity order : orders) {
             orderViewDTOList.add(new OrderViewDTO(
