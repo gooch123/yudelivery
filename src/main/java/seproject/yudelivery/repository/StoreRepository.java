@@ -16,6 +16,21 @@ public class StoreRepository {
     public StoreEntity findStoreById(Long id){
         return em.find(StoreEntity.class, id);
     }
+    public List<StoreEntity> findAllStore(){
+        return em.createQuery("select s from StoreEntity s", StoreEntity.class)
+                .getResultList();
+    }
+    public List<StoreEntity> findStoreByCategory(String category){
+        return em.createQuery("select s from StoreEntity s where s.category = :category", StoreEntity.class)
+                .setParameter("category", category)
+                .getResultList();
+    }
+
+    public List<StoreEntity> findStoreByKeyword(String keyword){
+        return em.createQuery("select s from StoreEntity s where s.store_name like :keyword", StoreEntity.class)
+                .setParameter("keyword", "%"+keyword+"%")
+                .getResultList();
+    }
 
     public StoreEntity findMyStore(Long user_id){
         List<StoreEntity> store = em.createQuery("select s from StoreEntity s where s.user.id = :user_id", StoreEntity.class)
@@ -43,7 +58,18 @@ public class StoreRepository {
     }
 
     public StoreEntity updateStore(StoreEntity store){
-        store = em.merge(store);
-        return store;
+        StoreEntity target_store = findMyStore(store.getUser().getId());
+        target_store.setStore_name(store.getStore_name());
+        target_store.setAddress1(store.getAddress1());
+        target_store.setAddress2(store.getAddress2());
+        target_store.setAddress3(store.getAddress3());
+        target_store.setCategory(store.getCategory());
+        target_store.setPhone(store.getPhone());
+        target_store.setOpen_time(store.getOpen_time());
+        target_store.setClose_time(store.getClose_time());
+        target_store.setDeliver_time(store.getDeliver_time());
+        target_store.setStore_info(store.getStore_info());
+        em.merge(target_store);
+        return target_store;
     }
 }

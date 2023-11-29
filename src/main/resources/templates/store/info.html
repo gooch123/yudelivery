@@ -12,14 +12,49 @@
 </div>
 
 <div id="Food" class="tabcontent" style="display:block">
-  <h3>음식 정보</h3>
-  <p>여기에 음식 정보를 표시합니다.</p>
-  <button>추가</button>
-  <button>삭제</button>
-  <button>편집</button>
-</div>
+  <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">음식 정보</h3>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Food Info</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="food : ${food}">
+                  <td th:text="${food.food_name}"></td>
+                  <td th:text="${food.food_price}"></td>
+                  <td th:text="${food.food_info}"></td>
+                  <td>
+                    <a th:href="@{/food/edit/{id}(id=${food.id})}" class="btn btn-primary">편집</a>
+                    <a th:href="@{/food/delete/{id}(id=${food.id})}" class="btn btn-danger">삭제</a>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer">
+              <a th:href="@{/food/new}" class="btn btn-primary">Create New Food!!</a>
+              <a href="/store" class="btn btn-secondary">Back</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div id="Store" class="tabcontent">
+
+
+  <div id="Store" class="tabcontent">
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -29,19 +64,21 @@
           </div>
           <div class="card-body">
             <p><strong>Name:</strong> <span th:text="${store.store_name}"></span></p>
-            <p><strong>Address:</strong> <span th:text="${store.address1}"></span><br>
+            <p><strong>Address:</strong><br>
+              <span th:text="${store.address1}"></span><br>
               <span th:text="${store.address2}"></span><br>
               <span th:text="${store.address3}"></span></p>
             <p><strong>Category:</strong> <span th:text="${store.category}"></span></p>
             <p><strong>Phone:</strong> <span th:text="${store.phone}"></span></p>
             <p><strong>Open Time:</strong> <span th:text="${store.open_time}"></span></p>
             <p><strong>Close Time:</strong> <span th:text="${store.close_time}"></span></p>
-            <p><strong>Deliver Time:</strong> <span th:text="${store.deliver_time}"></span></p>
+            <p><strong>Deliver Time(분):</strong> <span th:text="${store.deliver_time}"></span></p>
             <p><strong>Store Info:</strong> <span th:text="${store.store_info}"></span></p>
           </div>
           <div class="card-footer">
-            <a href="/store/editStore" class="btn btn-primary">Edit</a>
+            <a href="/store/edit" class="btn btn-primary">Edit</a>
             <button onclick="confirmDelete()" class="btn btn-danger">Delete</button>
+            <a href="/store" class="btn btn-secondary">Back</a>
           </div>
         </div>
       </div>

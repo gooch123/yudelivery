@@ -4,9 +4,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seproject.yudelivery.dto.BasketDTO;
-import seproject.yudelivery.dto.OrderDTO;
+import seproject.yudelivery.dto.OrderViewDTO;
 import seproject.yudelivery.dto.OrderFoodDTO;
+import seproject.yudelivery.dto.OrderForm;
 import seproject.yudelivery.entity.*;
 import seproject.yudelivery.repository.BasketRepository;
 import seproject.yudelivery.repository.OrderFoodRepository;
@@ -32,7 +32,13 @@ public class OrderService {
         UserEntity customer = basket.getCustomer();
         Date date = new Date();
         long now_date = date.getTime();
-        OrderEntity order = new OrderEntity(store, customer, new java.sql.Date(now_date));
+
+        int totalPrice = 0;
+        for (BasketFoodEntity basketFood : basketFoods) {
+            totalPrice += basketFood.getTotalPrice();
+        }
+
+        OrderEntity order = new OrderEntity(store, customer, new java.sql.Date(now_date),totalPrice);
         orderRepository.save(order);
         for (BasketFoodEntity basketFood : basketFoods) {
             OrderFoodEntity orderFoodEntity = new OrderFoodEntity(order, basketFood.getFood(), basketFood.getFood_quantity());
@@ -45,10 +51,17 @@ public class OrderService {
     }
 
     // 사용자 주문 조회
-    public List<OrderDTO> getOrdersByUserId(Long customerId){
+    public List<OrderViewDTO> getOrderViewList(Long customerId){
         List<OrderEntity> orders = orderRepository.findAllByCustomer_Id(customerId);
-        //return convertOrderListToDTO(orders);
-        return null; // 임시 (지우기)
+        List<OrderViewDTO> orderViewDTOList = new ArrayList<>();
+        for (OrderEntity order : orders) {
+            orderViewDTOList.add(new OrderViewDTO(
+                    order.getId(),
+                    order.getStore().getStore_name(),
+                    order.getOrder_time(),
+                    order.getTotalPrice()));
+        }
+        return orderViewDTOList;
     }
 
     //사용자 주문의 음식들 조회
@@ -59,19 +72,11 @@ public class OrderService {
             orderFoodDTOList.add(new OrderFoodDTO(
                     orderFoodEntity.getFood().getId(),
                     orderFoodEntity.getFood().getFood_name(),
+                    orderFoodEntity.foodsPrice(),
                     orderFoodEntity.getQuantity()
             ));
         }
         return orderFoodDTOList;
-    }
-
-    // 상세 주문 조회
-    public OrderDTO getOrderDetail(Long orderId) {
-        OrderEntity order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new EntityNotFoundException("주문을 찾을 수 없습니다."));
-
-        //return convertOrderToDTO(order);
-        return null; // 임시(지우기)
     }
 
     // 주소 변경

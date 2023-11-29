@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
     List<ReviewEntity> findAllByStoreId(Long storeId);
+    List<ReviewEntity> findAllByCustomer_Id(Long customerId);
     Optional<ReviewEntity> findById(Long id);
 
     default ReviewEntity saveNewReview(ReviewEntity review) {
