@@ -23,7 +23,6 @@ import seproject.yudelivery.service.UserService;
 import java.util.List;
 
 @Controller
-@Transactional // 테스트용 어노테이션
 @RequiredArgsConstructor
 public class CustomerController {
 
@@ -31,8 +30,6 @@ public class CustomerController {
     private final StoreService storeService;
     private final ReviewService reviewService;
     private final UserService userService;
-    @Autowired //테스트용
-    private EntityManager em;
 
     /**
      * 주문내역(완료) 출력
@@ -124,29 +121,30 @@ public class CustomerController {
     }
 
     @GetMapping("/info/update")
-    public String editInfo(@SessionAttribute(name = "user",required = false) UserEntity user, Model model){
+    public String editInfoForm(@SessionAttribute(name = "user",required = false) UserEntity user, Model model){
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
 //            return null;
 //        }
 //        Long userId = user.getId();
 
-        //테스트용이므로 나중에 지울 것
-        CustomerEntity customer = new CustomerEntity();
-        customer.setCustomer_name("임시");
-        customer.setUserId("goo");
-        customer.setPassword("123");
-        customer.setPhone("22222");
-        customer.setEmail("gooooo");
-        customer.setUsername("sssss");
-        customer.setNickname("qwerq");
-        customer.setCustomer_address("대구");
-        customer.setCustomer_birthdate(null);
-        em.persist(customer);
+        Long userId = 1L;
 
-        UpdateCustomerForm form = userService.updateViewForm(customer.getId());
+        UpdateCustomerForm form = userService.updateViewForm(userId);
         model.addAttribute("form",form);
 
         return "customer/info/updateInfoForm";
+    }
+
+    @PostMapping("/info/update")
+    public String editInfo(@ModelAttribute("form") UpdateCustomerForm form){
+//        if(user == null || user.getRole() != UserRole.CUSTOMER){
+//            return null;
+//        }
+//        Long userId = user.getId();
+
+        userService.updateCustomer(form);
+
+        return "redirect:/info/update";
     }
 
 }

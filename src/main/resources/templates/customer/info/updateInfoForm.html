@@ -98,22 +98,22 @@
                                         </div>
                                         <div class="form-group">
                                             <label th:for="address">주소</label>
-                                            <input type="number" th:field="*{address}" class="form-control"
-                                                   placeholder="주소을 입력하세요" />
+                                            <input type="text" th:field="*{address}" class="form-control"
+                                                   placeholder="주소를 입력하세요" />
                                         </div>
                                         <div class="form-group">
                                             <label th:for="phone">전화번호</label>
-                                            <input type="number" th:field="*{phone}" class="form-control" placeholder="전화번호를 입력하세요" />
+                                            <input type="text" th:field="*{phone}" class="form-control" placeholder="전화번호를 입력하세요" />
                                         </div>
                                         <div class="form-group">
                                             <label th:for="password">비밀번호</label>
-                                            <input type="text" th:field="*{password}" class="form-control"
+                                            <input type="password" th:field="*{password}" class="form-control"
                                                    placeholder="비밀번호를 입력하세요" />
                                         </div>
                                         <div class="form-group">
-                                            <label th:for="email">비밀번호</label>
+                                            <label th:for="email">이메일</label>
                                             <input type="text" th:field="*{email}" class="form-control"
-                                                   placeholder="비밀번호를 입력하세요" />
+                                                   placeholder="이메일을 입력하세요" />
                                         </div>
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </form>

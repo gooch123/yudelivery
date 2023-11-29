@@ -10,7 +10,7 @@ import java.sql.Date;
 
 @Entity
 @Getter @Setter
-@DiscriminatorValue("Customer")
+@DiscriminatorValue(value = "Customer")
 @ToString
 public class CustomerEntity extends UserEntity{
 
