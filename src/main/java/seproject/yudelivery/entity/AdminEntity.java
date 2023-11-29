@@ -1,9 +1,6 @@
 package seproject.yudelivery.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -12,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class AdministratorEntity {
+public class AdminEntity {
     @Id @GeneratedValue
     @Column(name = "report_target_id") // 리뷰의 id 외래키
     private Long id;
