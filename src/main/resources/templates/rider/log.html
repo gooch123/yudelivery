@@ -19,28 +19,28 @@
         main {
             text-align: center;
             background-color: white;
-            padding: 40px; /* Increased padding for a larger form */
+            padding: 40px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         label {
             display: block;
-            margin-bottom: 15px; /* Increased margin for a larger form */
+            margin-bottom: 15px;
             font-weight: bold;
         }
 
         input {
             width: 100%;
-            padding: 10px; /* Increased padding for larger input fields */
-            margin-bottom: 20px; /* Increased margin for larger input fields */
+            padding: 10px;
+            margin-bottom: 20px;
             box-sizing: border-box;
         }
 
         button {
             background-color: #333;
             color: white;
-            padding: 12px; /* Increased padding for a larger button */
+            padding: 12px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -67,7 +67,6 @@
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
 
-        // Simple authentication logic (replace with your actual authentication logic)
         if (username === "rider" && password === "1234") {
             alert("로그인 성공!");
             window.location.href = "main.html";
