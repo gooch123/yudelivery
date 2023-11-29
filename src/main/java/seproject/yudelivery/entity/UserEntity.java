@@ -10,6 +10,7 @@ import seproject.yudelivery.dto.UserRole;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class UserEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +34,7 @@ public class UserEntity {
     @Column(nullable = false)
     private String email;
 
+    @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
 }

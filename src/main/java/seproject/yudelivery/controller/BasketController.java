@@ -1,7 +1,9 @@
 package seproject.yudelivery.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +38,6 @@ public class BasketController {
         model.addAttribute("list",basketDTOList);
         model.addAttribute("store",basketStoreName);
 
-
         return "customer/basket/main";
     }
 
@@ -59,6 +60,13 @@ public class BasketController {
     }
 
     //장바구니 추가 기능 구현
+    @PostMapping("/{id}/addBasket")
+    public String addFoodToBasket(
+            @PathVariable(name = "id") Long foodId,
+            @SessionAttribute(name = "user",required = false)UserEntity user, HttpServletRequest request){
+        basketService.addFoodToBasket(foodId,1,user.getId());
 
+        return "redirect:" + request.getRequestURI();
+    }
 
 }

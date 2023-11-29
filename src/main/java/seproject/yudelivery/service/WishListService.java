@@ -2,6 +2,7 @@ package seproject.yudelivery.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.yaml.snakeyaml.reader.StreamReader;
 import seproject.yudelivery.dto.WishListDTO;
 import seproject.yudelivery.entity.CustomerEntity;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class WishListService {
 
     private final WishListRepository wishListRepository;

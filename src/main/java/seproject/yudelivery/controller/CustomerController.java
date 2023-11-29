@@ -1,27 +1,38 @@
 package seproject.yudelivery.controller;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import seproject.yudelivery.dto.CustomerReviewDTO;
 import seproject.yudelivery.dto.OrderFoodDTO;
 import seproject.yudelivery.dto.OrderViewDTO;
+import seproject.yudelivery.dto.UpdateCustomerForm;
+import seproject.yudelivery.entity.CustomerEntity;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.service.OrderService;
 import seproject.yudelivery.service.ReviewService;
 import seproject.yudelivery.service.StoreService;
+import seproject.yudelivery.service.UserService;
 
 import java.util.List;
 
 @Controller
+@Transactional // 테스트용 어노테이션
 @RequiredArgsConstructor
 public class CustomerController {
 
     private final OrderService orderService;
     private final StoreService storeService;
     private final ReviewService reviewService;
+    private final UserService userService;
+    @Autowired //테스트용
+    private EntityManager em;
 
     /**
      * 주문내역(완료) 출력
@@ -97,7 +108,7 @@ public class CustomerController {
         return "redirect:/info/review";
     }
 
-    @GetMapping("store/{storeId}")
+    @GetMapping("/store/{storeId}")
     public String storeDetail(@PathVariable Long storeId, Model model){
         StoreEntity detail = storeService.getStoreDetail(storeId);
         model.addAttribute("store", detail);
@@ -110,6 +121,32 @@ public class CustomerController {
         List<StoreEntity> searchResult = storeService.searchStores(keyword);
         model.addAttribute("searchResult", searchResult);
         return "store/search"; //템플릿 만들기
+    }
+
+    @GetMapping("/info/update")
+    public String editInfo(@SessionAttribute(name = "user",required = false) UserEntity user, Model model){
+//        if(user == null || user.getRole() != UserRole.CUSTOMER){
+//            return null;
+//        }
+//        Long userId = user.getId();
+
+        //테스트용이므로 나중에 지울 것
+        CustomerEntity customer = new CustomerEntity();
+        customer.setCustomer_name("임시");
+        customer.setUserId("goo");
+        customer.setPassword("123");
+        customer.setPhone("22222");
+        customer.setEmail("gooooo");
+        customer.setUsername("sssss");
+        customer.setNickname("qwerq");
+        customer.setCustomer_address("대구");
+        customer.setCustomer_birthdate(null);
+        em.persist(customer);
+
+        UpdateCustomerForm form = userService.updateViewForm(customer.getId());
+        model.addAttribute("form",form);
+
+        return "customer/info/updateInfoForm";
     }
 
 }
