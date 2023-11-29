@@ -55,7 +55,7 @@ public class OrderService {
         return order;
     }
 
-    // 사용자 주문 조회
+    // 사용자 주문 조회 - 완료된 주문
     public List<OrderViewDTO> getOrderViewList(Long customerId){
         List<OrderEntity> orders = orderRepository.findAllByCustomer_Id(customerId);
         List<OrderViewDTO> orderViewDTOList = new ArrayList<>();

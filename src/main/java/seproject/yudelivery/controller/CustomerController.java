@@ -1,6 +1,5 @@
 package seproject.yudelivery.controller;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +15,12 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/info")
-public class CustomerInfoController {
+public class CustomerController {
 
     private final OrderService orderService;
     private final ReviewService reviewService;
 
-    @GetMapping("/orderList")
+    @GetMapping("/info/orderList")
     public String orderList(@SessionAttribute(name = "user",required = false) UserEntity user, Model model){
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
 //            return null;
@@ -36,7 +34,7 @@ public class CustomerInfoController {
         return "info/orderList";
     }
 
-    @GetMapping("/orderDetail/{id}")
+    @GetMapping("/info/orderDetail/{id}")
     public String orderDetail(
             Model model,
             @SessionAttribute(name = "user",required = false) UserEntity user,
@@ -49,7 +47,7 @@ public class CustomerInfoController {
         return "info/orderDetail";
     }
 
-    @GetMapping("/review")
+    @GetMapping("/info/review")
     public String reviewList(
             @SessionAttribute(name = "user",required = false) UserEntity user,
             Model model){
@@ -63,7 +61,7 @@ public class CustomerInfoController {
         return "info/reviewList";
     }
 
-    @PostMapping("/review/{id}/delete")
+    @PostMapping("/info/review/{id}/delete")
     public String deleteReview(@PathVariable("id") Long reviewId){
         reviewService.deleteReview(reviewId);
         return "redirect:/info/review";

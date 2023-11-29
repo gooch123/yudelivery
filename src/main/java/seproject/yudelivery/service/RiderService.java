@@ -24,7 +24,7 @@ public class RiderService {
 
     // 배달완료로 상태 변경
     public void completeDelivery(Long riderId) {
-        riderRepository.updateDeliveryStatusToDelivered(riderId);
+//        riderRepository.updateDeliveryStatusToDelivered(riderId); //에러남 수정 필요
     }
 
     // 추가
