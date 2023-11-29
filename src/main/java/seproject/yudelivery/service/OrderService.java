@@ -131,14 +131,29 @@ public class OrderService {
         return orderViewDTOList;
     }
 
-    /**
-     * 주문 거절
-     */
+    //주문 거절
     public void rejectOrder(Long orderId){
         OrderEntity order = orderRepository.findById(orderId).orElse(null);
         order.changeStatus(OrderStatus.CANCEL);
     }
 
+    //주문 수락
+    public void acceptOrder(Long orderId){
+        OrderEntity order = orderRepository.findById(orderId).orElse(null);
+        order.changeStatus(OrderStatus.COOKING);
+    }
+
+    //주문 배달 중
+    public void deliverOrder(Long orderId){
+        OrderEntity order = orderRepository.findById(orderId).orElse(null);
+        order.changeStatus(OrderStatus.DELIVERING);
+    }
+
+    //배달 완료
+    public void completeOrder(Long orderId){
+        OrderEntity order = orderRepository.findById(orderId).orElse(null);
+        order.changeStatus(OrderStatus.COMPLETE);
+    }
 
     //사용자 주문의 음식들 조회
     public List<OrderFoodDTO> getOrderFoods(Long orderId){
