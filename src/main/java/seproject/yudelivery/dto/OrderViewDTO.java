@@ -15,5 +15,6 @@ public class OrderViewDTO {
     private String storeName;
     private Date order_time;
     private int totalPrice;
+    private String status;
 
 }
