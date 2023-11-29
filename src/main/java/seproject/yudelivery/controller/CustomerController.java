@@ -32,7 +32,7 @@ public class CustomerController {
 
         Long userId = 1L;
 
-        List<OrderViewDTO> orderList = orderService.getOrderViewList(userId);
+        List<OrderViewDTO> orderList = orderService.getCompleteOrderViewList(userId);
         model.addAttribute("orderList",orderList);
         return "info/orderList";
     }

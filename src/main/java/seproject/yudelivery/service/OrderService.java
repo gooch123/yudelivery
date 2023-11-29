@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import seproject.yudelivery.dto.OrderStatus;
 import seproject.yudelivery.dto.OrderViewDTO;
 import seproject.yudelivery.dto.OrderFoodDTO;
-import seproject.yudelivery.dto.OrderForm;
 import seproject.yudelivery.entity.*;
 import seproject.yudelivery.repository.BasketRepository;
 import seproject.yudelivery.repository.OrderFoodRepository;
@@ -56,8 +55,8 @@ public class OrderService {
     }
 
     // 사용자 주문 조회 - 완료된 주문
-    public List<OrderViewDTO> getOrderViewList(Long customerId){
-        List<OrderEntity> orders = orderRepository.findAllByCustomer_Id(customerId);
+    public List<OrderViewDTO> getCompleteOrderViewList(Long customerId){
+        List<OrderEntity> orders = orderRepository.findAllByCustomer_IdAndStatus(customerId,OrderStatus.COMPLETE);
         List<OrderViewDTO> orderViewDTOList = new ArrayList<>();
         for (OrderEntity order : orders) {
             orderViewDTOList.add(new OrderViewDTO(
