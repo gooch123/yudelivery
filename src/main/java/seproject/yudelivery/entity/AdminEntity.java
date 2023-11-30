@@ -10,9 +10,11 @@ import lombok.*;
 @Setter
 @Builder
 public class AdminEntity {
-    @Id @GeneratedValue
+    @Id
     @Column(name = "review_id") // 리뷰의 id 외래키
     private Long id;
+
+
 
     @Column(name = "content")
     private String content;

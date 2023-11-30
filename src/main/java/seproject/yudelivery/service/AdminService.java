@@ -3,6 +3,7 @@ package seproject.yudelivery.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import seproject.yudelivery.dto.AdminDTO;
 import seproject.yudelivery.entity.AdminEntity;
 import seproject.yudelivery.repository.AdminRepository;
 
@@ -21,6 +22,11 @@ public class AdminService {
         return adminRepository.findReviewById(reportedId);
     }
 
+    public AdminEntity createAdmin(AdminDTO adminDTO) {
+        AdminEntity admin = adminDTO.toEntity();
+        adminRepository.saveNewReview(admin);
+        return admin;
+    }
     public void deleteReviewById(Long reportedId){
         adminRepository.deleteReviewById(reportedId);
     }
