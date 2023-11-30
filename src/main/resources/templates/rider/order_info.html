@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주문 정보</title>
     <link rel="stylesheet" href="order_info.css">
+    <style>
+        /* Add your CSS styles here if needed */
+    </style>
 </head>
+
 <body>
 
 <header>
@@ -16,19 +21,22 @@
     <section id="customerInfo">
         <h2>주문자 정보</h2>
         <label for="customerName">이름:</label>
-        <p id="customerName"></p>
+        <input type="text" id="customerName" name="customerName" style="width: 250px;"><br>
 
         <label for="postalCode">우편번호:</label>
-        <p id="postalCode"></p>
+        <input type="text" id="postalCode" name="postalCode" style="width: 250px;"><br>
 
         <label for="streetAddress">주소:</label>
-        <p id="streetAddress"></p>
+        <input type="text" id="streetAddress" name="streetAddress" style="width: 250px;"><br>
 
         <label for="detailedAddress">상세주소:</label>
-        <p id="detailedAddress"></p>
+        <input type="text" id="detailedAddress" name="detailedAddress" style="width: 250px;"><br>
 
         <label for="phone">전화번호:</label>
-        <p id="phone"></p>
+        <input type="text" id="phone" name="phone" style="width: 250px;"><br>
+
+        <button onclick="updateInfo()">정보 업데이트</button>
+        <p id="updateMessage"></p>
     </section>
 </main>
 
@@ -36,5 +44,14 @@
     <p>&copy; yudelivery.</p>
 </footer>
 
+<script>
+    function updateInfo() {
+        // Add your update logic here
+        // For demonstration, let's just show a message
+        document.getElementById("updateMessage").innerHTML = "업데이트 완료!";
+    }
+</script>
+
 </body>
+
 </html>
