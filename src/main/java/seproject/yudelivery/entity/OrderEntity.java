@@ -1,16 +1,14 @@
 package seproject.yudelivery.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import seproject.yudelivery.dto.OrderStatus;
 
 import java.sql.Date;
 
 @Entity
 @Getter
+@ToString
 public class OrderEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

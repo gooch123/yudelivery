@@ -21,18 +21,13 @@
     <a th:href="@{/store/new}" class="btn btn-primary mx-2">매장 등록</a>
     <button onclick="navigateToStoreReview()" class="btn btn-secondary mx-2">리뷰 관리</button>
     <a href="javascript:void(0)" onclick="openSalesPopup()" class="btn btn-primary mx-2">매출 확인</a>
-    <button onclick="" class="btn btn-secondary mx-2">요청된 주문</button>
+    <a th:href="@{/store/order}" class="btn btn-primary mx-2">요청된 주문</a>
     <a th:href="@{/store/my}" class="btn btn-primary mx-2">매장 정보</a>
 </div>
 <script>
     function navigateToStoreReview() {
-        // 리뷰 관리 버튼 클릭 시 동작 정의 (원하는 기능 추가)
         console.log('리뷰 관리 페이지로 이동');
-        // 여기에 store_id를 동적으로 가져와서 URL에 포함시켜주세요
-        let storeId = 123; // 예시로 임의의 storeId를 설정함
-
-        // storeId를 이용하여 해당 URL로 이동
-        window.location.href = `/store/${storeId}/review`;
+        window.location.href = `/store/review`;
     }
     function openSalesPopup() {
         var popupWindow = window.open(
