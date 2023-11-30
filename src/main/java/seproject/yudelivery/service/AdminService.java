@@ -23,6 +23,10 @@ public class AdminService {
         return adminRepository.findReviewById(reportedId);
     }
 
+    public AdminEntity findAdminById(Long reportedId) {
+        return adminRepository.findAdminById(reportedId);
+    }
+
     public AdminEntity createAdmin(AdminDTO adminDTO) {
         AdminEntity admin = adminDTO.toEntity();
         adminRepository.saveNewReview(admin);

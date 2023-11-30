@@ -46,6 +46,10 @@ public class AdminRepository {
         return em.find(ReviewEntity.class, id);
     }
 
+    public AdminEntity findAdminById(Long id) {
+        return em.find(AdminEntity.class, id);
+    }
+
     @Transactional
     public void saveNewReview(AdminEntity review) {
         em.persist(review);

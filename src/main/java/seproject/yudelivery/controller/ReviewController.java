@@ -96,7 +96,7 @@ public class ReviewController {
     }
     @GetMapping("/store/review/{id}/report")
     public String reportReview(@PathVariable Long id, Model model, RedirectAttributes rttr) {
-        AdminEntity existedAdmin = adminService.findReviewById(id);
+        AdminEntity existedAdmin = adminService.findAdminById(id);
         if (existedAdmin == null) {
             Optional<ReviewEntity> optionalReview = reviewRepository.findById(id);
             ReviewEntity reviewEntity = optionalReview.orElseThrow(() -> new RuntimeException("Review not found with ID: " + id));
@@ -115,7 +115,7 @@ public class ReviewController {
         log.info("Request Report!");
         log.info(adminDTO.toString());
 
-        AdminEntity existedAdmin = adminRepository.findReviewById(id);
+        AdminEntity existedAdmin = adminRepository.findAdminById(id);
 
         if(existedAdmin == null) {
             AdminEntity admin = adminService.createAdmin(adminDTO);
