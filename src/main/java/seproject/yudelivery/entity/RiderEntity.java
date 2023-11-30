@@ -2,6 +2,8 @@ package seproject.yudelivery.entity;
 
 import jakarta.persistence.*;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 public class RiderEntity {
 
@@ -25,6 +27,8 @@ public class RiderEntity {
     @Column(name = "phone")
     private String phone;
 
-
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "customer_id")
+    private UserEntity customer;
 
 }
