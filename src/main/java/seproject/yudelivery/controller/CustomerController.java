@@ -13,12 +13,10 @@ import seproject.yudelivery.dto.OrderFoodDTO;
 import seproject.yudelivery.dto.OrderViewDTO;
 import seproject.yudelivery.dto.UpdateCustomerForm;
 import seproject.yudelivery.entity.CustomerEntity;
+import seproject.yudelivery.entity.FoodEntity;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.entity.UserEntity;
-import seproject.yudelivery.service.OrderService;
-import seproject.yudelivery.service.ReviewService;
-import seproject.yudelivery.service.StoreService;
-import seproject.yudelivery.service.UserService;
+import seproject.yudelivery.service.*;
 
 import java.util.List;
 
@@ -109,12 +107,11 @@ public class CustomerController {
     public String storeDetail(@PathVariable Long storeId, Model model){
         StoreEntity detail = storeService.getStoreDetail(storeId);
         model.addAttribute("store", detail);
-        return "store/detail"; //템플릿 만들기
+        return "store/detail";
     }
 
     @GetMapping("/store/search")
-    public String searchStores(Model model){
-        String keyword = "null";
+    public String searchStores(@RequestParam(required = false, defaultValue = "") String keyword, Model model){
         List<StoreEntity> searchResult = storeService.searchStores(keyword);
         model.addAttribute("searchResult", searchResult);
         return "store/search"; //템플릿 만들기
@@ -146,5 +143,4 @@ public class CustomerController {
 
         return "redirect:/info/update";
     }
-
 }
