@@ -11,5 +11,5 @@ public interface RiderRepository extends JpaRepository<RiderEntity, Long> {
     Optional<RiderEntity> findByCustomerId(Long customerId);
 
     // 배달 상태를 '배달완료'로 변경
-   void updateDeliveryStatusToDelivered(Long riderId);
+//   void updateDeliveryStatusToDelivered(Long riderId);
 }
