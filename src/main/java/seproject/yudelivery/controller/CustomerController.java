@@ -106,10 +106,8 @@ public class CustomerController {
     @GetMapping("/store/{storeId}")
     public String storeDetail(@PathVariable Long storeId, Model model){
         StoreEntity detail = storeService.getStoreDetail(storeId);
-        List<FoodEntity> foodList = storeService.getFoodsByStoreId(storeId);
         model.addAttribute("store", detail);
-        model.addAttribute("foodList", foodList);
-        return "store/detail"; //템플릿 만들기
+        return "store/detail";
     }
 
     @GetMapping("/store/search")
