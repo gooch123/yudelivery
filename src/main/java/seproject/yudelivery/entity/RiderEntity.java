@@ -25,7 +25,6 @@ public class RiderEntity {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "order_id")
-    private Long orderId;
+
 
 }

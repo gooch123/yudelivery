@@ -4,3 +4,4 @@ insert into food_entity(store_id,food_name,food_price,food_info,food_size) value
 insert into review_entity(store_id, customer_id,review_content, review_starpoint, comment) values ('1','1','1','1','1'),('1','1','2','2',null);
 insert into admin_entity(review_id, content) values ('1','bad comment111');
 insert into admin_entity(review_id, content) values ('2','bad comment222');
+insert into rider_entity(rider_id,delivery_status,delivery_address1,delivery_address2,delivery_address3,phone) values ('1','complete','1','1','1','010-0000-0000');
