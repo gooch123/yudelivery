@@ -16,8 +16,8 @@ public class RiderController {
 
     // 주문자 ID로 Rider 정보 가져오기
     @GetMapping("/getByorderId/{orderId}")
-    public Optional<RiderEntity> getRiderByorderId(@PathVariable Long orderId) {
-        return riderRepository.findByCustomerId(orderId);
+    public Optional<RiderEntity> getRiderByOrderId(@PathVariable Long orderId) {
+        return riderRepository.findByOrderId(orderId);
     }
 
     // 배달완료로 상태 변경
