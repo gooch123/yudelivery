@@ -22,8 +22,11 @@ public class RiderService {
     }
 
     public void completeDelivery(Long riderId) {
-        riderRepository.updateDeliveryStatusToDelivered(riderId);
+        Optional<RiderEntity> optionalRider = riderRepository.findById(riderId);
+        if (optionalRider.isPresent()) {
+            RiderEntity rider = optionalRider.get();
+            rider.markAsDelivered();
+            riderRepository.save(rider);
+        }
     }
-
-    // 추가적인 비즈니스 로직이나 메서드를 추가할 수 있습니다.
 }

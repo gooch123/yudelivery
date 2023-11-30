@@ -28,6 +28,4 @@ public class RiderController {
             riderRepository.save(rider);
         }
     }
-
-    // Add other CRUD operations as needed
 }
