@@ -25,6 +25,9 @@ public class StoreService {
         StoreEntity store = storeDTO.toEntity();
         return storeRepository.updateStore(store);
     }
+    public void updateStore(StoreEntity store) {
+        storeRepository.updateStore(store);
+    }
     public void deleteMyStore(Long user_id) {
         storeRepository.deleteMyStore(user_id);
     }

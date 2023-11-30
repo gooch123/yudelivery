@@ -132,4 +132,8 @@ public class StoreController {
         log.info("sales : " + store.getSales());
         return "/store/sales";
     }
+
+
+    //////
+
 }
