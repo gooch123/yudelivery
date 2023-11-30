@@ -7,12 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
+import seproject.yudelivery.dto.OrderFoodDTO;
+import seproject.yudelivery.dto.OrderStatus;
 import seproject.yudelivery.dto.StoreDTO;
-import seproject.yudelivery.entity.FoodEntity;
-import seproject.yudelivery.entity.StoreEntity;
-import seproject.yudelivery.entity.UserEntity;
+import seproject.yudelivery.entity.*;
 import seproject.yudelivery.repository.FoodRepository;
+import seproject.yudelivery.repository.OrderRepository;
 import seproject.yudelivery.repository.UserRepository;
+import seproject.yudelivery.service.OrderService;
 import seproject.yudelivery.service.StoreService;
 
 import java.util.List;
@@ -27,6 +29,10 @@ public class StoreController {
     private UserRepository userRepository;
     @Autowired
     private FoodRepository foodRepository;
+    @Autowired
+    private OrderRepository orderRepository;
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping// store main page
     public String storeMain() {
@@ -133,7 +139,50 @@ public class StoreController {
         return "/store/sales";
     }
 
+    @GetMapping("/order")
+    public String getOrders(Model model, HttpServletRequest request, RedirectAttributes rttr) {
+        StoreEntity store = findUserStore(request);
+        List<OrderEntity> orders = orderRepository.findAllByStore_Id(store.getId());
+        if(orders.size() == 0) {
+            rttr.addFlashAttribute("msg", "주문이 없습니다.");
+            return "redirect:/store";
+        }
+        log.info("orders : " + orders.get(0).toString());
+        log.info("order status : " + orders.get(0).getStatus());
+        model.addAttribute("orders", orders);
+        return "Order/orderStore"; // JSP 또는 Thymeleaf 페이지
+    }
 
-    //////
+    @ResponseBody
+    @GetMapping("/order/{order_id}")
+    public List<OrderFoodDTO> getOrderFoods(@PathVariable Long order_id) {
+        log.info("getOrderFoods");
+        return orderService.getOrderFoods(order_id);
+    }
 
+    @ResponseBody
+    @PostMapping("/order/{order_id}/accept")
+    public void acceptOrder(@PathVariable Long order_id, HttpServletRequest request) {
+        StoreEntity store = findUserStore(request);
+        OrderEntity order = orderRepository.findById(order_id).orElse(null);
+        order.changeStatus(OrderStatus.COOKING);
+        orderRepository.save(order);
+        store.setSales(store.getSales() + order.getTotalPrice());
+        storeService.updateStore(store);
+    }
+    @ResponseBody
+    @PostMapping("/order/{order_id}/deny")
+    public void denyOrder(@PathVariable Long order_id) {
+        OrderEntity order = orderRepository.findById(order_id).orElse(null);
+        order.changeStatus(OrderStatus.CANCEL);
+        orderRepository.save(order);
+    }
+
+    @ResponseBody
+    @PostMapping("/order/{order_id}/pickup")
+    public void pickupOrder(@PathVariable Long order_id) {
+        OrderEntity order = orderRepository.findById(order_id).orElse(null);
+        order.changeStatus(OrderStatus.DELIVERING);
+        orderRepository.save(order);
+    }
 }
