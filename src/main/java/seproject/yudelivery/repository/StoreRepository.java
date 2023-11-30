@@ -80,7 +80,7 @@ public class StoreRepository {
     }
 
     public List<FoodEntity> findFoodsByStoreId(Long store_id){
-        return em.createQuery("select f from FoodEntity f where f.store.id = :storeId", FoodEntity.class)
+        return em.createQuery("select f from FoodEntity f where f.store.id = :store_id", FoodEntity.class)
                 .setParameter("store_id", store_id)
                 .getResultList();
     }
