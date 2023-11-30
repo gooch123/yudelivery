@@ -1,17 +1,16 @@
 package seproject.yudelivery.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.*;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
-@Getter
-@Setter
-public class ReviewEntity {
-
-    @Id @GeneratedValue
+@Getter @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class ReviewEntity{
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
     private Long id;
 
@@ -21,7 +20,13 @@ public class ReviewEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "customer_id")
-    private CustomerEntity customer;
+    private UserEntity customer;
+
+    /*
+    @OneToOne
+    @JoinColumn(name = "order_id")
+    private OrderEntity order;
+     */
 
     @Column(name = "review_content")
     private String review_content;
@@ -31,6 +36,5 @@ public class ReviewEntity {
 
     @Column(name = "comment")
     private String comment;
-
 
 }

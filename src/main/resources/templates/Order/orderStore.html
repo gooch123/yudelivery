@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>yu delivery</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">주문 리스트</h3>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Food</th>
+              <th>Price</th>
+              <th>승인/거절</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+              <td th:text="${order.customer.nickname}"></td>
+              <!-- 여기서 각 주문의 음식 목록을 AJAX로 가져오고 표시할 버튼 추가 -->
+              <td>
+                <button th:onclick="getOrderFoods([[${order.id}]])" class="btn btn-info">음식 보기</button>
+                <div id="foodListContainer"></div>
+              </td>
+              <td th:text="${order.totalPrice}"></td>
+              <td>
+                  <div th:id="'orderActions-'+${order.id}" th:if="${order.status == order.status.WAIT}">
+                    <a href="#" th:onclick="acceptOrder([[${order.id}]]); return false;" class="btn btn-primary">수락</a>
+                    <a href="#" th:onclick="denyOrder([[${order.id}]]); return false;" class="btn btn-danger">거절</a>
+                  </div>
+                  <div th:id="'pickupRequest-'+${order.id}" th:if="${order.status == order.status.COOKING}">
+                    <button th:onclick="requestPickup([[${order.id}]]);" class="btn btn-secondary">픽업 요청</button>
+                  </div>
+                  <div th:id="'deliveryStatus-'+${order.id}" th:if="${order.status == order.status.DELIVERING}">
+                    배달중...
+                  </div>
+                  <div th:id="'orderComplete-'+${order.id}" th:if="${order.status == order.status.COMPLETE}">
+                    배달 완료!
+                  </div>
+                  <div th:id="'orderCanceled-'+${order.id}" th:if="${order.status == order.status.CANCEL}">
+                    취소됨
+                  </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+            <a href="/store" class="btn btn-secondary">Back</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function getOrderFoods(order_id) {
+    $.ajax({
+      url: `/store/order/${order_id}`,
+      type: 'GET',
+      success: function(orderFoods) {
+        var foodList = orderFoods.map(food =>
+                `<li>${food.foodName} - 가격: ${food.foodsPrice}, 수량: ${food.quantity}</li>`
+        ).join('');
+
+        $('#foodListContainer').html(`<ul>${foodList}</ul>`);
+      },
+      error: function(error) {
+        console.error('Error fetching order foods:', error);
+      }
+    });
+  }
+  function acceptOrder(orderId) {
+    $.ajax({
+      url: `/store/order/${orderId}/accept`,
+      type: 'POST',
+      success: function() {
+        var orderAction = document.getElementById(`orderActions-`+orderId);
+        orderAction.style.display = 'none';
+        window.location.reload();
+      },
+      error: function(error) {
+        console.error('Error accepting order:', error);
+      }
+    });
+  }
+
+  function denyOrder(orderId) {
+    $.ajax({
+      url: `/store/order/${orderId}/deny`,
+      type: 'POST',
+      success: function() {
+        var orderAction = document.getElementById(`orderActions-`+orderId);
+        orderAction.style.display = 'none';
+        window.location.reload();
+      },
+      error: function(error) {
+        console.error('Error accepting order:', error);
+      }
+    });
+  }
+
+  function requestPickup(orderId) {
+    $.ajax({
+      url: `/store/order/${orderId}/pickup`,
+      type: 'POST',
+      success: function() {
+        var pickupRequest = document.getElementById(`pickupRequest-`+orderId);
+        pickupRequest.style.display = 'none';
+        window.location.reload();
+      },
+      error: function(error) {
+        console.error('Error accepting order:', error);
+      }
+    });
+  }
+
+  function toggleVisibility(elementId, isVisible) {
+    var element = document.getElementById(elementId);
+    if (element) {
+      element.style.display = isVisible ? 'block' : 'none';
+    } else {
+      console.error('Element not found');
+    }
+  }
+</script>
+</body>
+</html>
