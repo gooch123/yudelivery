@@ -34,9 +34,8 @@ public class OrderController {
             //리다이렉트 팝업창
             return "redirect:/basket";
         }
-
         orderService.createOrder(userId);
-        return "redirect:/basket";
+        return "redirect:/info/orderStatus";
     }
 
 }

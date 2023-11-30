@@ -3,12 +3,14 @@ package seproject.yudelivery.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Currency;
 
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter @Setter
+@ToString
 public class BasketFoodEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
