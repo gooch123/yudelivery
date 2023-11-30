@@ -76,7 +76,7 @@ public class BasketRepository {
         em.remove(findBasketFood);
         List<BasketFoodEntity> basketFood = findBasketFood(userId);
         if(basketFood.size() == 0) //삭제 후 장바구니가 비었다면 장바구니에 등록된 스토어 삭제
-            findBasket(userId).setStore(null);
+            findBasket(userId).clearStore();
     }
 
     public int getFoodQuantity(Long basketFoodId){ //장바구니에 있는 음식 하나의 수량 반환

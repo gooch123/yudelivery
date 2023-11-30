@@ -115,7 +115,7 @@
                                             <input type="text" th:field="*{email}" class="form-control"
                                                    placeholder="이메일을 입력하세요" />
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit"  class="btn btn-primary">Submit</button>
                                     </form>
                                 </div> <!-- /container -->
                             </div>
@@ -135,18 +135,16 @@
 
 </body>
 <script>
-    function detail(id) {
-        var form = document.createElement("form");
-        form.setAttribute("method", "get"); form.setAttribute("action", "/info/orderDetail/" + id);
-        document.body.appendChild(form);
-        form.submit();
-    }
 
-    function reorder(id) {
-        var form = document.createElement("form");
-        form.setAttribute("method", "get"); form.setAttribute("action", "/basket/reorder" + id);
-        document.body.appendChild(form);
-        form.submit();
+    function confirmModal() {
+        if (window.confirm("정말 수정하시겠습니까 ?")) {
+            var form = document.createElement("form");
+            form.setAttribute("method", "post"); form.setAttribute("action", "/info/update");
+            document.body.appendChild(form);
+            form.submit();
+        } else {
+            window.location.href = "/info/update"
+        }
     }
 
 </script>

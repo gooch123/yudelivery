@@ -2,15 +2,12 @@ package seproject.yudelivery.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seproject.yudelivery.dto.BasketDTO;
-import seproject.yudelivery.dto.OrderForm;
 import seproject.yudelivery.entity.*;
-import seproject.yudelivery.repository.BasketRepository;
-import seproject.yudelivery.repository.FoodRepository;
-import seproject.yudelivery.repository.StoreRepository;
-import seproject.yudelivery.repository.UserRepository;
+import seproject.yudelivery.repository.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +15,15 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class BasketService {
 
     private final BasketRepository basketRepository;
     private final FoodRepository foodRepository;
     private final StoreRepository storeRepository;
-    private final UserRepository userRepository;
+    private final OrderFoodRepository orderFoodRepository;
+    private final OrderRepository orderRepository;
+
 
     /**
      * @return 특정 유저의 장바구니 목록
@@ -62,6 +62,8 @@ public class BasketService {
         StoreEntity store = storeRepository.findStoreById(storeId);
         BasketEntity basket = basketRepository.findBasket(userId);
         BasketFoodEntity basketFood = new BasketFoodEntity(food, basket, quantity);
+        log.info("basketFood.id = " + basketFood.getFood().getId() +
+                "basketFood.id.name" + basketFood.getFood().getFood_name());
         try {
             basketRepository.addFood(basketFood,userId,store);
         } catch (Exception e) {
@@ -100,17 +102,22 @@ public class BasketService {
             return basket.getStore().getStore_name();
     }
 
-    public OrderForm basketToOrder(Long userId){
-        StoreEntity store = basketRepository.findBasket(userId).getStore();
-        UserEntity userEntity = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 유저가 없습니다."));
-        return new OrderForm((CustomerEntity) userEntity,store);
-    }
-
     /**
      * 장바구니 초기화
      */
     public void clearBasket(Long userId) {
         basketRepository.clear(userId);
+    }
+
+    /**
+     * 이전 주문 다시 장바구니에 담기
+     */
+    @Transactional
+    public void reorder (Long orderId) throws IllegalStateException{
+        List<OrderFoodEntity> orderFoodList = orderFoodRepository.findAllByOrder_Id(orderId);
+        OrderEntity order = orderRepository.findById(orderId).orElse(null);
+        for (OrderFoodEntity orderFood : orderFoodList) {
+            addFoodToBasket(orderFood.getFood().getId(),orderFood.getQuantity(),order.getCustomer().getId());
+        }
     }
 }
