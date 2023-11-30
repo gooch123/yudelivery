@@ -131,6 +131,9 @@ public class CustomerController {
         return "store/search"; //템플릿 만들기
     }
 
+    /**
+     * 고객 정보 수정
+     */
     @GetMapping("/info/update")
     public String editInfoForm(@SessionAttribute(name = "user",required = false) UserEntity user, Model model){
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
@@ -169,6 +172,9 @@ public class CustomerController {
         return showMessageAndRedirect(messageDTO,model);
     }
 
+    /**
+     * 리다이렉트 메시지 창
+     */
     private String showMessageAndRedirect(final MessageDTO params, Model model){
         model.addAttribute("params",params);
         return "common/redirectMessage";

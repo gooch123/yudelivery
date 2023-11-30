@@ -1,5 +1,6 @@
 package seproject.yudelivery.repository;
 
+import jakarta.transaction.Transactional;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,9 @@ public class AdminRepository {
     public AdminEntity findReviewById(Long reportedId) {
         return em.find(AdminEntity.class, reportedId);
     }
+
+    @Transactional
+    public void saveNewReview(AdminEntity review) { em.persist(review); }
 
     public void deleteReviewById(Long reportedId){
         AdminEntity review = findReviewById(reportedId);
