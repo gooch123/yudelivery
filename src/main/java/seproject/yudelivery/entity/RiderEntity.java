@@ -31,7 +31,6 @@ public class RiderEntity {
     @JoinColumn(name = "customer_id")
     private UserEntity customer;
 
-    // Constructors, getters, and setters
 
     public RiderEntity() {
     }
@@ -49,6 +48,7 @@ public class RiderEntity {
         this.deliveryStatus = deliveryStatus;
     }
 
-    // Getters and Setters
-    // ...
+    public void markAsDelivered() {
+        this.deliveryStatus = "DELIVERED";
+    }
 }
