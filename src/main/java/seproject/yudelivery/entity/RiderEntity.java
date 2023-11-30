@@ -2,6 +2,8 @@ package seproject.yudelivery.entity;
 
 import jakarta.persistence.*;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 public class RiderEntity {
 
@@ -25,7 +27,28 @@ public class RiderEntity {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "customer_id")
-    private Long customerId;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "customer_id")
+    private UserEntity customer;
 
+    // Constructors, getters, and setters
+
+    public RiderEntity() {
+    }
+
+    public RiderEntity(String deliveryStatus, String deliveryAddress1, String deliveryAddress2, String deliveryAddress3, String phone, UserEntity customer) {
+        this.deliveryStatus = deliveryStatus;
+        this.deliveryAddress1 = deliveryAddress1;
+        this.deliveryAddress2 = deliveryAddress2;
+        this.deliveryAddress3 = deliveryAddress3;
+        this.phone = phone;
+        this.customer = customer;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
+
+    // Getters and Setters
+    // ...
 }
