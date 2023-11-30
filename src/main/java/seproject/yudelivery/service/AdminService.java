@@ -27,7 +27,7 @@ public class AdminService {
         return adminRepository.findAdminById(reportedId);
     }
 
-    public AdminEntity createAdmin(AdminDTO adminDTO) {
+    public AdminEntity createAdmin(AdminDTO adminDTO) { //삭제 요청받은 리뷰를 admin엔티티로 보냄
         AdminEntity admin = adminDTO.toEntity();
         adminRepository.saveNewReview(admin);
         return admin;

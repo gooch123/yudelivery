@@ -94,37 +94,22 @@ public class ReviewController {
         reviewService.deleteComment(id);
         return "redirect:/store/review";
     }
-    @GetMapping("/store/review/{id}/report")
-    public String reportReview(@PathVariable Long id, Model model, RedirectAttributes rttr) {
-        AdminEntity existedAdmin = adminService.findAdminById(id);
-        if (existedAdmin == null) {
-            Optional<ReviewEntity> optionalReview = reviewRepository.findById(id);
-            ReviewEntity reviewEntity = optionalReview.orElseThrow(() -> new RuntimeException("Review not found with ID: " + id));
-            model.addAttribute("review", reviewEntity);
-            return "store/report"; // 리뷰가 존재하는 경우 신고 페이지로 이동
-        } else {
-            rttr.addFlashAttribute("msg", "이미 삭제된 리뷰입니다.");
-            return "store/close"; // 이미 삭제된 리뷰에 대한 처리 후 다른 URL로 리다이렉트
-        }
-    }
 
-
-    @PostMapping("/store/review/{id}/report/send")
-    public String requestReportReview(@PathVariable Long id, @RequestParam String report_content) {
-        AdminDTO adminDTO = new AdminDTO(id, report_content);
-        log.info("Request Report!");
-        log.info(adminDTO.toString());
-
+    @PostMapping("/store/review/{id}/report")
+    public String requestReportReview(@PathVariable Long id, @RequestParam String content, RedirectAttributes rttr) {
+        AdminDTO adminDTO = new AdminDTO(id, content);
         AdminEntity existedAdmin = adminRepository.findAdminById(id);
 
         if(existedAdmin == null) {
             AdminEntity admin = adminService.createAdmin(adminDTO);
             adminRepository.saveNewReview(admin);
+            rttr.addFlashAttribute("success_msg", "삭제 요청되었습니다.");
         } else {
-            log.info("Admin with id " + id + " not found."); // 존재하지 않는 경우 로그 찍기
+            log.info("Admin with id " + id + " not found.");
+            rttr.addFlashAttribute("fail_msg", "이미 삭제 요청한 리뷰입니다.");
         }
 
-        return "redirect:/store/review/{id}/report";
+        return "redirect:/store/review";
     }
 
 
