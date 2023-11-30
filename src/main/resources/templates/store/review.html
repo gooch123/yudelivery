@@ -13,27 +13,31 @@
 </head>
 <body>
 <h1 class="text-center mb-5">가게 리뷰 목록</h1>
-<tbody th:each="review : ${reviewList}">
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <a href="/store" class="btn btn-secondary">메인화면</a>
+            <tbody th:each="review : ${reviewList}">
+            <div class="d-flex justify-content-end mb-3">
+                <a style="color: lightgrey;" th:onclick="|openReportPopup(${review.id})|" >삭제 요청</a>
+            </div>
+            <div class="card" style="margin-bottom: 40px;">
                 <div class="card-body">
-                    <table class="table">
-                        <tr>
+                    <table class="table" >
                         <tr>
                             <td><strong th:text="${review.customer.nickname}"></strong></td>
-                        <td style="text-align: right;"><strong th:text="${'별점: '+review.review_starpoint}"></strong></td>
-                        </tr>
+                            <td style="text-align: right;"><strong th:text="${'별점: '+review.review_starpoint}"></strong></td>
                         </tr>
                         <tr>
                             <td colspan="2" th:text="${review.review_content}"></td>
                         </tr>
-                        <tr th:if="${review.comment != null}">
-                            <td colspan="2" th:text="${review.comment}"></td>
-                        </tr>
                         <tr>
                             <td colspan="2">
+                                <div th:if="${review.comment != null}" style="margin-bottom: 15px;">
+                                    <p class="card-text" style="font-weight: bold;">사장님 댓글</p>
+                                    <p class="card-text" th:text="${review.comment}"></p>
+                                </div>
                                 <div th:if="${review.comment != null}" style="display: flex; justify-content: space-between;">
                                     <input class="btn btn-primary comment-btn" type="button" value="댓글 수정" onclick="toggleCommentBox(this)">
                                     <form th:action="@{'/store/review/' + ${review.id} + '/comment_delete'}" method="post">
@@ -59,17 +63,30 @@
                     </table>
                 </div>
             </div>
+            </tbody>
         </div>
+
     </div>
 </div>
-</tbody>
+
 <script>
     function toggleCommentBox(btn) {
         const commentBox = btn.parentElement.parentElement.parentElement.nextElementSibling;
         commentBox.classList.toggle('hidden');
         btn.nextElementSibling.querySelector('.delete-btn').classList.toggle('hidden');
     }
-</script>
 
+    function openReportPopup(review_id) {
+        var popupWindow = window.open(
+            '/store/review/' + review_id + '/report',
+            'ReportPopup', // 팝업 창의 이름
+            'width=600,height=400,left=200,top=200' // 창 크기 및 위치
+        );
+
+        if (window.focus) {
+            popupWindow.focus();
+        }
+    }
+</script>
 </body>
 </html>
