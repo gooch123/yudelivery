@@ -7,8 +7,26 @@ document.addEventListener('DOMContentLoaded', function () {
         const orderID = document.getElementById('orderID').value;
         const status = document.getElementById('status').value;
 
-        // 여기에서 서버로 상태 업데이트 요청을 보내는 코드를 추가
-        // 실제로는 백엔드 서버와 통신하여 데이터를 업데이트
-        console.log(`주문 ID: ${orderID}, 상태: ${status}`);
+        // Fetch API를 사용하여 서버로 상태 업데이트 요청 보내기
+        fetch(`/api/updateOrderStatus/${orderID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: status }),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 서버 응답을 기반으로 추가적인 작업 수행
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     });
 });
