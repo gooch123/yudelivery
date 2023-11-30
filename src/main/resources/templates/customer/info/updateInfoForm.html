@@ -119,7 +119,7 @@
                                             <input type="text" th:field="*{phone}" class="form-control"
                                                    th:errorclass="field-error"
                                                    placeholder="전화번호를 입력하세요" />
-                                            <div class="field-error" th:errors="*{address}">
+                                            <div class="field-error" th:errors="*{phone}">
                                                 전화번호는 필수 입력입니다.
                                             </div>
                                         </div>
@@ -128,7 +128,7 @@
                                             <input type="password" th:field="*{password}" class="form-control"
                                                    th:errorclass="field-error"
                                                    placeholder="비밀번호를 입력하세요" />
-                                            <div class="field-error" th:errors="*{address}">
+                                            <div class="field-error" th:errors="*{password}">
                                                 비밀번호는 필수 입력입니다.
                                             </div>
                                         </div>
@@ -137,7 +137,7 @@
                                             <input type="text" th:field="*{email}" class="form-control"
                                                    placeholder="이메일을 입력하세요" />
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-primary mt-3">수정</button>
                                     </form>
                                 </div> <!-- /container -->
                             </div>
