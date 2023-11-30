@@ -113,8 +113,7 @@ public class CustomerController {
     }
 
     @GetMapping("/store/search")
-    public String searchStores(Model model){
-        String keyword = "null";
+    public String searchStores(@RequestParam(required = false, defaultValue = "") String keyword, Model model){
         List<StoreEntity> searchResult = storeService.searchStores(keyword);
         model.addAttribute("searchResult", searchResult);
         return "store/search"; //템플릿 만들기
@@ -146,5 +145,4 @@ public class CustomerController {
 
         return "redirect:/info/update";
     }
-
 }

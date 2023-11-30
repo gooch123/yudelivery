@@ -40,12 +40,12 @@ public class StoreService {
 
     public StoreEntity getStoreDetail(Long store_id){
         return storeRepository.findStoreDetail(store_id);
-    }
+    } // Cheon
 
     public List<StoreEntity> searchStores(String Keyword) {
         return storeRepository.findStoreByKeyword(Keyword);
-    }
+    } // Cheon
 
-    public List<FoodEntity> getFoodsByStoreId(Long store_id) {return storeRepository.findFoodsByStoreId(store_id); }
+    public List<FoodEntity> getFoodsByStoreId(Long store_id) {return storeRepository.findFoodsByStoreId(store_id); } // Cheon
 
 }
