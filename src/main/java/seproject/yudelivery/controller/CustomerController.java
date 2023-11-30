@@ -3,15 +3,17 @@ package seproject.yudelivery.controller;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import seproject.yudelivery.dto.CustomerReviewDTO;
-import seproject.yudelivery.dto.OrderFoodDTO;
-import seproject.yudelivery.dto.OrderViewDTO;
-import seproject.yudelivery.dto.UpdateCustomerForm;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import seproject.yudelivery.dto.*;
 import seproject.yudelivery.entity.CustomerEntity;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.entity.UserEntity;
@@ -19,17 +21,25 @@ import seproject.yudelivery.service.OrderService;
 import seproject.yudelivery.service.ReviewService;
 import seproject.yudelivery.service.StoreService;
 import seproject.yudelivery.service.UserService;
+import seproject.yudelivery.validator.CustomerValidator;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class CustomerController {
 
     private final OrderService orderService;
     private final StoreService storeService;
     private final ReviewService reviewService;
     private final UserService userService;
+    private final CustomerValidator validator;
+
+    @InitBinder("UpdateCustomerForm")
+    public void init(WebDataBinder dataBinder){
+        dataBinder.addValidators(validator);
+    }
 
     /**
      * 주문내역(완료) 출력
@@ -136,15 +146,31 @@ public class CustomerController {
     }
 
     @PostMapping("/info/update")
-    public String editInfo(@ModelAttribute("form") UpdateCustomerForm form){
+    public String editInfo(
+            @Validated @ModelAttribute("form") UpdateCustomerForm form,
+            BindingResult bindingResult,
+            Model model){
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
 //            return null;
 //        }
 //        Long userId = user.getId();
+        log.info("object = {}",bindingResult.getObjectName());
+        log.info("target = {}",bindingResult.getTarget());
+        
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}",bindingResult);
+            return "customer/info/updateInfoForm";
+        }
 
         userService.updateCustomer(form);
+        MessageDTO messageDTO = new MessageDTO("정보 수정을 완료했습니다", "/info/update", RequestMethod.GET, null);
 
-        return "redirect:/info/update";
+        return showMessageAndRedirect(messageDTO,model);
+    }
+
+    private String showMessageAndRedirect(final MessageDTO params, Model model){
+        model.addAttribute("params",params);
+        return "common/redirectMessage";
     }
 
 }
