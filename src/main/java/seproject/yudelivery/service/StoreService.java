@@ -2,8 +2,10 @@ package seproject.yudelivery.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.Store;
 import org.springframework.stereotype.Service;
 import seproject.yudelivery.dto.StoreDTO;
+import seproject.yudelivery.entity.FoodEntity;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.repository.StoreRepository;
 
@@ -43,5 +45,7 @@ public class StoreService {
     public List<StoreEntity> searchStores(String Keyword) {
         return storeRepository.findStoreByKeyword(Keyword);
     }
+
+    public List<FoodEntity> getFoodsByStoreId(Long store_id) {return storeRepository.findFoodsByStoreId(store_id); }
 
 }
