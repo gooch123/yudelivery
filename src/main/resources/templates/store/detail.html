@@ -31,6 +31,10 @@
         .food-table th {
             text-align: center;
         }
+
+        .food-table td {
+            padding: 6px;
+        }
     </style>
 </head>
 <body>
@@ -78,7 +82,7 @@
         <table border = "1" class="info-table">
             <tbody>
                 <tr>
-                    <th>가게 주소</th>
+                    <th style="width:256px;">가게 주소</th>
                     <th th:text="${store.address1} + ' ' + ${store.address2} + ' ' + ${store.address3}"></th>
                 </tr>
                 <tr>
