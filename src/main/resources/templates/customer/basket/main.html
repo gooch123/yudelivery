@@ -41,7 +41,7 @@
     <div class="row">
         <div class="col-md-3 mt-5">
             <div class="text-center" style="margin-bottom: 5px ">
-                <a href="/basket/main">
+                <a href="/basket">
                     <span class="material-icons">shopping_cart</span>
                 </a>
             </div>
@@ -91,7 +91,7 @@
                                 <table border="1" class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th th:text="${store}">StoreName</th>
+                                        <div th:text="${store}" class="bg-primary-subtle"></div>
                                     </tr>
                                     <tr>
                                         <th>사진</th>
@@ -128,7 +128,7 @@
                                 <div class="col-form-label" th:text="${totalPrice}">
                                     <div> 원</div>
                                 </div>
-                                <button type="submit">주문</button>
+                                <button type="button" onclick="confirmModal()">주문</button>
                             </div>
                         </div>
                     </form>
@@ -164,6 +164,16 @@
         form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/sub");
         document.body.appendChild(form);
         form.submit();
+    }
+    function confirmModal() {
+        if (window.confirm("정말 주문하시겠습니까 ?")) {
+            var form = document.createElement("form");
+            form.setAttribute("method", "post"); form.setAttribute("action", "/order");
+            document.body.appendChild(form);
+            form.submit();
+        } else {
+            window.location.href = "/basket"
+        }
     }
 </script>
 </html>

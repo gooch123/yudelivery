@@ -8,10 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import seproject.yudelivery.dto.BasketDTO;
+import seproject.yudelivery.dto.MessageDTO;
 import seproject.yudelivery.dto.UserRole;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.service.BasketService;
+import seproject.yudelivery.service.OrderService;
 import seproject.yudelivery.service.StoreService;
 
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.List;
 public class BasketController {
 
     private final BasketService basketService;
+    private final OrderService orderService;
 
     @GetMapping
     public String basketHome(Model model, @SessionAttribute(name = "user",required = false) UserEntity user){
@@ -39,6 +42,17 @@ public class BasketController {
         model.addAttribute("store",basketStoreName);
 
         return "customer/basket/main";
+    }
+
+    @PostMapping("/reorder/{id}")
+    public String reorder(@PathVariable("id") Long orderId,Model model){
+        try {
+            basketService.reorder(orderId);
+        } catch (IllegalStateException e) {
+            MessageDTO message = new MessageDTO(e.getMessage(), "/basket", RequestMethod.GET, null);
+            return showMessageAndRedirect(message,model);
+        }
+        return "redirect:/basket";
     }
 
     @PostMapping("/{id}/cancel")
@@ -67,6 +81,11 @@ public class BasketController {
         basketService.addFoodToBasket(foodId,1,user.getId());
 
         return "redirect:" + request.getRequestURI();
+    }
+
+    private String showMessageAndRedirect(final MessageDTO params,Model model){
+        model.addAttribute("params",params);
+        return "common/redirectMessage";
     }
 
 }
