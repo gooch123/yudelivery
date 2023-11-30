@@ -22,7 +22,6 @@ import seproject.yudelivery.service.OrderService;
 import seproject.yudelivery.service.ReviewService;
 import seproject.yudelivery.service.StoreService;
 import seproject.yudelivery.service.UserService;
-import seproject.yudelivery.validator.CustomerValidator;
 import seproject.yudelivery.service.*;
 
 import java.util.List;
@@ -36,12 +35,6 @@ public class CustomerController {
     private final StoreService storeService;
     private final ReviewService reviewService;
     private final UserService userService;
-    private final CustomerValidator validator;
-
-    @InitBinder("UpdateCustomerForm")
-    public void init(WebDataBinder dataBinder){
-        dataBinder.addValidators(validator);
-    }
 
     /**
      * 주문내역(완료) 출력

@@ -22,6 +22,7 @@ public class UpdateCustomerForm {
     private String phone;
     @NotBlank
     private String password;
+    @NotBlank
     private String email;
 
 }
