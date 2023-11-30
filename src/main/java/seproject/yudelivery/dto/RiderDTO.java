@@ -23,6 +23,4 @@ public class RiderDTO {
 
     @NotBlank(message = "Phone cannot be blank")
     private String phone;
-
-
 }

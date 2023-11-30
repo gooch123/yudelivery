@@ -1,4 +1,3 @@
-// RiderService.java
 package seproject.yudelivery.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +17,13 @@ public class RiderService {
         this.riderRepository = riderRepository;
     }
 
-    // 주문자 ID로 Rider 정보 가져오기
     public Optional<RiderEntity> getRiderByOrderId(Long orderId) {
         return riderRepository.findByCustomerId(orderId);
     }
 
-    // 배달완료로 상태 변경
     public void completeDelivery(Long riderId) {
         riderRepository.updateDeliveryStatusToDelivered(riderId);
     }
 
-    // 추가
+    // 추가적인 비즈니스 로직이나 메서드를 추가할 수 있습니다.
 }
