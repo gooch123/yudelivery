@@ -26,8 +26,4 @@ public class RiderDTO {
     private double latitude;
 
     private double longitude;
-
-    // 기타 필요한 필드 추가
-
-    // 생성자, setter, getter 등 필요한 메서드 추가
 }

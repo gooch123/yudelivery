@@ -8,7 +8,4 @@ import java.util.Optional;
 public interface RiderRepository extends JpaRepository<RiderEntity, Long> {
 
     Optional<RiderEntity> findByCustomerId(Long customerId);
-
-//    void updateDeliveryStatusToDelivered(Long riderId); // data JPA에서 인식 불가능한듯
-
 }
