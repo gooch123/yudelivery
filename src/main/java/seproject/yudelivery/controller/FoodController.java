@@ -37,12 +37,10 @@ public class FoodController{
         if(user == null || user.getRole() != UserRole.STORE){
             return "redirect:/login";
         }
-        log.info(foodDTO.toString());
         FoodEntity food = foodDTO.toEntity();
         StoreEntity store = storeService.getMyStore(user.getId());
         food.setStore(store);
         FoodEntity saved = foodRepository.save(food);
-        log.info(saved.toString());
         return "redirect:/store/my";
     }
 
@@ -55,11 +53,9 @@ public class FoodController{
 
     @PostMapping("/update")
     public String update(@ModelAttribute("foodDTO") FoodDTO foodDTO) {
-        log.info(foodDTO.toString());
         FoodEntity target = foodRepository.findById(foodDTO.getId()).orElse(null);
         foodDTO.setStore(target.getStore());
         FoodEntity foodEntity = foodDTO.toEntity();
-        log.info(foodEntity.toString());
         if (target != null) {
             foodRepository.save(foodEntity);
         }

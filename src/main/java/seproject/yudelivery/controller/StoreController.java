@@ -57,7 +57,6 @@ public class StoreController {
         storeDTO.setUser(user);
         StoreEntity store = storeService.createStore(storeDTO);
         rttr.addFlashAttribute("msg", "가게가 생성되었습니다.");
-        log.info(store.toString());
         return "redirect:/store/my";
     }
 
@@ -85,7 +84,6 @@ public class StoreController {
         }
         StoreEntity store = storeService.updateStore(storeDTO);
         rttr.addFlashAttribute("msg", "가게가 수정되었습니다.");
-        log.info(store.toString());
         model.addAttribute("store", store);
         return "redirect:/store/my";
     }
@@ -140,7 +138,6 @@ public class StoreController {
         }
         StoreEntity store = storeService.getMyStore(user.getId());
         model.addAttribute("sales", store.getSales());
-        log.info("sales : " + store.getSales());
         return "/store/sales";
     }
 
@@ -156,8 +153,6 @@ public class StoreController {
             rttr.addFlashAttribute("msg", "주문이 없습니다.");
             return "redirect:/store";
         }
-        log.info("orders : " + orders.get(0).toString());
-        log.info("order status : " + orders.get(0).getStatus());
         model.addAttribute("orders", orders);
         return "Order/orderStore";
     }
@@ -165,7 +160,6 @@ public class StoreController {
     @ResponseBody
     @GetMapping("/order/{order_id}")
     public List<OrderFoodDTO> getOrderFoods(@PathVariable Long order_id) {
-        log.info("getOrderFoods");
         return orderService.getOrderFoods(order_id);
     }
 
