@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주문 정보</title>
-    <link rel="stylesheet" href="order_info.css">
-    <style>
+    <link rel="stylesheet" th:href="@{/resources/order_info.css}">
+    <style th:inline="text">
         /* Add your CSS styles here if needed */
     </style>
 </head>
@@ -21,22 +21,22 @@
     <section id="customerInfo">
         <h2>주문자 정보</h2>
         <label for="customerName">이름:</label>
-        <input type="text" id="customerName" name="customerName" style="width: 250px;"><br>
+        <input type="text" id="customerName" name="customerName" style="width: 250px;" th:value="${customerName}"><br>
 
         <label for="postalCode">우편번호:</label>
-        <input type="text" id="postalCode" name="postalCode" style="width: 250px;"><br>
+        <input type="text" id="postalCode" name="postalCode" style="width: 250px;" th:value="${postalCode}"><br>
 
         <label for="streetAddress">주소:</label>
-        <input type="text" id="streetAddress" name="streetAddress" style="width: 250px;"><br>
+        <input type="text" id="streetAddress" name="streetAddress" style="width: 250px;" th:value="${streetAddress}"><br>
 
         <label for="detailedAddress">상세주소:</label>
-        <input type="text" id="detailedAddress" name="detailedAddress" style="width: 250px;"><br>
+        <input type="text" id="detailedAddress" name="detailedAddress" style="width: 250px;" th:value="${detailedAddress}"><br>
 
         <label for="phone">전화번호:</label>
-        <input type="text" id="phone" name="phone" style="width: 250px;"><br>
+        <input type="text" id="phone" name="phone" style="width: 250px;" th:value="${phone}"><br>
 
-        <button onclick="updateInfo()">정보 업데이트</button>
-        <p id="updateMessage"></p>
+        <button th:onclick="updateInfo()">정보 업데이트</button>
+        <p id="updateMessage" th:text="${updateMessage}"></p>
     </section>
 </main>
 
@@ -44,7 +44,7 @@
     <p>&copy; yudelivery.</p>
 </footer>
 
-<script>
+<script th:inline="javascript">
     function updateInfo() {
         // Get values from input fields
         var customerName = document.getElementById("customerName").value;
@@ -60,7 +60,5 @@
         document.getElementById("updateMessage").innerHTML = "업데이트 완료!";
     }
 </script>
-
 </body>
-
 </html>
