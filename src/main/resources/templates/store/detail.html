@@ -35,6 +35,19 @@
         .food-table td {
             padding: 6px;
         }
+
+        .mov-customer {
+            border: 1px solid #ccc;
+            padding: 2px;
+            margin-top: 2px;
+            display: inline-block;
+            background-color: #f2f2f2;
+        }
+
+        .mov-customer a {
+            text-decoration: none;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -100,6 +113,9 @@
                 </tr>
             </tbody>
         </table>
+        <div class="mov-customer"><p><a th:href="@{/customer}"><< 고객 페이지로</a></p></div>
+
+
     </div>
 </body>
 </html>
