@@ -8,11 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import seproject.yudelivery.dto.FoodDTO;
+import seproject.yudelivery.dto.UserRole;
 import seproject.yudelivery.entity.FoodEntity;
 import seproject.yudelivery.entity.OrderFoodEntity;
 import seproject.yudelivery.entity.StoreEntity;
+import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.repository.FoodRepository;
 import seproject.yudelivery.repository.OrderFoodRepository;
+import seproject.yudelivery.service.StoreService;
 
 
 @Slf4j
@@ -26,12 +29,17 @@ public class FoodController{
     private StoreController storeController;
     @Autowired
     private OrderFoodRepository orderFoodRepository;
+    @Autowired
+    private StoreService storeService;
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("foodDTO") FoodDTO foodDTO, HttpServletRequest request ) {
+    public String create(@ModelAttribute("foodDTO") FoodDTO foodDTO, @SessionAttribute(name = "user", required = false) UserEntity user) {
+        if(user == null || user.getRole() != UserRole.STORE){
+            return "redirect:/login";
+        }
         log.info(foodDTO.toString());
         FoodEntity food = foodDTO.toEntity();
-        StoreEntity store = storeController.findUserStore(request);
+        StoreEntity store = storeService.getStoreById(user.getId());
         food.setStore(store);
         FoodEntity saved = foodRepository.save(food);
         log.info(saved.toString());
