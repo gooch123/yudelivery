@@ -2,7 +2,6 @@ package seproject.yudelivery.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import seproject.yudelivery.entity.RiderEntity;
 
 @Data
 public class RiderDTO {
@@ -23,4 +22,12 @@ public class RiderDTO {
 
     @NotBlank(message = "Phone cannot be blank")
     private String phone;
+
+    private double latitude;
+
+    private double longitude;
+
+    // 기타 필요한 필드 추가
+
+    // 생성자, setter, getter 등 필요한 메서드 추가
 }

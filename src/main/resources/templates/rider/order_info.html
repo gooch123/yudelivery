@@ -46,7 +46,16 @@
 
 <script>
     function updateInfo() {
-        // Add your update logic here
+        // Get values from input fields
+        var customerName = document.getElementById("customerName").value;
+        var postalCode = document.getElementById("postalCode").value;
+        var streetAddress = document.getElementById("streetAddress").value;
+        var detailedAddress = document.getElementById("detailedAddress").value;
+        var phone = document.getElementById("phone").value;
+
+        // Use these values to update customer information in the database
+        // You need to implement the server-side logic to handle this update
+
         // For demonstration, let's just show a message
         document.getElementById("updateMessage").innerHTML = "업데이트 완료!";
     }
