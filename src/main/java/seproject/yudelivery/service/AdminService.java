@@ -35,4 +35,8 @@ public class AdminService {
     public void deleteReviewById(Long reportedId){
         adminRepository.deleteReviewById(reportedId);
     }
+
+    public void ignoreReviewById(Long reportedId) {
+        adminRepository.ignoreReviewById(reportedId);
+    }
 }

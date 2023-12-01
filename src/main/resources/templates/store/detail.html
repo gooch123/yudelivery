@@ -35,6 +35,19 @@
         .food-table td {
             padding: 6px;
         }
+
+        .mov-customer {
+            border: 1px solid #ccc;
+            padding: 2px;
+            margin-top: 2px;
+            display: inline-block;
+            background-color: #f2f2f2;
+        }
+
+        .mov-customer a {
+            text-decoration: none;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -66,8 +79,9 @@
                                     <td th:text="${food.food_price}"></td>
                                     <td th:text="${food.food_info}"></td>
                                     <td>
-                                        <form th:action="@{/basket/add/{food.id}(food.id=${food.id})}" method="post">
+                                        <form th:action="@{/basket/addBasket}" method="post">
                                             <input type="number" name="quantity" value="1" min="1" max="10" />
+                                            <input type="hidden" name="foodId" th:value="${food.id}">
                                             <button type="submit">담기</button>
                                         </form>
                                     </td>
@@ -99,6 +113,7 @@
                 </tr>
             </tbody>
         </table>
+        <div class="mov-customer"><p><a th:href="@{/customer}"><< 고객 페이지로</a></p></div>
     </div>
 </body>
 </html>

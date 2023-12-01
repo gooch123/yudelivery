@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface OrderFoodRepository extends JpaRepository<OrderFoodEntity,Long> {
 
     List<OrderFoodEntity> findAllByOrder_Id(Long orderId);
-
+    OrderFoodEntity findByFood_Id(Long foodId);
 }

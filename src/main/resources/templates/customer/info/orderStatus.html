@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="mt-3 col-md-6" style="height: 50px">
-            <p class="text-center fs-2 fw-bold">YU Delivery</p>
+            <p class="text-center fs-2 fw-bold" onclick="location.href='/customer'" style="cursor: pointer">YU Delivery</p>
         </div>
         <div class="col-md-3 mt-5">
             <p class="text-center fw-bold">LogOut</p>
@@ -100,7 +100,7 @@
                                     </tr>
                                     </thead>
                                     <tr th:each="list : ${orderList}"  >
-                                        <td th:text="사진">사진</td>
+                                        <td ></td>
                                         <td th:text="${list.storeName}">0</td>
                                         <td th:text="${list.order_time}">0</td>
                                         <td th:text="${list.totalPrice}">0</td>
@@ -118,14 +118,14 @@
                         </div>
                 </div>
                 <div class="col-md-2 border border-1">
-                    사용자 정보
+
                 </div>
             </div>
         </div>
 
     </div>
     <div class="container">
-        <div class="text-center">footer</div>
+        <div class="text-center">SE project</div>
     </div>
 </div>
 
