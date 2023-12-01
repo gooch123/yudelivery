@@ -9,12 +9,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import seproject.yudelivery.dto.AdminDTO;
+import seproject.yudelivery.dto.UserRole;
 import seproject.yudelivery.entity.AdminEntity;
 import seproject.yudelivery.entity.ReviewEntity;
+import seproject.yudelivery.entity.StoreEntity;
+import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.repository.AdminRepository;
 import seproject.yudelivery.repository.ReviewRepository;
 import seproject.yudelivery.service.AdminService;
 import seproject.yudelivery.service.ReviewService;
+import seproject.yudelivery.service.StoreService;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,16 +34,22 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final AdminService adminService;
 
-    public ReviewController(ReviewService reviewService, AdminService adminService) {
+    private final StoreService storeService;
+
+    public ReviewController(ReviewService reviewService, AdminService adminService, StoreService storeService) {
         this.reviewService = reviewService;
         this.adminService = adminService;
+        this.storeService = storeService;
     }
 
 
     @GetMapping("/store/review")
-    public String reviewMain(HttpServletRequest request, Model model, RedirectAttributes rttr){
-        //Long storeId = (Long) request.getSession().getAttribute("storeId");
-        Long storeId = 1L;
+    public String reviewMain(Model model, RedirectAttributes rttr, @SessionAttribute(name = "user", required = false) UserEntity user){
+        if(user == null || user.getRole() != UserRole.STORE){
+            return "redirect:/login";
+        }
+        StoreEntity storeEntity = storeService.getMyStore(user.getId());
+        Long storeId = storeEntity.getId();
         if (storeId != null) {
             List<ReviewEntity> reviewList = reviewRepository.findAllByStoreId(storeId);
             if(reviewList.isEmpty()) {
