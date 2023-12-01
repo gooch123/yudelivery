@@ -36,6 +36,15 @@ public class CustomerController {
     private final ReviewService reviewService;
     private final UserService userService;
 
+
+    @GetMapping("/customer")
+    public String customerMain(@SessionAttribute(name = "user",required = false)UserEntity user){
+//        if(user == null || user.getRole() != UserRole.CUSTOMER){
+//            return null;
+//        }
+        return "customer/main";
+    }
+
     /**
      * 주문내역(완료) 출력
      */
@@ -172,5 +181,6 @@ public class CustomerController {
         model.addAttribute("params",params);
         return "common/redirectMessage";
     }
+
 
 }
