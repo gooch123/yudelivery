@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>라이더 홈페이지</title>
-    <link rel="stylesheet" href="rider.css">
+    <link rel="stylesheet" th:href="@{/resources/rider.css}">
 </head>
 <body>
 
@@ -18,12 +18,12 @@
         <!-- 여기에 배송 목록이 표시될 부분 -->
 
         <!-- Adding a link to order information page -->
-        <p>주문자 정보: <a href="order_info.html">주문 상세보기</a></p>
+        <p>주문자 정보: <a th:href="@{/order_info.html}">주문 상세보기</a></p>
     </section>
 
     <section id="status">
         <h2>배송 상태 업데이트</h2>
-        <form id="statusForm">
+        <form id="statusForm" th:action="@{/riders/updateStatus}" method="post">
             <label for="orderID">주문 ID:</label>
             <input type="text" id="orderID" name="orderID" required>
 
@@ -38,7 +38,7 @@
         </form>
 
         <!-- 추가된 부분: 반경 5km 내 매장에서 배달 접수 및 주문 취소 -->
-        <form id="deliveryForm">
+        <form id="deliveryForm" th:action="@{/riders/acceptAndCancel}" method="post">
             <label for="orderDistance">주문 거리:</label>
             <input type="text" id="orderDistance" name="orderDistance" placeholder="주문 거리(KM)" required>
 
