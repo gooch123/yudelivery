@@ -36,4 +36,10 @@ public class AdminController {
         adminService.deleteReviewById(id);
         return "redirect:/admin/review";
     }
+
+    @GetMapping("/review/ignore/{id}")
+    public String ignoreReview(@PathVariable Long id) {
+        adminService.ignoreReviewById(id);
+        return "redirect:/admin/review";
+    }
 }

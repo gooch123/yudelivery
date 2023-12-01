@@ -19,28 +19,31 @@ public class AdminRepository {
     private final EntityManager em;
 
     public List<AdminEntity> findAllReview() {
-        Long id;
-        String content;
-        ReviewEntity reviewEntity;
-        List<ReviewEntity> reviewEntities = em.createQuery("select s from ReviewEntity s", ReviewEntity.class)
-                                              .getResultList();
-        AdminEntity adminEntity;
-        List<AdminEntity> adminEntities = new ArrayList<>();
+//        Long id;
+//        String content;
+//        ReviewEntity reviewEntity;
+//        List<ReviewEntity> reviewEntities = em.createQuery("select s from ReviewEntity s", ReviewEntity.class)
+//                                              .getResultList();
+//        AdminEntity adminEntity;
+//        List<AdminEntity> adminEntities = new ArrayList<>();
+//
+//        // findAllReview 로직
+//        Iterator<ReviewEntity> iter = reviewEntities.iterator();
+//        while(iter.hasNext()) {
+//            // reviewEntity 가져오기
+//            reviewEntity = iter.next();
+//            id = reviewEntity.getId();
+//            content = reviewEntity.getComment();
+//
+//            // reviewEntity -> adminEntity로 변환
+//            adminEntity = new AdminEntity(id, content);
+//            adminEntities.add(adminEntity);
+//        }
+//
+//        return adminEntities;
 
-        // findAllReview 로직
-        Iterator<ReviewEntity> iter = reviewEntities.iterator();
-        while(iter.hasNext()) {
-            // reviewEntity 가져오기
-            reviewEntity = iter.next();
-            id = reviewEntity.getId();
-            content = reviewEntity.getComment();
-
-            // reviewEntity -> adminEntity로 변환
-            adminEntity = new AdminEntity(id, content);
-            adminEntities.add(adminEntity);
-        }
-
-        return adminEntities;
+        return em.createQuery("select s from AdminEntity s", AdminEntity.class)
+                 .getResultList();
     }
     public ReviewEntity findReviewById(Long id) {
         return em.find(ReviewEntity.class, id);
@@ -57,10 +60,21 @@ public class AdminRepository {
 
     public void deleteReviewById(Long id) {
         ReviewEntity reviewEntity = findReviewById(id);
+        AdminEntity adminEntity = findAdminById(id);
         if (reviewEntity != null) {
             em.remove(reviewEntity);
+            em.remove(adminEntity);
         } else {
-            log.info("error : no reviewEntity.");
+            log.info("error : no ID for delete review.");
+        }
+    }
+
+    public void ignoreReviewById(Long id) {
+        AdminEntity adminEntity = findAdminById(id);
+        if(adminEntity != null) {
+            em.remove(adminEntity);
+        } else {
+            log.info("error : no ID for ignore review.");
         }
     }
 }
