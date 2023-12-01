@@ -74,13 +74,25 @@ public class BasketController {
     }
 
     //장바구니 추가 기능 구현
-    @PostMapping("/{id}/addBasket")
+    @PostMapping("/addBasket")
     public String addFoodToBasket(
-            @PathVariable(name = "id") Long foodId,
-            @SessionAttribute(name = "user",required = false)UserEntity user, HttpServletRequest request){
-        basketService.addFoodToBasket(foodId,1,user.getId());
+            @RequestParam(name = "foodId") Long foodId,
+            @SessionAttribute(name = "user",required = false)UserEntity user,
+            @RequestParam("quantity")int quantity,
+            Model model){
+//        if(user == null || user.getRole() != UserRole.CUSTOMER){
+//            return null;
+//        }
+        Long userId = 1L;
 
-        return "redirect:" + request.getRequestURI();
+        try {
+            basketService.addFoodToBasket(foodId,quantity,userId);
+        } catch (Exception e) {
+            MessageDTO messageDTO = new MessageDTO(e.getMessage(), "/basket", RequestMethod.GET, null);
+            showMessageAndRedirect(messageDTO,model);
+        }
+
+        return "redirect:/basket";
     }
 
     private String showMessageAndRedirect(final MessageDTO params,Model model){

@@ -66,8 +66,9 @@
                                     <td th:text="${food.food_price}"></td>
                                     <td th:text="${food.food_info}"></td>
                                     <td>
-                                        <form th:action="@{/basket/add/{food.id}(food.id=${food.id})}" method="post">
+                                        <form th:action="@{/basket/addBasket}" method="post">
                                             <input type="number" name="quantity" value="1" min="1" max="10" />
+                                            <input type="hidden" name="foodId" th:value="${food.id}">
                                             <button type="submit">담기</button>
                                         </form>
                                     </td>
