@@ -84,4 +84,5 @@ public class StoreRepository {
                 .setParameter("store_id", store_id)
                 .getResultList();
     }
+    //
 }
