@@ -9,18 +9,13 @@ import seproject.yudelivery.entity.UserEntity;
 public class JoinRepuest {
     @NotBlank(message = " = ")
     private String userId;
-
     @NotBlank(message = " = ")
     private String password;
-
     @NotBlank(message =  " = ")
     private String nickname;
-
     private String username;
-
     private String email;
     private String phone;
-
 
 
     public UserEntity toEntity() {

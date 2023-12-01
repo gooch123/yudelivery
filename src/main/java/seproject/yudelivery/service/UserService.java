@@ -21,6 +21,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
 
+
+
     // login id 중복체크
     public boolean checkLoginIdDuple(String userId) {
         return userRepository.existsByUserId(userId);
@@ -34,8 +36,12 @@ public class UserService {
     //회원가입기능. JoinRequest(userId, password, nickname 등)을 입력받아 UserEnity로 받아 저장
     //아이디와 닉네임 중복체크는 컨트롤러에서 진행 > 에러메세지 출력을 위해
     public void join(JoinRepuest req) {
-        userRepository.save(req.toEntity());
+        if(checkLoginIdDuple(req.getUserId()) || checkNicknameDuple(req.getNickname())) {
+            return;
+        }
+        else{userRepository.save(req.toEntity());}
     }
+
 
     //로그인기능 LoginRequest를 입력받아 userID와 password가 일치하면 UserEntity return
     //아이디가 존재하지않거나 비밀번호 틀릴 시 null return
