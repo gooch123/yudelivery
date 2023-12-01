@@ -13,6 +13,7 @@ import seproject.yudelivery.dto.StoreDTO;
 import seproject.yudelivery.entity.*;
 import seproject.yudelivery.repository.FoodRepository;
 import seproject.yudelivery.repository.OrderRepository;
+import seproject.yudelivery.repository.StoreRepository;
 import seproject.yudelivery.repository.UserRepository;
 import seproject.yudelivery.service.OrderService;
 import seproject.yudelivery.service.StoreService;
@@ -33,6 +34,8 @@ public class StoreController {
     private OrderRepository orderRepository;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private StoreRepository storeRepository;
 
     @GetMapping// store main page
     public String storeMain() {
@@ -58,6 +61,11 @@ public class StoreController {
         if(user == null) { // 로그인 안했을때 (임시)
             //return "redirect:/home";
             user = userRepository.findByUserId("admin").orElse(null);
+        }
+        StoreEntity store = storeRepository.findMyStore(user.getId());
+        if(orderRepository.findAllByStore_Id(store.getId()).size() != 0) {
+            rttr.addFlashAttribute("msg", "주문이 존재하기 때문에 삭제할 수 없습니다.");
+            return "redirect:/store";
         }
         storeService.deleteMyStore(user.getId());
         rttr.addFlashAttribute("msg", "가게가 삭제되었습니다.");
@@ -139,7 +147,7 @@ public class StoreController {
         return "/store/sales";
     }
 
-    @GetMapping("/order")
+    @GetMapping("/order") // 주문 내역 부러오기
     public String getOrders(Model model, HttpServletRequest request, RedirectAttributes rttr) {
         StoreEntity store = findUserStore(request);
         List<OrderEntity> orders = orderRepository.findAllByStore_Id(store.getId());
@@ -150,7 +158,7 @@ public class StoreController {
         log.info("orders : " + orders.get(0).toString());
         log.info("order status : " + orders.get(0).getStatus());
         model.addAttribute("orders", orders);
-        return "Order/orderStore"; // JSP 또는 Thymeleaf 페이지
+        return "Order/orderStore";
     }
 
     @ResponseBody
