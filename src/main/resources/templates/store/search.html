@@ -1,0 +1,47 @@
+<!--<!Doctype html>-->
+<!--<html lang="ko" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>가게 검색</title>-->
+<!--</head>-->
+<!--    <body>-->
+<!--        <h2>검색</h2>q-->
+<!--        <hr>-->
+<!--        <form th:action="@{/store/search}" method="get">-->
+<!--            <label for="keyword">검색어:</label>-->
+<!--            <input type="text" id="keyword" name="keyword" th:value="${keyword}" />-->
+<!--            <button type="submit">검색</button>-->
+<!--        </form>-->
+<!--        <ul th:if="${not #strings.isEmpty(keyword)} and not #lists.isEmpty(${searchResult})">-->
+<!--            <li th:each="store : ${searchResult}" th:if="${store.store_name.contains(keyword)}">-->
+<!--                <a th:href="@{'/store/' + ${store.id}}"><span th:text="${store.store_name}"></span></a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--        <p th:if="${#lists.isEmpty(searchResult) and not #strings.isEmpty(keyword)}">결과가 없습니다.</p>-->
+<!--        <p th:unless="${#lists.isEmpty(searchResult) and not #strings.isEmpty(keyword)}">가게 이름을 검색하세요.</p>-->
+<!--    </body>-->
+<!--</html>-->
+
+<!Doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가게 검색</title>
+</head>
+<body>
+<h2>가게 검색</h2>
+<hr>
+<form th:action="@{/store/search}" method="get">
+    <label for="keyword">검색어:</label>
+    <input type="text" id="keyword" name="keyword" th:value="${keyword}" />
+    <button type="submit">검색</button>
+</form>
+<ul th:each="store : ${searchResult}">
+    <li>
+        <a th:href="@{'/store/' + ${store.id}}"><span th:text="${store.store_name}"></span></a>
+    </li>
+</ul>
+</body>
+</html>
