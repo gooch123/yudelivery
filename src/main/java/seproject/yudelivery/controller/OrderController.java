@@ -25,11 +25,10 @@ public class OrderController {
 
     @PostMapping("/order")
     public String order(@SessionAttribute(name = "user",required = false)UserEntity user,Model model){
-//        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
-//        }
-//        Long userId = user.getId();
-        Long userId = 1L;
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
+        }
+        Long userId = user.getId();
 
         List<BasketDTO> basketList = basketService.getBasketList(userId);
         if(basketList.isEmpty()){
