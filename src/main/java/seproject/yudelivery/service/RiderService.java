@@ -14,10 +14,10 @@ public class RiderService {
 
     private final RiderRepository riderRepository;
 
-    @Value("${store.latitude}")
+//    @Value("${store.latitude}")
     private double storeLatitude;
 
-    @Value("${store.longitude}")
+//    @Value("${store.longitude}")
     private double storeLongitude;
 
     @Autowired
