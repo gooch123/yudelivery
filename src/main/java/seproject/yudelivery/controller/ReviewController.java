@@ -57,18 +57,25 @@ public class ReviewController {
         }
 
     }
+
+    @GetMapping("/review/create/{id}")
+    public String createReviewForm(Model model, @PathVariable("id") Long storeId){
+        model.addAttribute("id",storeId);
+        return "customer/info/addReviewForm";
+    }
+
     @PostMapping("/review/create")
-    public String createReview(HttpServletRequest request) {
+    public String createReview(
+            HttpServletRequest request,
+            @RequestParam("id") Long storeId,
+            @RequestParam("content") String content,
+            @RequestParam("starPoint") Double starPoint) {
         HttpSession session = request.getSession();
         Long customerId = (Long) session.getAttribute("customerId");
-        Long storeId = (Long) session.getAttribute("storeId");
 
-        String reviewContent = request.getParameter("review_content");
-        Double reviewStarpoint = Double.parseDouble(request.getParameter("review_starpoint"));
+        reviewService.createReview(storeId, customerId, content, starPoint);
 
-        reviewService.createReview(storeId, customerId, reviewContent, reviewStarpoint);
-
-        return "redirect:/store/review" ;
+        return "redirect:/info/review" ;
     }
 
     @PostMapping("/review/{id}/update")

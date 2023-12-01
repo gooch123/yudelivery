@@ -12,7 +12,10 @@ import seproject.yudelivery.dto.JoinRepuest;
 import seproject.yudelivery.dto.LoginRequest;
 import seproject.yudelivery.dto.MessageDTO;
 import seproject.yudelivery.dto.UserRole;
+import seproject.yudelivery.entity.BasketEntity;
+import seproject.yudelivery.entity.CustomerEntity;
 import seproject.yudelivery.entity.UserEntity;
+import seproject.yudelivery.service.BasketService;
 import seproject.yudelivery.service.UserService;
 
 @Controller
@@ -21,6 +24,7 @@ import seproject.yudelivery.service.UserService;
 public class UserController {
 
     private final UserService userService;
+    private final BasketService basketService;
 
     @GetMapping("/join")
     public String joinForm(@ModelAttribute UserEntity userEntity) {
@@ -52,16 +56,21 @@ public class UserController {
                 break;
         }
         JoinRepuest joinRepuest = new JoinRepuest(userId, password, nickname, username, email, phone,userRole);
+        Object user;
         try {
-            userService.join(joinRepuest);
+            user = userService.join(joinRepuest);
         } catch (IllegalStateException e) {
             MessageDTO messageDTO = new MessageDTO(e.getMessage(), "/join", RequestMethod.GET, null);
             return showMessageAndRedirect(messageDTO,model);
         }
 
         MessageDTO message;
-        if(userRole == UserRole.CUSTOMER)
+        if(userRole == UserRole.CUSTOMER) {
             message = new MessageDTO("회원가입에 성공하였습니다. 반드시 정보수정에서 주소를 등록해주세요 !!", "/login", RequestMethod.GET, null);
+            BasketEntity basket = new BasketEntity();
+            basket.setCustomer((CustomerEntity) user);
+            basketService.newBasket(basket);
+        }
         else
             message = new MessageDTO("회원가입에 성공하였습니다", "/login", RequestMethod.GET, null);
         return showMessageAndRedirect(message,model);

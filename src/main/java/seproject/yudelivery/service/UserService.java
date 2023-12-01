@@ -35,12 +35,14 @@ public class UserService {
 
     //회원가입기능. JoinRequest(userId, password, nickname 등)을 입력받아 UserEnity로 받아 저장
     //아이디와 닉네임 중복체크는 컨트롤러에서 진행 > 에러메세지 출력을 위해
-    public void join(JoinRepuest req) throws IllegalStateException {
+    public UserEntity join(JoinRepuest req) throws IllegalStateException {
+        UserEntity user;
         if(checkLoginIdDuple(req.getUserId())) {
             throw new IllegalStateException("중복된 아이디입니다");
         } else if (checkNicknameDuple(req.getNickname())) {
             throw new IllegalStateException("중복된 닉네임입니다");
-        } else{userRepository.save(req.toEntity());}
+        } else{user = userRepository.save(req.toEntity());}
+        return user;
     }
 
 

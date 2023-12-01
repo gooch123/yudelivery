@@ -115,4 +115,9 @@ public class BasketService {
             addFoodToBasket(orderFood.getFood().getId(),orderFood.getQuantity(),order.getCustomer().getId());
         }
     }
+
+    @Transactional
+    public void newBasket(BasketEntity basket){
+        basketRepository.saveNewBasket(basket);
+    }
 }
