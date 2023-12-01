@@ -51,12 +51,11 @@ public class BasketService {
             basketRepository.cancelFood(basketFoodId);
     }
 
-
     /**
      * 장바구니에 음식 담기
      */
     @Transactional
-    public void addFoodToBasket(Long foodId, int quantity, Long userId){
+    public void addFoodToBasket(Long foodId, int quantity, Long userId) throws IllegalStateException{
         FoodEntity food = foodRepository.findById(foodId).get();
         Long storeId = food.getStore().getId();
         StoreEntity store = storeRepository.findStoreById(storeId);
@@ -64,11 +63,7 @@ public class BasketService {
         BasketFoodEntity basketFood = new BasketFoodEntity(food, basket, quantity);
         log.info("basketFood.id = " + basketFood.getFood().getId() +
                 "basketFood.id.name" + basketFood.getFood().getFood_name());
-        try {
-            basketRepository.addFood(basketFood,userId,store);
-        } catch (Exception e) {
-            throw new IllegalStateException(e.getMessage());
-        }
+        basketRepository.addFood(basketFood,userId,store);
     }
 
     /**
