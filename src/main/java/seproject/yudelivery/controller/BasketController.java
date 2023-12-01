@@ -77,22 +77,24 @@ public class BasketController {
     @PostMapping("/addBasket")
     public String addFoodToBasket(
             @RequestParam(name = "foodId") Long foodId,
-            @SessionAttribute(name = "user",required = false)UserEntity user,
             @RequestParam("quantity")int quantity,
-            Model model){
+            @SessionAttribute(name = "user",required = false)UserEntity user,
+            Model model,
+            HttpServletRequest request){
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
 //            return null;
 //        }
         Long userId = 1L;
+        String referer = request.getHeader("Referer");
 
         try {
             basketService.addFoodToBasket(foodId,quantity,userId);
-        } catch (Exception e) {
+        } catch (IllegalStateException e) {
             MessageDTO messageDTO = new MessageDTO(e.getMessage(), "/basket", RequestMethod.GET, null);
-            showMessageAndRedirect(messageDTO,model);
+            return showMessageAndRedirect(messageDTO,model);
         }
 
-        return "redirect:/basket";
+        return "redirect:" + referer;
     }
 
     private String showMessageAndRedirect(final MessageDTO params,Model model){
