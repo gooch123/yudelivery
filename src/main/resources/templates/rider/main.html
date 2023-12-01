@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,6 +36,14 @@
 
             <button type="submit">상태 업데이트</button>
         </form>
+
+        <!-- 추가된 부분: 반경 5km 내 매장에서 배달 접수 및 주문 취소 -->
+        <form id="deliveryForm">
+            <label for="orderDistance">주문 거리:</label>
+            <input type="text" id="orderDistance" name="orderDistance" placeholder="주문 거리(KM)" required>
+
+            <button type="submit">배달 접수 및 주문 취소</button>
+        </form>
     </section>
 </main>
 
@@ -50,7 +58,7 @@
         var orderID = document.getElementById("orderID").value;
         var status = document.getElementById("status1").value;
 
-        // 예시: 서버로 요청을 보내는 부분
+        // 서버로 요청을 보내는 부분
         fetch("/riders/getByCustomerId/" + orderID)
             .then(response => response.json())
             .then(data => {
@@ -87,8 +95,28 @@
                 alert("서버와의 통신 중 오류가 발생했습니다.");
             });
     }
-</script>
 
-<script src="rider.js"></script>
+    // 추가된 부분: 서버로 반경 5km 내 매장에서 배달 접수 및 주문 취소 요청을 보내는 함수
+    document.getElementById("deliveryForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var orderDistance = document.getElementById("orderDistance").value;
+
+        // 서버로 반경 5km 내 매장에서 배달 접수 및 주문 취소 요청을 보내는 부분
+        fetch("/riders/acceptDeliveryAndCancelOrder?distance=" + orderDistance, {
+            method: "POST"
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                // 여기서는 간단하게 성공/실패 여부를 확인하고, 메시지를 표시
+                alert(data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("서버와의 통신 중 오류가 발생했습니다.");
+            });
+    });
+</script>
 </body>
 </html>

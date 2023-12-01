@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import seproject.yudelivery.dto.FoodDTO;
 import seproject.yudelivery.entity.FoodEntity;
+import seproject.yudelivery.entity.OrderFoodEntity;
 import seproject.yudelivery.entity.StoreEntity;
-import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.repository.FoodRepository;
-import seproject.yudelivery.repository.StoreRepository;
+import seproject.yudelivery.repository.OrderFoodRepository;
 
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -25,7 +25,7 @@ public class FoodController{
     @Autowired
     private StoreController storeController;
     @Autowired
-    private StoreRepository storeRepository;
+    private OrderFoodRepository orderFoodRepository;
 
     @PostMapping("/create")
     public String create(@ModelAttribute("foodDTO") FoodDTO foodDTO, HttpServletRequest request ) {
@@ -65,10 +65,14 @@ public class FoodController{
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        log.info("Deletion request received!");
-        foodRepository.findById(id).ifPresent(target -> foodRepository.delete(target));
-        return "redirect:/store/my";
+    public String delete(@PathVariable Long id, RedirectAttributes rttr) {
+        OrderFoodEntity orderFood = orderFoodRepository.findByFood_Id(id);
+        if(orderFood == null){
+            foodRepository.findById(id).ifPresent(target -> foodRepository.delete(target));
+            return "redirect:/store/my";
+        }
+        rttr.addFlashAttribute("msg", "You cannot delete the food because it is in your order.");
+        return "redirect:/store";
     }
 }
 
