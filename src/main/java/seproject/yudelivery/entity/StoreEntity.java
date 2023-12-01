@@ -28,6 +28,9 @@ public class StoreEntity {
     @OneToMany(mappedBy = "store" , cascade = CascadeType.ALL)
     private List<FoodEntity> foods = new ArrayList<>();
 
+    @OneToMany(mappedBy = "store" , cascade = CascadeType.ALL)
+    private List<ReviewEntity> reviews = new ArrayList<>();
+
     @Column(name = "store_name")
     private String store_name;
 
