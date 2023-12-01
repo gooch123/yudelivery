@@ -16,7 +16,6 @@ public class BasketRepository {
     private final EntityManager em;
 
     public void saveNewBasket(BasketEntity basket){ //고객이 회원가입할때 사용
-        if(basket.getId() != null)
             em.persist(basket);
     }
 

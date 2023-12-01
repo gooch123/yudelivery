@@ -56,9 +56,13 @@ public class UserController {
                 break;
         }
         JoinRepuest joinRepuest = new JoinRepuest(userId, password, nickname, username, email, phone,userRole);
-        Object user;
+        UserEntity user;
+        CustomerEntity customer = null;
         try {
-            user = userService.join(joinRepuest);
+            if(userRole != UserRole.CUSTOMER)
+                user = userService.join(joinRepuest);
+            else
+                customer = userService.customerJoin(joinRepuest);
         } catch (IllegalStateException e) {
             MessageDTO messageDTO = new MessageDTO(e.getMessage(), "/join", RequestMethod.GET, null);
             return showMessageAndRedirect(messageDTO,model);
@@ -66,10 +70,10 @@ public class UserController {
 
         MessageDTO message;
         if(userRole == UserRole.CUSTOMER) {
-            message = new MessageDTO("회원가입에 성공하였습니다. 반드시 정보수정에서 주소를 등록해주세요 !!", "/login", RequestMethod.GET, null);
             BasketEntity basket = new BasketEntity();
-            basket.setCustomer((CustomerEntity) user);
+            basket.setCustomer(customer);
             basketService.newBasket(basket);
+            message = new MessageDTO("회원가입에 성공하였습니다. 반드시 정보수정에서 주소를 등록해주세요 !!", "/login", RequestMethod.GET, null);
         }
         else
             message = new MessageDTO("회원가입에 성공하였습니다", "/login", RequestMethod.GET, null);
