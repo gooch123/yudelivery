@@ -45,6 +45,26 @@ public class UserService {
         return user;
     }
 
+    public CustomerEntity customerJoin(JoinRepuest req) throws IllegalStateException {
+        CustomerEntity user;
+        if(checkLoginIdDuple(req.getUserId())) {
+            throw new IllegalStateException("중복된 아이디입니다");
+        } else if (checkNicknameDuple(req.getNickname())) {
+            throw new IllegalStateException("중복된 닉네임입니다");
+        } else{
+            user = new CustomerEntity();
+            user.setUserId(req.getUserId());
+            user.setEmail(req.getEmail());
+            user.setNickname(req.getNickname());
+            user.setPhone(req.getPhone());
+            user.setRole(req.getUserRole());
+            user.setUsername(req.getUsername());
+            user.setPassword(req.getPassword());
+            customerRepository.save(user);
+        }
+        return user;
+    }
+
 
     //로그인기능 LoginRequest를 입력받아 userID와 password가 일치하면 UserEntity return
     //아이디가 존재하지않거나 비밀번호 틀릴 시 null return
