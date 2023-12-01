@@ -31,7 +31,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	//implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	//implementation 'org.springframework.boot:spring-boot-starter-log4j2' // slf4j multiple binding 오류가 일어나서 주석처리 하였습니다.
 	implementation 'org.jetbrains:annotations:24.0.0'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
