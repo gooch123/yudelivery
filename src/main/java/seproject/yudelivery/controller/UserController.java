@@ -70,10 +70,10 @@ public class UserController {
 
         MessageDTO message;
         if(userRole == UserRole.CUSTOMER) {
-            message = new MessageDTO("회원가입에 성공하였습니다. 반드시 정보수정에서 주소를 등록해주세요 !!", "/login", RequestMethod.GET, null);
             BasketEntity basket = new BasketEntity();
             basket.setCustomer(customer);
             basketService.newBasket(basket);
+            message = new MessageDTO("회원가입에 성공하였습니다. 반드시 정보수정에서 주소를 등록해주세요 !!", "/login", RequestMethod.GET, null);
         }
         else
             message = new MessageDTO("회원가입에 성공하였습니다", "/login", RequestMethod.GET, null);
