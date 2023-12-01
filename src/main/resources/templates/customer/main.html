@@ -41,13 +41,13 @@
     <div class="row">
         <div class="col-md-3 mt-5">
             <div class="text-center" style="margin-bottom: 5px ">
-                <a href="/basket/main">
+                <a href="/basket">
                     <span class="material-icons">shopping_cart</span>
                 </a>
             </div>
         </div>
         <div class="mt-3 col-md-6" style="height: 50px">
-            <p class="text-center fs-2 fw-bold">YU Delivery</p>
+            <p class="text-center fs-2 fw-bold" onclick="location.href='/customer'" style="cursor: pointer">YU Delivery</p>
         </div>
         <div class="col-md-3 mt-5">
             <p class="text-center fw-bold">LogOut</p>
@@ -91,49 +91,19 @@
                                 <table border="1" class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th th:text="${store}">StoreName</th>
-                                    </tr>
-                                    <tr>
-                                        <th>사진</th>
-                                        <th>주문 상품</th>
-                                        <th>가격</th>
-                                        <th>수량</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>검색</th>
                                     </tr>
                                     </thead>
-                                    <tr th:each="food : ${list}">
-                                        <td th:text="사진">사진</td>
-                                        <td th:text="${food.foodName}">0</td>
-                                        <td th:text="${food.foodPrice}">0</td>
-                                        <td th:text="${food.foodQuantity}">0</td>
-                                        <td><a href="#"
-                                               th:href="'javascript:add('+${food.id}+')'"
-                                               class="btn btn-outline-dark">+</a>
-                                            <a href="#"
-                                               th:href="'javascript:sub('+${food.id}+')'"
-                                               class="btn btn-outline-dark">-</a>
-                                        </td>
-                                        <td>
-                                            <a href="#"
-                                               th:href="'javascript:cancel('+${food.id}+')'"
-                                               class="btn btn-danger">X</a>
-                                        </td>
-                                        <td></td>
+                                    <tr>
+                                        <td onclick="location.href='/store/search'"
+                                            style="cursor: pointer">가게 검색</td>
                                     </tr>
                                 </table>
-                            </div>
-                            <div class="bottom-0">
-                                <div class="col-form-label" th:text="${totalPrice}">
-                                </div>
-                                <button type="submit">주문</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="col-md-2 border border-1">
-                    사용자 정보
                 </div>
             </div>
         </div>
@@ -163,6 +133,16 @@
         form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/sub");
         document.body.appendChild(form);
         form.submit();
+    }
+    function confirmModal() {
+        if (window.confirm("정말 주문하시겠습니까 ?")) {
+            var form = document.createElement("form");
+            form.setAttribute("method", "post"); form.setAttribute("action", "/order");
+            document.body.appendChild(form);
+            form.submit();
+        } else {
+            window.location.href = "/basket"
+        }
     }
 </script>
 </html>

@@ -1,11 +1,15 @@
 package seproject.yudelivery.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import seproject.yudelivery.dto.JoinRepuest;
 import seproject.yudelivery.dto.LoginRequest;
+import seproject.yudelivery.dto.UpdateCustomerForm;
+import seproject.yudelivery.entity.CustomerEntity;
 import seproject.yudelivery.entity.UserEntity;
+import seproject.yudelivery.repository.CustomerRepository;
 import seproject.yudelivery.repository.UserRepository;
 
 import java.util.Optional;
@@ -15,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
 
     // login id 중복체크
     public boolean checkLoginIdDuple(String userId) {
@@ -50,6 +55,27 @@ public class UserService {
         }
 
         return userEntity;
+    }
+
+    public CustomerEntity findCustomerById(Long userId){
+        return customerRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("해당 유저가 없습니다."));
+    }
+
+    public UpdateCustomerForm updateViewForm(Long userId){
+        CustomerEntity customer = customerRepository.findById(userId).orElse(null);
+        UpdateCustomerForm updateCustomerForm = new UpdateCustomerForm(
+                userId,
+                customer.getNickname(),
+                customer.getCustomer_address(),
+                customer.getPhone(),
+                null,
+                customer.getEmail());
+        return updateCustomerForm;
+    }
+
+    public void updateCustomer(UpdateCustomerForm form){
+        CustomerEntity customer = customerRepository.findById(form.getId()).orElse(null);
+        customer.update(form);
     }
 
 

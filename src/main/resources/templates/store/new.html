@@ -6,66 +6,85 @@
     <link rel="stylesheet" href="/css/bootstrap.css">
 </head>
 <body>
-<h2 class="text-center">Store Information Form</h2>
-<form action="/store/create" th:object="${storeDTO}" method="post" class="m-3">
-    <div class="mb-3">
-        <label for="name" class="form-label">Name:</label>
-        <input type="text" id="name" th:field="*{store_name}" name="name" maxlength="50" required class="form-control">
-    </div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Store Information Form</h2>
+                </div>
+                <div class="card-body">
+                    <form action="/store/create" th:object="${storeDTO}" method="post" class="m-3">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Store Name:</label>
+                            <input type="text" id="name" th:field="*{store_name}" name="name" maxlength="50" required class="form-control">
+                        </div>
 
-    <div class="mb-3">
-        <label for="address1" class="form-label">Address:</label>
-        <div class="input-group">
-            <input type="text" id="address1" th:field="*{address1}" name="address1" placeholder="우편번호" class="form-control">
-            <button type="button" onclick="execDaumPostcode()" class="btn btn-outline-secondary">우편번호 찾기</button>
+                        <div class="mb-3">
+                            <label for="address1" class="form-label">Address:</label><br>
+                            <div class="input-group">
+                                <input type="text" id="address1" th:field="*{address1}" name="address1" placeholder="우편번호" class="form-control">
+                                <button type="button" onclick="execDaumPostcode()" class="btn btn-outline-secondary">우편번호 찾기</button>
+                            </div>
+                            <input type="text" id="address2" th:field="*{address2}" name="address2" placeholder="주소" class="form-control mt-2">
+                            <input type="text" id="address3" th:field="*{address3}" name="address3" placeholder="상세주소" class="form-control mt-2">
+                            <input type="text" id="extraAddress" name="extraAddress" placeholder="참고항목" class="form-control mt-2">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category:</label>
+                            <select id="category" th:field="*{category}" name="category" class="form-control">
+                                <option value="한식">한식</option>
+                                <option value="중식">중식</option>
+                                <option value="양식">양식</option>
+                                <option value="일식">일식</option>
+                            </select>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="openTime" class="form-label">Open Time:</label>
+                            <input type="time" id="openTime" th:field="*{open_time}" name="open_time" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="closeTime" class="form-label">Close Time:</label>
+                            <input type="time" id="closeTime" th:field="*{close_time}" name="close_time" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="deliverTime" class="form-label">Deliver Time(분):</label>
+                            <input type="text" id="deliverTime" th:field="*{deliver_time}" name="deliver_time" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone1" class="form-label">Phone:</label>
+                            <div class="input-group">
+                                <input type="tel" id="phone1" name="phone1" maxlength="3" class="form-control" oninput="handlePhoneInput(event, 'phone2')">
+                                <span class="input-group-text">-</span>
+                                <input type="tel" id="phone2" name="phone2" maxlength="4" class="form-control" oninput="handlePhoneInput(event, 'phone3')">
+                                <span class="input-group-text">-</span>
+                                <input type="tel" id="phone3" name="phone3" maxlength="4" class="form-control" oninput="handleSubmit()">
+                            </div>
+                        </div>
+                        <input type="hidden" id="phone" th:field="*{phone}" name="phone" class="form-control">
+
+                        <div class="mb-3">
+                            <label for="storeInfo" class="form-label">Store Information:</label>
+                            <textarea id="storeInfo" th:field="*{store_info}" name="storeInfo" rows="4" maxlength="255" class="form-control"></textarea>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a href="/store" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <input type="text" id="address2" th:field="*{address2}" name="address2" placeholder="주소" class="form-control mt-2">
-        <input type="text" id="address3" th:field="*{address3}" name="address3" placeholder="상세주소" class="form-control mt-2">
-        <input type="text" id="extraAddress" name="extraAddress" placeholder="참고항목" class="form-control mt-2">
     </div>
+</div>
 
-    <div class="mb-3">
-        <label for="category" class="form-label">Category:</label>
-        <input type="text" id="category" th:field="*{category}" name="category" maxlength="100" class="form-control">
-    </div>
-
-    <div class="mb-3">
-        <label for="openTime" class="form-label">Open Time:</label>
-        <input type="time" id="openTime" th:field="*{open_time}" name="open_time" class="form-control">
-    </div>
-
-    <div class="mb-3">
-        <label for="closeTime" class="form-label">Close Time:</label>
-        <input type="time" id="closeTime" th:field="*{close_time}" name="close_time" class="form-control">
-    </div>
-
-    <div class="mb-3">
-        <label for="deliverTime" class="form-label">Deliver Time:</label>
-        <input type="text" id="deliverTime" th:field="*{deliver_time}" name="deliver_time" class="form-control">
-    </div>
-
-    <div class="mb-3">
-        <label for="phone1" class="form-label">Phone:</label>
-        <div class="input-group">
-            <input type="tel" id="phone1" name="phone1" maxlength="3" class="form-control" placeholder="010" oninput="handlePhoneInput(event, 'phone2')">
-            <span class="input-group-text">-</span>
-            <input type="tel" id="phone2" name="phone2" maxlength="4" class="form-control" oninput="handlePhoneInput(event, 'phone3')">
-            <span class="input-group-text">-</span>
-            <input type="tel" id="phone3" name="phone3" maxlength="4" class="form-control" oninput="handleSubmit()">
-        </div>
-    </div>
-    <input type="text" id="phone" th:field="*{phone}" name="phone" class="form-control">
-
-    <div class="mb-3">
-        <label for="storeInfo" class="form-label">Store Information:</label>
-        <textarea id="storeInfo" th:field="*{store_info}" name="storeInfo" rows="4" maxlength="255" class="form-control"></textarea>
-    </div>
-
-    <div class="text-center">
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a href="/store" class="btn btn-secondary">Cancel</a>
-    </div>
-</form>
 
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

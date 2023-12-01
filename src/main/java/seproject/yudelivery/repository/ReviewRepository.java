@@ -10,17 +10,5 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
     List<ReviewEntity> findAllByStoreId(Long storeId);
-    Optional<ReviewEntity> findById(Long id);
-
-    default ReviewEntity saveNewReview(ReviewEntity review) {
-        return save(review); // 새로운 리뷰 저장
-    }
-
-    default void deleteReview(Long id) {
-        deleteById(id); // 리뷰 삭제
-    }
-
-    default ReviewEntity updateReview(ReviewEntity review) {
-        return save(review); // 리뷰 업데이트
-    }
+    List<ReviewEntity> findAllByCustomer_Id(Long customerId);
 }

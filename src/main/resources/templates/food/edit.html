@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Food Edit</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2>Food Edit</h2>
+            <form action="/food/update" method="post" th:object="${food}" class="needs-validation" novalidate>
+                <div class="form-group">
+                    <!-- Hidden ID Field -->
+                    <input type="hidden" name="food_id" th:field="*{id}"/>
+
+                    <label for="food_name"><strong>Name:</strong></label>
+                    <input type="text" class="form-control" id="food_name" th:field="*{food_name}" placeholder="Enter food name" required>
+
+                    <label for="food_price"><strong>Price:</strong></label>
+                    <input type="text" class="form-control" id="food_price" th:field="*{food_price}" placeholder="Enter price" required>
+
+                    <label for="food_info"><strong>Info:</strong></label>
+                    <input type="text" class="form-control" id="food_info" th:field="*{food_info}" placeholder="Enter food info" required>
+
+                    <div class="mb-3">
+                        <label><strong>음식 사이즈:</strong></label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="one" th:field="*{food_size}" th:value="1" name="size">
+                            <label class="form-check-label" for="one">1인분</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="two" th:field="*{food_size}" th:value="2" name="size">
+                            <label class="form-check-label" for="two">2인분</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="three" th:field="*{food_size}" th:value="3" name="size">
+                            <label class="form-check-label" for="three">3~4인분</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="four" th:field="*{food_size}" th:value="4" name="size">
+                            <label class="form-check-label" for="four">4인분 이상</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a href="/store/my" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

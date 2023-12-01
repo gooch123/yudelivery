@@ -20,7 +20,7 @@ public class BasketRepository {
             em.persist(basket);
     }
 
-    public void addFood(BasketFoodEntity basketFood, Long userId, StoreEntity store){ //같은 가게의 음식이면 추가, 만약 이미 추가된 음식이면 수량 추가
+    public void addFood(BasketFoodEntity basketFood, Long userId, StoreEntity store) throws IllegalStateException{ //같은 가게의 음식이면 추가, 만약 이미 추가된 음식이면 수량 추가
         if(isStoreEmpty(userId)){ // 장바구니가 비어있으면
             BasketEntity basket = findBasket(userId);
             basket.setStore(store); //장바구니에 가게 등록
@@ -76,7 +76,7 @@ public class BasketRepository {
         em.remove(findBasketFood);
         List<BasketFoodEntity> basketFood = findBasketFood(userId);
         if(basketFood.size() == 0) //삭제 후 장바구니가 비었다면 장바구니에 등록된 스토어 삭제
-            findBasket(userId).setStore(null);
+            findBasket(userId).clearStore();
     }
 
     public int getFoodQuantity(Long basketFoodId){ //장바구니에 있는 음식 하나의 수량 반환

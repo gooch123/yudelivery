@@ -1,85 +1,95 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Review Page</title>
-    <script>
-        const reviewList = [
-            { content: '첫 번째 리뷰', comment: '첫 번째 댓글' },
-            { content: '두 번째 리뷰', comment: '' }, // 댓글이 없는 경우도 있을 수 있습니다.
-            // 다른 리뷰들의 내용도 추가할 수 있습니다.
-        ];
-
-        function renderReviews() {
-            const reviewsContainer = document.getElementById('reviewsContainer');
-
-            reviewList.forEach((review, index) => {
-                const reviewItem = document.createElement('li');
-                reviewItem.innerHTML = `
-                    <p>${review.content}</p>
-                    <div id="commentDisplay-${index}">
-                        <p id="commentContent-${index}">${review.comment}</p>
-                        <button id="editButton-${index}" onclick="toggleCommentForm(${index})">${review.comment ? '댓글 수정' : '댓글 등록'}</button>
-                        <button id="deleteButton-${index}" style="${review.comment ? 'display: inline-block;' : 'display: none;'}" onclick="deleteComment(${index})">댓글 삭제</button>
-                    </div>
-                    <div id="commentForm-${index}" style="display: none;">
-                        <textarea id="commentInput-${index}" placeholder="댓글 입력"></textarea>
-                        <button onclick="saveComment(${index})">등록/수정</button>
-                    </div>
-                `;
-                reviewsContainer.appendChild(reviewItem);
-            });
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .hidden {
+            display: none;
         }
-
-        function toggleCommentForm(commentId) {
-            const commentDisplay = document.getElementById(`commentDisplay-${commentId}`);
-            const commentForm = document.getElementById(`commentForm-${commentId}`);
-
-            if (commentDisplay.style.display === 'none') {
-                commentDisplay.style.display = 'block';
-                commentForm.style.display = 'none';
-            } else {
-                commentDisplay.style.display = 'none';
-                commentForm.style.display = 'block';
-            }
-        }
-
-        function saveComment(reviewId) {
-            var commentInput = document.getElementById('commentInput-' + reviewId);
-            var commentContent = document.getElementById('commentContent-' + reviewId);
-            var editButton = document.getElementById('editButton-' + reviewId);
-            var deleteButton = document.getElementById('deleteButton-' + reviewId);
-
-            if (commentContent.textContent.trim() === '') { // 댓글 없을 경우
-                commentContent.textContent = commentInput.value.trim(); // 댓글 내용 출력
-                editButton.textContent = '댓글 수정';
-                deleteButton.style.display = 'inline-block';
-            } else { // 댓글 있을 경우
-                commentContent.textContent = commentInput.value.trim(); // 댓글 내용 수정
-            }
-            toggleCommentForm(reviewId); // 수정창 숨기기
-        }
-
-        function deleteComment(reviewId) {
-            var commentContent = document.getElementById('commentContent-' + reviewId);
-            var editButton = document.getElementById('editButton-' + reviewId);
-            var deleteButton = document.getElementById('deleteButton-' + reviewId);
-
-            if (confirm('댓글을 삭제하시겠습니까?')) {
-                commentContent.textContent = ''; // 댓글 내용 삭제
-                editButton.textContent = '댓글 등록';
-                deleteButton.style.display = 'none';
-            }
-        }
-
-        window.onload = renderReviews;
-    </script>
+    </style>
 </head>
 <body>
-<div>
-    <!-- 리뷰 목록 출력 -->
-    <ul id="reviewsContainer">
-        <!-- JavaScript로 동적으로 생성될 리뷰 목록이 여기에 추가될 것입니다. -->
-    </ul>
+<h1 class="text-center mb-5">매장 리뷰 목록</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <a href="/store" class="btn btn-secondary">메인화면</a>
+            <tbody th:each="review : ${reviewList}">
+            <form th:action="@{'/store/review/' + ${review.id} + '/report'}"  id="deleteForm" method="post">
+                <input type="hidden" name="review_id" th:value="${review.id}">
+                <input type="hidden" name="content" th:value="${review.review_content}">
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-outline-warning">삭제 요청</button>
+                </div>
+            </form>
+            <div class="card" style="margin-bottom: 30px;">
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                        <tr>
+                            <td><strong th:text="${review.customer.nickname}"></strong></td>
+                            <td style="text-align: right;"><strong th:text="${'별점: '+review.review_starpoint}"></strong></td>
+                        </tr>
+                        </tr>
+                        <tr>
+                            <td colspan="2" th:text="${review.review_content}"></td>
+                        </tr>
+                        <tr th:if="${review.comment != null}">
+                            <td colspan="2">
+                                <p style="font-weight: bold">사장님 댓글</p>
+                                <p th:text="${review.comment}"></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div th:if="${review.comment != null}" style="display: flex; justify-content: space-between;">
+                                    <input class="btn btn-primary comment-btn" type="button" value="댓글 수정" onclick="toggleCommentBox(this)">
+                                    <form th:action="@{'/store/review/' + ${review.id} + '/comment_delete'}" method="post">
+                                        <input type="hidden" name="_method" value="DELETE"/>
+                                        <button class="btn btn-danger delete-btn" type="submit" onclick="return confirm('정말로 이 댓글을 삭제하시겠습니까?')">댓글 삭제</button>
+                                    </form>
+                                </div>
+                                <div th:if="${review.comment == null}" style="display: flex; justify-content: space-between;">
+                                    <input class="btn btn-primary comment-btn" type="button" value="댓글 생성" onclick="toggleCommentBox(this)">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hidden comment-box">
+                            <td colspan="2">
+                                <form th:action="@{'/store/review/' + ${review.id} + '/comment_update'}" method="post">
+                                    <input type="hidden" name="review_id" th:value="${review.id}">
+                                    <textarea class="form-control" rows="5" name="comment" th:text="${review.comment}" placeholder="댓글을 입력하세요" required></textarea>
+                                    <button type="submit" class="btn btn-primary">댓글 저장</button>
+                                    <a href="" class="btn btn-secondary">댓글 취소</a>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            </tbody>
+        </div>
+    </div>
 </div>
+<script>
+    function toggleCommentBox(btn) {
+        const commentBox = btn.parentElement.parentElement.parentElement.nextElementSibling;
+        commentBox.classList.toggle('hidden');
+        btn.nextElementSibling.querySelector('.delete-btn').classList.toggle('hidden');
+    }
+    document.getElementById('deleteForm').addEventListener('submit', function(event) {
+        var confirmation = confirm('정말로 이 리뷰를 삭제 요청하시겠습니까?');
+
+        if (!confirmation) {
+            event.preventDefault(); // 이벤트의 기본 동작을 취소합니다. (여기서는 submit)
+        } else {
+            alert('요청되었습니다!');
+        }
+    });
+</script>
+
 </body>
 </html>

@@ -29,7 +29,7 @@ public class WishListController {
         List<WishListDTO> wishList = wishListService.getWishList(userId);
         model.addAttribute("wishList",wishList);
 
-        return "info/wishList";
+        return "customer/info/wishList";
     }
 
     @PostMapping("{id}/delete")

@@ -2,10 +2,14 @@ package seproject.yudelivery.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.Store;
 import org.springframework.stereotype.Service;
 import seproject.yudelivery.dto.StoreDTO;
+import seproject.yudelivery.entity.FoodEntity;
 import seproject.yudelivery.entity.StoreEntity;
 import seproject.yudelivery.repository.StoreRepository;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +25,9 @@ public class StoreService {
         StoreEntity store = storeDTO.toEntity();
         return storeRepository.updateStore(store);
     }
+    public void updateStore(StoreEntity store) {
+        storeRepository.updateStore(store);
+    }
     public void deleteMyStore(Long user_id) {
         storeRepository.deleteMyStore(user_id);
     }
@@ -30,4 +37,15 @@ public class StoreService {
     public StoreEntity getStoreById(Long store_id) {
         return storeRepository.findStoreById(store_id);
     }
+
+    public StoreEntity getStoreDetail(Long store_id){
+        return storeRepository.findStoreDetail(store_id);
+    }
+
+    public List<StoreEntity> searchStores(String Keyword) {
+        return storeRepository.findStoreByKeyword(Keyword);
+    }
+
+    public List<FoodEntity> getFoodsByStoreId(Long store_id) {return storeRepository.findFoodsByStoreId(store_id); }
+
 }
