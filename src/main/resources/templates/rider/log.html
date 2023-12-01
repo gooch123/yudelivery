@@ -58,11 +58,11 @@
         <label for="password">비밀번호:</label>
         <input type="password" id="password" name="password" required>
 
-        <button type="button" onclick="login()">로그인</button>
+        <button type="button" th:onclick="login()">로그인</button>
     </form>
 </main>
 
-<script>
+<script th:inline="javascript">
     function login() {
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
