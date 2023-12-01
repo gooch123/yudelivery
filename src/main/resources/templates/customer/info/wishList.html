@@ -42,7 +42,7 @@
         <div class="col-md-3 mt-5">
             <div class="text-center" style="margin-bottom: 5px ">
                 <a href="/basket">
-                    <span class="material-icons">shopping_cart</span>
+                    <span class="material-icons" onclick="location.href='/customer'">shopping_cart</span>
                 </a>
             </div>
         </div>
@@ -100,7 +100,7 @@
                                     </tr>
                                     </thead>
                                     <tr th:each="list : ${wishList}">
-                                        <td th:text="사진">사진</td>
+                                        <td ></td>
                                         <td th:text="${list.storeName}">0</td>
                                         <td th:text="${list.storeInfo}">0</td>
                                         <td>
@@ -115,7 +115,7 @@
                         </div>
                 </div>
                 <div class="col-md-2 border border-1">
-                    사용자 정보
+
                 </div>
             </div>
         </div>
