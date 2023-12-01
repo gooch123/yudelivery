@@ -6,12 +6,21 @@
 </head>
 <body>
 <!-- action : form에 작성한 데이터를 어디로 보낼지 지정 -->
-<form action="/member/save" method="post">
+<form action="/join" method="post">
     <!-- name : 서버로 전송 할 때 변수이름의 역할 -->
-    이메일: <input type="text" name="memberEmail"> <br>
-    비밀번호: <input type="password" name="memberPassword"> <br>
-    이름: <input type="text" name="memberName"> <br>
-    <input type="submit" value="회원가입">
+    아이디: <input type="text" name="ID"> <br>
+    비밀번호: <input type="password" name="password"> <br>
+    이름: <input type="text" name="name"> <br>
+    닉네임: <input type="text" name="nickName"> <br>
+    전화번호: <input type="text" name="phone"> <br>
+    이메일: <input type="text" name="email"> <br>
+    <label for="role-select">사용자 선택</label>
+    <select name="role" id="role-select" required>
+        <option value="customer">고객</option>
+        <option value="rider">배달원</option>
+        <option value="store">점주</option>
+    </select>
+    <button type="submit" > 회원가입 </button>
 </form>
 </body>
 </html>

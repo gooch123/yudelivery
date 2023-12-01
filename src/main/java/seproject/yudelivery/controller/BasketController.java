@@ -28,11 +28,10 @@ public class BasketController {
 
     @GetMapping
     public String basketHome(Model model, @SessionAttribute(name = "user",required = false) UserEntity user){
-//        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
-//        }
-//        Long userId = user.getId();
-        Long userId = 1L;
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
+        }
+        Long userId = user.getId();
         List<BasketDTO> basketDTOList = basketService.getBasketList(userId);
         int totalPrice = basketService.getTotalPrice(userId);
         String basketStoreName = basketService.getBasketStoreName(userId);
@@ -81,10 +80,10 @@ public class BasketController {
             @SessionAttribute(name = "user",required = false)UserEntity user,
             Model model,
             HttpServletRequest request){
-//        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
-//        }
-        Long userId = 1L;
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
+        }
+        Long userId = user.getId();
         String referer = request.getHeader("Referer");
 
         try {

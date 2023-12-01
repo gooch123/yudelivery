@@ -39,9 +39,9 @@ public class CustomerController {
 
     @GetMapping("/customer")
     public String customerMain(@SessionAttribute(name = "user",required = false)UserEntity user){
-//        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
-//        }
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
+        }
         return "customer/main";
     }
 
@@ -51,7 +51,7 @@ public class CustomerController {
     @GetMapping("/info/orderList")
     public String orderList(@SessionAttribute(name = "user",required = false) UserEntity user, Model model){
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
+//            return "redirect:/login";
 //        }
 //        Long userId = user.getId();
 
