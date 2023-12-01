@@ -47,6 +47,9 @@ public class UserController {
             case "store":
                 userRole = UserRole.STORE;
                 break;
+            case "admin":
+                userRole = UserRole.ADMIN;
+                break;
         }
         JoinRepuest joinRepuest = new JoinRepuest(userId, password, nickname, username, email, phone,userRole);
         try {
@@ -56,7 +59,11 @@ public class UserController {
             return showMessageAndRedirect(messageDTO,model);
         }
 
-        MessageDTO message = new MessageDTO("회원가입에 성공하였습니다", "/login", RequestMethod.GET, null);
+        MessageDTO message;
+        if(userRole == UserRole.CUSTOMER)
+            message = new MessageDTO("회원가입에 성공하였습니다. 반드시 정보수정에서 주소를 등록해주세요 !!", "/login", RequestMethod.GET, null);
+        else
+            message = new MessageDTO("회원가입에 성공하였습니다", "/login", RequestMethod.GET, null);
         return showMessageAndRedirect(message,model);
     }
 
@@ -88,11 +95,11 @@ public class UserController {
         if(user.getRole() == UserRole.CUSTOMER)
             return "redirect:/customer";
         else if(user.getRole() == UserRole.STORE)
-            return "redirect:/customer";
+            return "redirect:/store";
         else if(user.getRole() == UserRole.RIDER)
             return "redirect:/login";
         else if(user.getRole() == UserRole.ADMIN)
-            return "redirect:/customer";
+            return "redirect:/admin";
         return "redirect:/login";
     }
 
