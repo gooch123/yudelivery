@@ -39,7 +39,7 @@ public class FoodController{
         }
         log.info(foodDTO.toString());
         FoodEntity food = foodDTO.toEntity();
-        StoreEntity store = storeService.getStoreById(user.getId());
+        StoreEntity store = storeService.getMyStore(user.getId());
         food.setStore(store);
         FoodEntity saved = foodRepository.save(food);
         log.info(saved.toString());
