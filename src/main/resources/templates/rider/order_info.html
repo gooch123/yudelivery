@@ -34,7 +34,7 @@
         <label for="phone">전화번호:</label>
         <input type="text" id="phone" name="phone" style="width: 250px;" th:value="${phone}"><br>
 
-        <button th:onclick="updateInfo()">정보 업데이트</button>
+        <button th:click="updateInfo()">정보 업데이트</button>
         <p id="updateMessage" th:text="${updateMessage}"></p>
     </section>
 </main>

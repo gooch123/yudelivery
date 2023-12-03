@@ -17,7 +17,12 @@
         <!-- 여기에 배송 목록이 표시될 부분 -->
 
         <!-- Adding a link to order information page -->
-        <p>주문자 정보: <a th:href="@{/order_info.html}">주문 상세보기</a></p>
+        <!-- 수정된 Thymeleaf 링크 -->
+        <!-- 수정된 Thymeleaf 링크 -->
+        <p>주문자 정보: <a th:href="@{/riders/order_info}">주문 상세보기</a></p>
+
+
+
     </section>
 
     <section id="status">
@@ -84,7 +89,7 @@
                 console.log(data);
                 // 여기서는 간단하게 성공/실패 여부를 확인하고, 성공 시 주문 정보 페이지로 이동
                 if (data === "success") {
-                    window.location.href = "order_information.html";
+                    window.location.href = "/riders/order_info";
                 } else {
                     alert("주문자 정보 업데이트에 실패했습니다.");
                 }
@@ -94,6 +99,8 @@
                 alert("서버와의 통신 중 오류가 발생했습니다.");
             });
     }
+
+
 
     // 추가된 부분: 서버로 반경 5km 내 매장에서 배달 접수 및 주문 취소 요청을 보내는 함수
     document.getElementById("deliveryForm").addEventListener("submit", function(event) {
