@@ -12,7 +12,7 @@ import seproject.yudelivery.service.RiderService;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/riders")
+@RequestMapping("/rider")
 public class RiderController {
 
     @Autowired
@@ -51,13 +51,32 @@ public class RiderController {
         return "redirect:/riders/main";
     }
 
-    @GetMapping("/main")
+    @GetMapping("")
     public String showMainPage() {
         return "rider/main";
     }
 
-    @GetMapping("/order_info")
+    // 수정된 컨트롤러 메소드
+    @GetMapping("/riders/order_info")
     public String showOrderInfoPage() {
         return "rider/order_info";
     }
+
+    @PostMapping("/updateStatus")
+    public String updateStatus(@RequestParam String orderID, @RequestParam String status) {
+        // 서버로 요청을 보내는 부분
+        // 이 부분에 주문 상태 업데이트에 관한 로직을 추가하면 됩니다.
+        return "redirect:/riders/main";
+    }
+
+    @PostMapping("/acceptAndCancel")
+    public String acceptAndCancel(@RequestParam String orderDistance) {
+        // 서버로 요청을 보내는 부분
+        // 이 부분에 반경 5km 내 매장에서 배달 접수 및 주문 취소에 관한 로직을 추가하면 됩니다.
+        return "redirect:/riders/main";
+    }
+
+
+
+
 }
