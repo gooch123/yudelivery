@@ -4,6 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>라이더 홈페이지</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            display: grid;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .status-message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .status-success {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .status-error {
+            background-color: #f44336;
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
@@ -16,18 +104,13 @@
         <h2>배송 목록</h2>
         <!-- 여기에 배송 목록이 표시될 부분 -->
 
-        <!-- Adding a link to order information page -->
         <!-- 수정된 Thymeleaf 링크 -->
-        <!-- 수정된 Thymeleaf 링크 -->
-        <p>주문자 정보: <a th:href="@{/riders/order_info}">주문 상세보기</a></p>
-
-
-
+        <p>주문자 정보: <a th:href="@{/rider/order_info}">주문 상세보기</a></p>
     </section>
 
     <section id="status">
         <h2>배송 상태 업데이트</h2>
-        <form id="statusForm" th:action="@{/riders/updateStatus}" method="post">
+        <form id="statusForm" th:action="@{/rider/updateStatus}" method="post" onsubmit="updateStatus(event)">
             <label for="orderID">주문 ID:</label>
             <input type="text" id="orderID" name="orderID" required>
 
@@ -41,13 +124,20 @@
             <button type="submit">상태 업데이트</button>
         </form>
 
-        <!-- 추가된 부분: 반경 5km 내 매장에서 배달 접수 및 주문 취소 -->
-        <form id="deliveryForm" th:action="@{/riders/acceptAndCancel}" method="post">
+        <div id="statusMessage" class="status-message"></div>
+    </section>
+
+    <!-- 추가된 부분: 반경 5km 내 매장에서 배달 접수 및 주문 취소 -->
+    <section id="delivery">
+        <h2>배달 접수 및 주문 취소</h2>
+        <form id="deliveryForm" th:action="@{/rider/acceptAndCancel}" method="post" onsubmit="updateDeliveryStatus(event)">
             <label for="orderDistance">주문 거리:</label>
             <input type="text" id="orderDistance" name="orderDistance" placeholder="주문 거리(KM)" required>
 
             <button type="submit">배달 접수 및 주문 취소</button>
         </form>
+
+        <div id="deliveryStatusMessage" class="status-message"></div>
     </section>
 </main>
 
@@ -56,73 +146,33 @@
 </footer>
 
 <script>
-    document.getElementById("statusForm").addEventListener("submit", function(event) {
+    function updateStatus(event) {
         event.preventDefault();
+        // Simulate server-side update
+        var statusMessage = document.getElementById("statusMessage");
+        statusMessage.innerHTML = "상태 업데이트 성공!";
+        statusMessage.className = "status-message status-success";
+        statusMessage.style.display = "block";
 
-        var orderID = document.getElementById("orderID").value;
-        var status = document.getElementById("status1").value;
-
-        // 서버로 요청을 보내는 부분
-        fetch("/riders/getByCustomerId/" + orderID)
-            .then(response => response.json())
-            .then(data => {
-                if (data.customerId) {
-                    // 서버로부터 받은 customerId를 이용해 주문자 정보 업데이트
-                    updateCustomerInfo(data.customerId, status);
-                } else {
-                    alert("주문자 정보를 찾을 수 없습니다.");
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("서버와의 통신 중 오류가 발생했습니다.");
-            });
-    });
-
-    // 서버로 주문자 정보 업데이트 요청을 보내는 함수
-    function updateCustomerInfo(customerId, status) {
-        fetch("/riders/completeDelivery/" + customerId, {
-            method: "PUT"
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);
-                // 여기서는 간단하게 성공/실패 여부를 확인하고, 성공 시 주문 정보 페이지로 이동
-                if (data === "success") {
-                    window.location.href = "/riders/order_info";
-                } else {
-                    alert("주문자 정보 업데이트에 실패했습니다.");
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("서버와의 통신 중 오류가 발생했습니다.");
-            });
+        // You can add logic here to handle the actual server-side update
+        // and modify the status message accordingly.
     }
 
-
-
-    // 추가된 부분: 서버로 반경 5km 내 매장에서 배달 접수 및 주문 취소 요청을 보내는 함수
-    document.getElementById("deliveryForm").addEventListener("submit", function(event) {
+    function updateDeliveryStatus(event) {
         event.preventDefault();
+        var orderDistance = parseFloat(document.getElementById("orderDistance").value);
 
-        var orderDistance = document.getElementById("orderDistance").value;
+        var deliveryStatusMessage = document.getElementById("deliveryStatusMessage");
+        if (orderDistance <= 50) {
+            deliveryStatusMessage.innerHTML = "배달 접수!";
+            deliveryStatusMessage.className = "status-message status-success";
+        } else {
+            deliveryStatusMessage.innerHTML = "주문 취소!";
+            deliveryStatusMessage.className = "status-message status-error";
+        }
 
-        // 서버로 반경 5km 내 매장에서 배달 접수 및 주문 취소 요청을 보내는 부분
-        fetch("/riders/acceptDeliveryAndCancelOrder?distance=" + orderDistance, {
-            method: "POST"
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);
-                // 여기서는 간단하게 성공/실패 여부를 확인하고, 메시지를 표시
-                alert(data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("서버와의 통신 중 오류가 발생했습니다.");
-            });
-    });
+        deliveryStatusMessage.style.display = "block";
+    }
 </script>
 </body>
 </html>
