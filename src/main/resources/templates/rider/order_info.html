@@ -116,4 +116,22 @@
 <script th:inline="javascript">
     function updateInfo() {
         var customerName = document.getElementById("customerName").value;
-        var postalCode =
+        var postalCode = document.getElementById("postalCode").value;
+        var streetAddress = document.getElementById("streetAddress").value;
+        var detailedAddress = document.getElementById("detailedAddress").value;
+        var phone = document.getElementById("phone").value;
+
+        function dummyUpdateRequest() {
+            return true;
+        }
+
+        // 더미 업데이트 함수 호출
+        if (dummyUpdateRequest()) {
+            // 업데이트 성공 시 메시지 표시
+            document.getElementById("updateMessage").innerText = '정보 업데이트 됨!';
+        } else {
+            // 업데이트 실패 시 오류 메시지 표시 (필요시)
+            document.getElementById("updateMessage").innerText = '정보 업데이트 실패';
+        }
+    }
+</script>
