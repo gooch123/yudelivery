@@ -30,6 +30,8 @@ public class StoreDTO {
     private int sales;
 
     public StoreEntity toEntity() {
+        String openTimeFormatted = this.open_time.length() == 5 ? this.open_time + ":00" : this.open_time;
+        String closeTimeFormatted = this.close_time.length() == 5 ? this.close_time + ":00" : this.close_time;
         return StoreEntity.builder()
                 .id(this.store_id)
                 .user(this.user)
@@ -39,14 +41,17 @@ public class StoreDTO {
                 .address3(this.address3)
                 .category(this.category)
                 .phone(this.phone)
-                .open_time(Time.valueOf(this.open_time))
-                .close_time(Time.valueOf(this.close_time))
+                .open_time(Time.valueOf(openTimeFormatted))
+                .close_time(Time.valueOf(closeTimeFormatted))
                 .deliver_time(this.deliver_time)
                 .store_info(this.store_info)
                 .sales(this.sales)
                 .build();
     }
-    public StoreEntity createStore(){
+
+    public StoreEntity createStore() {
+        String openTimeFormatted = this.open_time + ":00";
+        String closeTimeFormatted = this.close_time + ":00";
         return StoreEntity.builder()
                 .user(this.user)
                 .store_name(this.store_name)
@@ -55,25 +60,11 @@ public class StoreDTO {
                 .address3(this.address3)
                 .category(this.category)
                 .phone(this.phone)
-                .open_time(getOpenTimeAsSqlTime())
-                .close_time(getCloseTimeAsSqlTime())
+                .open_time(Time.valueOf(openTimeFormatted))
+                .close_time(Time.valueOf(closeTimeFormatted))
                 .deliver_time(this.deliver_time)
                 .store_info(this.store_info)
                 .sales(0)
                 .build();
-    }
-
-    public Time getOpenTimeAsSqlTime() {
-        if (this.open_time == null || this.open_time.trim().isEmpty()) {
-            return null;
-        }
-        return Time.valueOf(this.open_time);
-    }
-
-    public Time getCloseTimeAsSqlTime() {
-        if (this.close_time == null || this.close_time.trim().isEmpty()) {
-            return null;
-        }
-        return Time.valueOf(this.close_time);
     }
 }

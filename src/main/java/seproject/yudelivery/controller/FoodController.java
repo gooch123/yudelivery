@@ -1,6 +1,5 @@
 package seproject.yudelivery.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,8 +24,6 @@ public class FoodController{
 
     @Autowired
     private FoodRepository foodRepository;
-    @Autowired
-    private StoreController storeController;
     @Autowired
     private OrderFoodRepository orderFoodRepository;
     @Autowired

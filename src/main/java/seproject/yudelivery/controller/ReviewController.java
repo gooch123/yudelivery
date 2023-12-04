@@ -19,7 +19,6 @@ import seproject.yudelivery.service.ReviewService;
 import seproject.yudelivery.service.StoreService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -49,10 +48,9 @@ public class ReviewController {
         if(user == null || user.getRole() != UserRole.STORE){
             return "redirect:/login";
         }
-        StoreEntity storeEntity = storeService.getMyStore(user.getId());
-        Long storeId = storeEntity.getId();
-        if (storeId != null) {
-            List<ReviewEntity> reviewList = reviewRepository.findAllByStoreId(storeId);
+        StoreEntity store = storeService.getMyStore(user.getId());
+        if (store != null) {
+            List<ReviewEntity> reviewList = reviewRepository.findAllByStoreId(store.getId());
             if(reviewList.isEmpty()) {
                 rttr.addFlashAttribute("msg", "리뷰가 존재하지 않습니다.");
                 return "redirect:/store";
