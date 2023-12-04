@@ -68,6 +68,23 @@
             background-color: #555;
         }
 
+        .status-message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .status-success {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .status-error {
+            background-color: #f44336;
+            color: white;
+        }
+
         footer {
             text-align: center;
             padding: 10px;
@@ -93,7 +110,7 @@
 
     <section id="status">
         <h2>배송 상태 업데이트</h2>
-        <form id="statusForm" th:action="@{/rider/updateStatus}" method="post">
+        <form id="statusForm" th:action="@{/rider/updateStatus}" method="post" onsubmit="updateStatus(event)">
             <label for="orderID">주문 ID:</label>
             <input type="text" id="orderID" name="orderID" required>
 
@@ -107,13 +124,20 @@
             <button type="submit">상태 업데이트</button>
         </form>
 
-        <!-- 추가된 부분: 반경 5km 내 매장에서 배달 접수 및 주문 취소 -->
-        <form id="deliveryForm" th:action="@{/rider/acceptAndCancel}" method="post">
+        <div id="statusMessage" class="status-message"></div>
+    </section>
+
+    <!-- 추가된 부분: 반경 5km 내 매장에서 배달 접수 및 주문 취소 -->
+    <section id="delivery">
+        <h2>배달 접수 및 주문 취소</h2>
+        <form id="deliveryForm" th:action="@{/rider/acceptAndCancel}" method="post" onsubmit="updateDeliveryStatus(event)">
             <label for="orderDistance">주문 거리:</label>
             <input type="text" id="orderDistance" name="orderDistance" placeholder="주문 거리(KM)" required>
 
             <button type="submit">배달 접수 및 주문 취소</button>
         </form>
+
+        <div id="deliveryStatusMessage" class="status-message"></div>
     </section>
 </main>
 
@@ -122,7 +146,33 @@
 </footer>
 
 <script>
-    // JavaScript 코드는 동일합니다.
+    function updateStatus(event) {
+        event.preventDefault();
+        // Simulate server-side update
+        var statusMessage = document.getElementById("statusMessage");
+        statusMessage.innerHTML = "상태 업데이트 성공!";
+        statusMessage.className = "status-message status-success";
+        statusMessage.style.display = "block";
+
+        // You can add logic here to handle the actual server-side update
+        // and modify the status message accordingly.
+    }
+
+    function updateDeliveryStatus(event) {
+        event.preventDefault();
+        var orderDistance = parseFloat(document.getElementById("orderDistance").value);
+
+        var deliveryStatusMessage = document.getElementById("deliveryStatusMessage");
+        if (orderDistance <= 50) {
+            deliveryStatusMessage.innerHTML = "배달 접수!";
+            deliveryStatusMessage.className = "status-message status-success";
+        } else {
+            deliveryStatusMessage.innerHTML = "주문 취소!";
+            deliveryStatusMessage.className = "status-message status-error";
+        }
+
+        deliveryStatusMessage.style.display = "block";
+    }
 </script>
 </body>
 </html>
