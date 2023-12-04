@@ -2,7 +2,6 @@ package seproject.yudelivery.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.Store;
 import org.springframework.stereotype.Service;
 import seproject.yudelivery.dto.StoreDTO;
 import seproject.yudelivery.entity.FoodEntity;

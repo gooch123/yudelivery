@@ -29,8 +29,6 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private FoodRepository foodRepository;
     @Autowired
     private OrderRepository orderRepository;
@@ -56,6 +54,7 @@ public class StoreController {
         }
         storeDTO.setUser(user);
         StoreEntity store = storeService.createStore(storeDTO);
+        log.info(store.toString());
         rttr.addFlashAttribute("msg", "가게가 생성되었습니다.");
         return "redirect:/store/my";
     }

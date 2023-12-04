@@ -1,11 +1,14 @@
 package seproject.yudelivery.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import seproject.yudelivery.dto.UserRole;
 import seproject.yudelivery.entity.AdminEntity;
+import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.service.AdminService;
 
 import java.util.List;
@@ -18,8 +21,12 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @GetMapping // admin main page
-    public String adminMain() {
+    @GetMapping// admin main page
+    public String adminMain(HttpServletRequest request){
+        UserEntity user = (UserEntity) request.getSession().getAttribute("user");
+        if(user == null || user.getRole() != UserRole.ADMIN) { // 로그인 안했을때
+            return "redirect:/login";
+        }
         return "admin/main";
     }
 

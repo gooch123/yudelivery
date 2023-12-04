@@ -1,6 +1,5 @@
 package seproject.yudelivery.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,16 +25,19 @@ public class FoodController{
     @Autowired
     private FoodRepository foodRepository;
     @Autowired
-    private StoreController storeController;
-    @Autowired
     private OrderFoodRepository orderFoodRepository;
     @Autowired
     private StoreService storeService;
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("foodDTO") FoodDTO foodDTO, @SessionAttribute(name = "user", required = false) UserEntity user) {
+    public String create(@ModelAttribute("foodDTO") FoodDTO foodDTO, @SessionAttribute(name = "user", required = false) UserEntity user, RedirectAttributes rttr) {
         if(user == null || user.getRole() != UserRole.STORE){
             return "redirect:/login";
+        }
+        FoodEntity existing = foodRepository.findFoodExisting(foodDTO.getFood_name()).orElse(null);
+        if(existing !=null){
+            rttr.addFlashAttribute("msg", "음식이 이미 존재합니다");
+            return "redirect:/store/my";
         }
         FoodEntity food = foodDTO.toEntity();
         StoreEntity store = storeService.getMyStore(user.getId());
@@ -45,14 +47,23 @@ public class FoodController{
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, Model model) {
+    public String edit(@PathVariable Long id, Model model,@SessionAttribute(name = "user", required = false) UserEntity user) {
+        if(user == null || user.getRole() != UserRole.STORE){
+            return "redirect:/login";
+        }
         FoodEntity foodEntity = foodRepository.findById(id).orElse(null);
         model.addAttribute("food", foodEntity);
         return "food/edit";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("foodDTO") FoodDTO foodDTO) {
+    public String update(@ModelAttribute("foodDTO") FoodDTO foodDTO, RedirectAttributes rttr) {
+        FoodEntity existing = foodRepository.findFoodExisting(foodDTO.getFood_name()).orElse(null);
+        if(existing !=null){
+            rttr.addFlashAttribute("msg", "음식이 이미 존재합니다");
+            return "redirect:/store/my";
+        }
+
         FoodEntity target = foodRepository.findById(foodDTO.getId()).orElse(null);
         foodDTO.setStore(target.getStore());
         FoodEntity foodEntity = foodDTO.toEntity();
@@ -69,7 +80,10 @@ public class FoodController{
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, RedirectAttributes rttr) {
+    public String delete(@PathVariable Long id, RedirectAttributes rttr,@SessionAttribute(name = "user", required = false) UserEntity user) {
+        if(user == null || user.getRole() != UserRole.STORE){
+            return "redirect:/login";
+        }
         OrderFoodEntity orderFood = orderFoodRepository.findByFood_Id(id);
         if(orderFood == null){
             foodRepository.findById(id).ifPresent(target -> foodRepository.delete(target));

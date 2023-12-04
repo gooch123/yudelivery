@@ -12,7 +12,7 @@ import seproject.yudelivery.service.RiderService;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/riders")
+@RequestMapping("/rider")
 public class RiderController {
 
     @Autowired
@@ -42,22 +42,53 @@ public class RiderController {
     @PatchMapping("/updateLocation/{riderId}")
     public String updateRiderLocation(@PathVariable Long riderId, @RequestBody LocationDTO locationDTO) {
         riderService.updateRiderLocation(riderId, locationDTO);
-        return "redirect:/riders/main";
+        return "redirect:/rider/main";
     }
 
     @PatchMapping("/cancelDelivery/{riderId}")
     public String cancelDelivery(@PathVariable Long riderId) {
         riderService.cancelDelivery(riderId);
-        return "redirect:/riders/main";
+        return "redirect:/rider/main";
     }
 
-    @GetMapping("/main")
+    @GetMapping("")
     public String showMainPage() {
         return "rider/main";
     }
 
-    @GetMapping("/order_info")
+    // 수정된 컨트롤러 메소드
+    @GetMapping("/rider/order_info")
     public String showOrderInfoPage() {
         return "rider/order_info";
     }
+
+    @PostMapping("/updateStatus")
+    public String updateStatus(@RequestParam String orderID, @RequestParam String status) {
+        // 서버로 요청을 보내는 부분
+        // 이 부분에 주문 상태 업데이트에 관한 로직을 추가하면 됩니다.
+        return "redirect:/rider/main";
+    }
+
+    @PostMapping("/acceptAndCancel")
+    public String acceptAndCancel(@RequestParam String orderDistance) {
+        // 서버로 요청을 보내는 부분
+        // 이 부분에 반경 5km 내 매장에서 배달 접수 및 주문 취소에 관한 로직을 추가하면 됩니다.
+        return "redirect:/rider/main";
+    }
+
+    @GetMapping("/order_info")
+    public String showOrderInfoPage(Model model) {
+        // 여기에서 모델에 필요한 데이터를 추가하세요.
+        // model.addAttribute("customerName", customerName);
+        // model.addAttribute("postalCode", postalCode);
+        // model.addAttribute("streetAddress", streetAddress);
+        // model.addAttribute("detailedAddress", detailedAddress);
+        // model.addAttribute("phone", phone);
+        // model.addAttribute("updateMessage", updateMessage);
+
+        return "rider/order_info";
+    }
+
+
+
 }
