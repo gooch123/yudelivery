@@ -76,6 +76,18 @@ public class RiderController {
         return "redirect:/rider/main";
     }
 
+    @GetMapping("/order_info")
+    public String showOrderInfoPage(Model model) {
+        // 여기에서 모델에 필요한 데이터를 추가하세요.
+        // model.addAttribute("customerName", customerName);
+        // model.addAttribute("postalCode", postalCode);
+        // model.addAttribute("streetAddress", streetAddress);
+        // model.addAttribute("detailedAddress", detailedAddress);
+        // model.addAttribute("phone", phone);
+        // model.addAttribute("updateMessage", updateMessage);
+
+        return "rider/order_info";
+    }
 
 
 
