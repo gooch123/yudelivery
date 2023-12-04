@@ -148,14 +148,11 @@
 <script>
     function updateStatus(event) {
         event.preventDefault();
-        // Simulate server-side update
         var statusMessage = document.getElementById("statusMessage");
         statusMessage.innerHTML = "상태 업데이트 성공!";
         statusMessage.className = "status-message status-success";
         statusMessage.style.display = "block";
 
-        // You can add logic here to handle the actual server-side update
-        // and modify the status message accordingly.
     }
 
     function updateDeliveryStatus(event) {
