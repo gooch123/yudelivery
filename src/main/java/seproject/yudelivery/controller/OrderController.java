@@ -13,6 +13,7 @@ import seproject.yudelivery.dto.UserRole;
 import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.service.BasketService;
 import seproject.yudelivery.service.OrderService;
+import seproject.yudelivery.service.UserService;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final BasketService basketService;
+    private final UserService userService;
 
     @PostMapping("/order")
     public String order(@SessionAttribute(name = "user",required = false)UserEntity user,Model model){
@@ -30,6 +32,11 @@ public class OrderController {
         }
         Long userId = user.getId();
 
+        if(userService.findCustomerById(userId).getCustomer_address() == null){
+            //리다이렉트 팝업창
+            MessageDTO messageDTO = new MessageDTO("주소 등록을 먼저 해주세요", "/info/update", RequestMethod.GET, null);
+            return showMessageAndRedirect(messageDTO,model);
+        }
         List<BasketDTO> basketList = basketService.getBasketList(userId);
         if(basketList.isEmpty()){
             //리다이렉트 팝업창
