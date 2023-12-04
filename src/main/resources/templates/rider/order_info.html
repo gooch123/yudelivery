@@ -5,9 +5,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주문 정보</title>
-    <link rel="stylesheet" th:href="@{/resources/order_info.css}">
     <style th:inline="text">
-        /* Add your CSS styles here if needed */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        #updateMessage {
+            margin-top: 10px;
+            color: green;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
     </style>
 </head>
 
@@ -21,21 +90,21 @@
     <section id="customerInfo">
         <h2>주문자 정보</h2>
         <label for="customerName">이름:</label>
-        <input type="text" id="customerName" name="customerName" style="width: 250px;" th:value="${customerName}"><br>
+        <input type="text" id="customerName" name="customerName" th:value="${customerName}">
 
         <label for="postalCode">우편번호:</label>
-        <input type="text" id="postalCode" name="postalCode" style="width: 250px;" th:value="${postalCode}"><br>
+        <input type="text" id="postalCode" name="postalCode" th:value="${postalCode}">
 
         <label for="streetAddress">주소:</label>
-        <input type="text" id="streetAddress" name="streetAddress" style="width: 250px;" th:value="${streetAddress}"><br>
+        <input type="text" id="streetAddress" name="streetAddress" th:value="${streetAddress}">
 
         <label for="detailedAddress">상세주소:</label>
-        <input type="text" id="detailedAddress" name="detailedAddress" style="width: 250px;" th:value="${detailedAddress}"><br>
+        <input type="text" id="detailedAddress" name="detailedAddress" th:value="${detailedAddress}">
 
         <label for="phone">전화번호:</label>
-        <input type="text" id="phone" name="phone" style="width: 250px;" th:value="${phone}"><br>
+        <input type="text" id="phone" name="phone" th:value="${phone}">
 
-        <button th:onclick="updateInfo()">정보 업데이트</button>
+        <button th:onclick="|updateInfo()|">정보 업데이트</button>
         <p id="updateMessage" th:text="${updateMessage}"></p>
     </section>
 </main>
@@ -46,19 +115,23 @@
 
 <script th:inline="javascript">
     function updateInfo() {
-        // Get values from input fields
         var customerName = document.getElementById("customerName").value;
         var postalCode = document.getElementById("postalCode").value;
         var streetAddress = document.getElementById("streetAddress").value;
         var detailedAddress = document.getElementById("detailedAddress").value;
         var phone = document.getElementById("phone").value;
 
-        // Use these values to update customer information in the database
-        // You need to implement the server-side logic to handle this update
+        function dummyUpdateRequest() {
+            return true;
+        }
 
-        // For demonstration, let's just show a message
-        document.getElementById("updateMessage").innerHTML = "업데이트 완료!";
+        // 더미 업데이트 함수 호출
+        if (dummyUpdateRequest()) {
+            // 업데이트 성공 시 메시지 표시
+            document.getElementById("updateMessage").innerText = '정보 업데이트 됨!';
+        } else {
+            // 업데이트 실패 시 오류 메시지 표시 (필요시)
+            document.getElementById("updateMessage").innerText = '정보 업데이트 실패';
+        }
     }
 </script>
-</body>
-</html>

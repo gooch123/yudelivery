@@ -1,6 +1,8 @@
 package seproject.yudelivery.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import seproject.yudelivery.dto.LocationDTO;
 import seproject.yudelivery.entity.RiderEntity;
@@ -9,8 +11,8 @@ import seproject.yudelivery.service.RiderService;
 
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/riders")
+@Controller
+@RequestMapping("/rider")
 public class RiderController {
 
     @Autowired
@@ -20,27 +22,73 @@ public class RiderController {
     private RiderService riderService;
 
     @GetMapping("/getByCustomerId/{customerId}")
-    public Optional<RiderEntity> getRiderByCustomerId(@PathVariable Long customerId) {
-        return riderRepository.findByCustomerId(customerId);
+    public String getRiderByCustomerId(@PathVariable Long customerId, Model model) {
+        Optional<RiderEntity> riderEntity = riderRepository.findByCustomerId(customerId);
+        model.addAttribute("rider", riderEntity.orElse(null));
+        return "rider/log";
     }
 
     @PutMapping("/completeDelivery/{riderId}")
-    public void completeDelivery(@PathVariable Long riderId) {
+    public String completeDelivery(@PathVariable Long riderId) {
         Optional<RiderEntity> optionalRider = riderRepository.findById(riderId);
         if (optionalRider.isPresent()) {
             RiderEntity rider = optionalRider.get();
             rider.setDeliveryStatus("DELIVERED");
             riderRepository.save(rider);
         }
+        return "redirect:/riders/main";
     }
 
     @PatchMapping("/updateLocation/{riderId}")
-    public void updateRiderLocation(@PathVariable Long riderId, @RequestBody LocationDTO locationDTO) {
+    public String updateRiderLocation(@PathVariable Long riderId, @RequestBody LocationDTO locationDTO) {
         riderService.updateRiderLocation(riderId, locationDTO);
+        return "redirect:/rider/main";
     }
 
     @PatchMapping("/cancelDelivery/{riderId}")
-    public void cancelDelivery(@PathVariable Long riderId) {
+    public String cancelDelivery(@PathVariable Long riderId) {
         riderService.cancelDelivery(riderId);
+        return "redirect:/rider/main";
     }
+
+    @GetMapping("")
+    public String showMainPage() {
+        return "rider/main";
+    }
+
+    // 수정된 컨트롤러 메소드
+    @GetMapping("/rider/order_info")
+    public String showOrderInfoPage() {
+        return "rider/order_info";
+    }
+
+    @PostMapping("/updateStatus")
+    public String updateStatus(@RequestParam String orderID, @RequestParam String status) {
+        // 서버로 요청을 보내는 부분
+        // 이 부분에 주문 상태 업데이트에 관한 로직을 추가하면 됩니다.
+        return "redirect:/rider/main";
+    }
+
+    @PostMapping("/acceptAndCancel")
+    public String acceptAndCancel(@RequestParam String orderDistance) {
+        // 서버로 요청을 보내는 부분
+        // 이 부분에 반경 5km 내 매장에서 배달 접수 및 주문 취소에 관한 로직을 추가하면 됩니다.
+        return "redirect:/rider/main";
+    }
+
+    @GetMapping("/order_info")
+    public String showOrderInfoPage(Model model) {
+        // 여기에서 모델에 필요한 데이터를 추가하세요.
+        // model.addAttribute("customerName", customerName);
+        // model.addAttribute("postalCode", postalCode);
+        // model.addAttribute("streetAddress", streetAddress);
+        // model.addAttribute("detailedAddress", detailedAddress);
+        // model.addAttribute("phone", phone);
+        // model.addAttribute("updateMessage", updateMessage);
+
+        return "rider/order_info";
+    }
+
+
+
 }
