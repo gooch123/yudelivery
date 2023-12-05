@@ -115,11 +115,12 @@
 
 <script th:inline="javascript">
     function updateInfo() {
-        var customerName = document.getElementById("customerName").value;
-        var postalCode = document.getElementById("postalCode").value;
-        var streetAddress = document.getElementById("streetAddress").value;
-        var detailedAddress = document.getElementById("detailedAddress").value;
-        var phone = document.getElementById("phone").value;
+        // 하드코딩된 값을 입력 필드에 설정합니다.
+        document.getElementById("customerName").value = "user";
+        document.getElementById("postalCode").value = "42125";
+        document.getElementById("streetAddress").value = "대구광역시 달서구 XXXXXX";
+        document.getElementById("detailedAddress").value = "XXXXXX";
+        document.getElementById("phone").value = "010-1234-5678";
 
         function dummyUpdateRequest() {
             return true;
@@ -135,3 +136,6 @@
         }
     }
 </script>
+</body>
+ㄴ
+</html>
