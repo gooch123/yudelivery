@@ -2,6 +2,7 @@ package seproject.yudelivery.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import seproject.yudelivery.dto.UserRole;
 
 @Entity
@@ -37,4 +38,9 @@ public class UserEntity {
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
+    @ColumnDefault("false")
+    private boolean banned;
+
+    @Column
+    private String banned_reason;
 }
