@@ -64,28 +64,18 @@ public class RiderController {
 
     @PostMapping("/updateStatus")
     public String updateStatus(@RequestParam String orderID, @RequestParam String status) {
-        // 서버로 요청을 보내는 부분
-        // 이 부분에 주문 상태 업데이트에 관한 로직을 추가하면 됩니다.
+        System.out.println("주문 ID: " + orderID + ", 새로운 상태: " + status);
         return "redirect:/rider/main";
     }
 
     @PostMapping("/acceptAndCancel")
     public String acceptAndCancel(@RequestParam String orderDistance) {
-        // 서버로 요청을 보내는 부분
-        // 이 부분에 반경 5km 내 매장에서 배달 접수 및 주문 취소에 관한 로직을 추가하면 됩니다.
+        System.out.println("주문 거리: " + orderDistance);
         return "redirect:/rider/main";
     }
 
     @GetMapping("/order_info")
     public String showOrderInfoPage(Model model) {
-        // 여기에서 모델에 필요한 데이터를 추가하세요.
-        // model.addAttribute("customerName", customerName);
-        // model.addAttribute("postalCode", postalCode);
-        // model.addAttribute("streetAddress", streetAddress);
-        // model.addAttribute("detailedAddress", detailedAddress);
-        // model.addAttribute("phone", phone);
-        // model.addAttribute("updateMessage", updateMessage);
-
         return "rider/order_info";
     }
 
