@@ -130,23 +130,31 @@ public class StoreController {
         return "store/new";
     }
     @GetMapping("/sales") // store 매출 페이지
-    public String storeSales(Model model, HttpServletRequest request) {
+    public String storeSales(Model model, HttpServletRequest request, RedirectAttributes rttr) {
         UserEntity user = (UserEntity) request.getSession().getAttribute("user");
         if(user == null || user.getRole() != UserRole.STORE) { // 로그인 안했을때
             return "redirect:/login";
         }
         StoreEntity store = storeService.getMyStore(user.getId());
+        if(store == null) {
+            rttr.addFlashAttribute("msg", "가게가 존재하지 않습니다.");
+            return "redirect:/store";
+        }
         model.addAttribute("sales", store.getSales());
         return "/store/sales";
     }
 
-    @GetMapping("/order") // 주문 내역 부러오기
+    @GetMapping("/order") // 주문 내역 불러오기
     public String getOrders(Model model, HttpServletRequest request, RedirectAttributes rttr) {
         UserEntity user = (UserEntity) request.getSession().getAttribute("user");
         if(user == null || user.getRole() != UserRole.STORE) { // 로그인 안했을때
             return "redirect:/login";
         }
         StoreEntity store = storeService.getMyStore(user.getId());
+        if(store == null) {
+            rttr.addFlashAttribute("msg", "가게가 존재하지 않습니다.");
+            return "redirect:/store";
+        }
         List<OrderEntity> orders = orderRepository.findAllByStore_Id(store.getId());
         if(orders.size() == 0) {
             rttr.addFlashAttribute("msg", "주문이 없습니다.");
