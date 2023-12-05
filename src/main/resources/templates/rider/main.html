@@ -160,7 +160,7 @@
         var orderDistance = parseFloat(document.getElementById("orderDistance").value);
 
         var deliveryStatusMessage = document.getElementById("deliveryStatusMessage");
-        if (orderDistance <= 50) {
+        if (orderDistance <= 5) {
             deliveryStatusMessage.innerHTML = "배달 접수!";
             deliveryStatusMessage.className = "status-message status-success";
         } else {
