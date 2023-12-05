@@ -28,4 +28,5 @@ public interface FoodRepository extends JpaRepository<FoodEntity, Long> {
     default FoodEntity updateFood(FoodEntity food)   {
         return save(food); // 음식 업데이트
     }
+
 }
