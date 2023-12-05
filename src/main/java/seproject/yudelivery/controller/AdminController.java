@@ -11,7 +11,9 @@ import seproject.yudelivery.entity.AdminEntity;
 import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.service.AdminService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -30,9 +32,17 @@ public class AdminController {
         return "admin/main";
     }
 
+    /**
+     * 악성 리뷰 확인
+     */
     @GetMapping("/review")
     public String getReview(Model model) {
-        List<AdminEntity> reviews = adminService.findAllReview();
+        List<AdminEntity> reportedReviews = adminService.findAllReview();
+        List<AdminEntity> badReviews = adminService.getAllBadReview();
+
+        List<AdminEntity> reviews = new ArrayList<>();
+        reviews.addAll(reportedReviews);
+        reviews.addAll(badReviews);
 
         model.addAttribute("reviews", reviews);
         return "admin/review";
@@ -48,5 +58,74 @@ public class AdminController {
     public String ignoreReview(@PathVariable Long id) {
         adminService.ignoreReviewById(id);
         return "redirect:/admin/review";
+    }
+
+    /**
+     * 고객 관리
+     */
+    @GetMapping("/customer")
+    public String getAllCustomer(Model model) {
+        List<UserEntity> customers = adminService.getAllUsers().stream()
+                .filter(e -> e.getRole() == UserRole.CUSTOMER)
+                .filter(e -> e.isBanned() == false)
+                .collect(Collectors.toList());
+
+        model.addAttribute("customers", customers);
+        return "admin/customer";
+    }
+
+    @PostMapping("/customer")
+    public String banCustomer(
+            @RequestParam("id") Long id,
+            @RequestParam("banned_reason") String banned_reason) {
+        adminService.banUserById(id, banned_reason);
+
+        return "redirect:/admin/customer";
+    }
+
+    /**
+     * 가게 관리
+     */
+    @GetMapping("/store")
+    public String getAllStore(Model model) {
+        List<UserEntity> stores = adminService.getAllUsers().stream()
+                .filter(e -> e.getRole() == UserRole.STORE)
+                .filter(e -> e.isBanned() == false)
+                .collect(Collectors.toList());
+
+        model.addAttribute("stores", stores);
+        return "admin/store";
+    }
+
+    @PostMapping("/store")
+    public String banStore(
+            @RequestParam("id") Long id,
+            @RequestParam("banned_reason") String banned_reason) {
+        adminService.banUserById(id, banned_reason);
+
+        return "redirect:/admin/store";
+    }
+
+    /**
+     * 라이더 관리
+     */
+    @GetMapping("/rider")
+    public String getAllRider(Model model) {
+        List<UserEntity> riders = adminService.getAllUsers().stream()
+                .filter(e -> e.getRole() == UserRole.RIDER)
+                .filter(e -> e.isBanned() == false)
+                .collect(Collectors.toList());
+
+        model.addAttribute("riders", riders);
+        return "admin/rider";
+    }
+
+    @PostMapping("/rider")
+    public String banRider(
+            @RequestParam("id") Long id,
+            @RequestParam("banned_reason") String banned_reason) {
+        adminService.banUserById(id, banned_reason);
+
+        return "redirect:/admin/rider";
     }
 }
