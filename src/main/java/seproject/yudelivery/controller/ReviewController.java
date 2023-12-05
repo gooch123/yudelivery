@@ -9,15 +9,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import seproject.yudelivery.dto.AdminDTO;
-import seproject.yudelivery.entity.AdminEntity;
-import seproject.yudelivery.entity.ReviewEntity;
+import seproject.yudelivery.dto.UserRole;
+import seproject.yudelivery.entity.*;
 import seproject.yudelivery.repository.AdminRepository;
+import seproject.yudelivery.repository.CustomerRepository;
 import seproject.yudelivery.repository.ReviewRepository;
 import seproject.yudelivery.service.AdminService;
 import seproject.yudelivery.service.ReviewService;
+import seproject.yudelivery.service.StoreService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -30,18 +31,26 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final AdminService adminService;
 
-    public ReviewController(ReviewService reviewService, AdminService adminService) {
+    private final StoreService storeService;
+
+    private final CustomerRepository customerRepository;
+
+    public ReviewController(ReviewService reviewService, AdminService adminService, StoreService storeService, CustomerRepository customerRepository) {
         this.reviewService = reviewService;
         this.adminService = adminService;
+        this.storeService = storeService;
+        this.customerRepository = customerRepository;
     }
 
 
     @GetMapping("/store/review")
-    public String reviewMain(HttpServletRequest request, Model model, RedirectAttributes rttr){
-        //Long storeId = (Long) request.getSession().getAttribute("storeId");
-        Long storeId = 1L;
-        if (storeId != null) {
-            List<ReviewEntity> reviewList = reviewRepository.findAllByStoreId(storeId);
+    public String reviewMain(Model model, RedirectAttributes rttr, @SessionAttribute(name = "user", required = false) UserEntity user){
+        if(user == null || user.getRole() != UserRole.STORE){
+            return "redirect:/login";
+        }
+        StoreEntity store = storeService.getMyStore(user.getId());
+        if (store != null) {
+            List<ReviewEntity> reviewList = reviewRepository.findAllByStoreId(store.getId());
             if(reviewList.isEmpty()) {
                 rttr.addFlashAttribute("msg", "리뷰가 존재하지 않습니다.");
                 return "redirect:/store";
@@ -57,18 +66,24 @@ public class ReviewController {
         }
 
     }
+
+    @GetMapping("/review/create/{id}")
+    public String createReviewForm(Model model, @PathVariable("id") Long storeId){
+        model.addAttribute("id",storeId);
+        return "customer/info/addReviewForm";
+    }
+
     @PostMapping("/review/create")
-    public String createReview(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Long customerId = (Long) session.getAttribute("customerId");
-        Long storeId = (Long) session.getAttribute("storeId");
+    public String createReview(
+            @RequestParam("id") Long storeId,
+            @RequestParam("content") String content,
+            @RequestParam("starPoint") Double starPoint, @SessionAttribute(name = "user", required = false) UserEntity user) {
+        CustomerEntity customerEntity = customerRepository.getById(user.getId());
+        Long customerId = customerEntity.getId();
 
-        String reviewContent = request.getParameter("review_content");
-        Double reviewStarpoint = Double.parseDouble(request.getParameter("review_starpoint"));
+        reviewService.createReview(storeId, customerId, content, starPoint);
 
-        reviewService.createReview(storeId, customerId, reviewContent, reviewStarpoint);
-
-        return "redirect:/store/review" ;
+        return "redirect:/info/review" ;
     }
 
     @PostMapping("/review/{id}/update")

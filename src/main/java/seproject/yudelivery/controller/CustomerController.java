@@ -36,17 +36,24 @@ public class CustomerController {
     private final ReviewService reviewService;
     private final UserService userService;
 
+
+    @GetMapping("/customer")
+    public String customerMain(@SessionAttribute(name = "user",required = false)UserEntity user){
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
+        }
+        return "customer/main";
+    }
+
     /**
      * 주문내역(완료) 출력
      */
     @GetMapping("/info/orderList")
     public String orderList(@SessionAttribute(name = "user",required = false) UserEntity user, Model model){
-//        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
-//        }
-//        Long userId = user.getId();
-
-        Long userId = 1L;
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
+        }
+        Long userId = user.getId();
 
         List<OrderViewDTO> orderList = orderService.getCompleteCancelOrderViewList(userId);
         model.addAttribute("orderList",orderList);
@@ -61,9 +68,9 @@ public class CustomerController {
             Model model,
             @SessionAttribute(name = "user",required = false) UserEntity user,
             @PathVariable("id") Long orderId){
-//        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
-//        }
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
+        }
         List<OrderFoodDTO> orderFoods = orderService.getOrderFoods(orderId);
         model.addAttribute("orderFoods",orderFoods);
         return "customer/info/orderDetail";
@@ -77,9 +84,11 @@ public class CustomerController {
             Model model,
             @SessionAttribute(name = "user",required = false)UserEntity user
             ){
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
+        }
 
-        Long customerId = 1L;
-        List<OrderViewDTO> orderList = orderService.getCookingDeliveringWaitOrderViewList(customerId);
+        List<OrderViewDTO> orderList = orderService.getCookingDeliveringWaitOrderViewList(user.getId());
         model.addAttribute("orderList",orderList);
         return "customer/info/orderStatus";
     }
@@ -91,11 +100,10 @@ public class CustomerController {
     public String reviewList(
             @SessionAttribute(name = "user",required = false) UserEntity user,
             Model model){
-//        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
-//        }
-//        Long userId = user.getId();
-        Long userId = 1L;
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
+        }
+        Long userId = user.getId();
         List<CustomerReviewDTO> reviewList = reviewService.getReviewListByCustomer(userId);
         model.addAttribute("reviewList",reviewList);
         return "customer/info/reviewList";
@@ -129,12 +137,11 @@ public class CustomerController {
      */
     @GetMapping("/info/update")
     public String editInfoForm(@SessionAttribute(name = "user",required = false) UserEntity user, Model model){
-//        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
-//        }
-//        Long userId = user.getId();
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
 
-        Long userId = 1L;
+        }
+        Long userId = user.getId();
 
         UpdateCustomerForm form = userService.updateViewForm(userId);
         model.addAttribute("form",form);
@@ -144,13 +151,13 @@ public class CustomerController {
 
     @PostMapping("/info/update")
     public String editInfo(
+            @SessionAttribute(name = "user",required = false) UserEntity user,
             @Validated @ModelAttribute("form") UpdateCustomerForm form,
             BindingResult bindingResult,
             Model model){
-//        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
-//        }
-//        Long userId = user.getId();
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
+        }
         log.info("object = {}",bindingResult.getObjectName());
         log.info("target = {}",bindingResult.getTarget());
 
@@ -172,5 +179,6 @@ public class CustomerController {
         model.addAttribute("params",params);
         return "common/redirectMessage";
     }
+
 
 }

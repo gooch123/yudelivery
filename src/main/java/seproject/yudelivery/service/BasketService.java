@@ -29,8 +29,7 @@ public class BasketService {
      * @return 특정 유저의 장바구니 목록
      */
     public List<BasketDTO> getBasketList(Long userId){
-        BasketEntity basket = basketRepository.findBasket(userId);
-        List<BasketFoodEntity> basketFood = basketRepository.findBasketFood(basket.getId());
+        List<BasketFoodEntity> basketFood = basketRepository.findBasketFood(userId);
         List<BasketDTO> basketDTOList = new ArrayList<>();
         for (BasketFoodEntity food_in_basket : basketFood) {
             FoodEntity food = food_in_basket.getFood();
@@ -51,12 +50,11 @@ public class BasketService {
             basketRepository.cancelFood(basketFoodId);
     }
 
-
     /**
      * 장바구니에 음식 담기
      */
     @Transactional
-    public void addFoodToBasket(Long foodId, int quantity, Long userId){
+    public void addFoodToBasket(Long foodId, int quantity, Long userId) throws IllegalStateException{
         FoodEntity food = foodRepository.findById(foodId).get();
         Long storeId = food.getStore().getId();
         StoreEntity store = storeRepository.findStoreById(storeId);
@@ -64,11 +62,7 @@ public class BasketService {
         BasketFoodEntity basketFood = new BasketFoodEntity(food, basket, quantity);
         log.info("basketFood.id = " + basketFood.getFood().getId() +
                 "basketFood.id.name" + basketFood.getFood().getFood_name());
-        try {
-            basketRepository.addFood(basketFood,userId,store);
-        } catch (Exception e) {
-            throw new IllegalStateException(e.getMessage());
-        }
+        basketRepository.addFood(basketFood,userId,store);
     }
 
     /**
@@ -119,5 +113,10 @@ public class BasketService {
         for (OrderFoodEntity orderFood : orderFoodList) {
             addFoodToBasket(orderFood.getFood().getId(),orderFood.getQuantity(),order.getCustomer().getId());
         }
+    }
+
+    @Transactional
+    public void newBasket(BasketEntity basket){
+        basketRepository.saveNewBasket(basket);
     }
 }

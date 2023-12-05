@@ -28,11 +28,10 @@ public class BasketController {
 
     @GetMapping
     public String basketHome(Model model, @SessionAttribute(name = "user",required = false) UserEntity user){
-//        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
-//        }
-//        Long userId = user.getId();
-        Long userId = 1L;
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
+        }
+        Long userId = user.getId();
         List<BasketDTO> basketDTOList = basketService.getBasketList(userId);
         int totalPrice = basketService.getTotalPrice(userId);
         String basketStoreName = basketService.getBasketStoreName(userId);
@@ -74,13 +73,27 @@ public class BasketController {
     }
 
     //장바구니 추가 기능 구현
-    @PostMapping("/{id}/addBasket")
+    @PostMapping("/addBasket")
     public String addFoodToBasket(
-            @PathVariable(name = "id") Long foodId,
-            @SessionAttribute(name = "user",required = false)UserEntity user, HttpServletRequest request){
-        basketService.addFoodToBasket(foodId,1,user.getId());
+            @RequestParam(name = "foodId") Long foodId,
+            @RequestParam("quantity")int quantity,
+            @SessionAttribute(name = "user",required = false)UserEntity user,
+            Model model,
+            HttpServletRequest request){
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return "redirect:/login";
+        }
+        Long userId = user.getId();
+        String referer = request.getHeader("Referer");
 
-        return "redirect:" + request.getRequestURI();
+        try {
+            basketService.addFoodToBasket(foodId,quantity,userId);
+        } catch (IllegalStateException e) {
+            MessageDTO messageDTO = new MessageDTO(e.getMessage(), "/basket", RequestMethod.GET, null);
+            return showMessageAndRedirect(messageDTO,model);
+        }
+
+        return "redirect:" + referer;
     }
 
     private String showMessageAndRedirect(final MessageDTO params,Model model){

@@ -119,6 +119,7 @@ public class OrderService {
         for (OrderEntity order : orders) {
             orderViewDTOList.add(new OrderViewDTO(
                     order.getId(),
+                    order.getStore().getId(),
                     order.getStore().getStore_name(),
                     order.getOrder_time(),
                     order.getTotalPrice(),

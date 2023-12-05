@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가게 검색</title>
+    <style>
+        .mov-customer a {
+            text-decoration: none;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <h1>가게 검색</h1>
+    <!-- 검색창 -->
+    <form action="/store/search" method="get">
+        <label for="keyword">가게 검색:</label>
+        <input type="text" id="keyword" name="keyword" th:value="${keyword}" placeholder="가게 이름을 입력하세요">
+        <button type="submit">검색</button>
+    </form>
+    <div>
+        <h2>검색 결과</h2>
+        <th:block th:if="${#lists.isEmpty(searchResult)}">
+            <p>검색 결과가 없습니다.</p>
+        </th:block>
+        <th:block th:unless="${#lists.isEmpty(searchResult)}">
+            <ul>
+                <li th:each="store : ${searchResult}">
+                    <a th:href="@{/store/{id}(id=${store.id})}" th:text="${store.store_name}"></a>
+                </li>
+            </ul>
+        </th:block>
+    </div>
+</div>
+<div class="mov-customer"><p><a th:href="@{/customer}"><< 돌아가기</a></p></div>
+</body>
+</html>

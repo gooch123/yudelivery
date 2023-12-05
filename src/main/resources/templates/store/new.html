@@ -23,10 +23,10 @@
                         <div class="mb-3">
                             <label for="address1" class="form-label">Address:</label><br>
                             <div class="input-group">
-                                <input type="text" id="address1" th:field="*{address1}" name="address1" placeholder="우편번호" class="form-control">
+                                <input type="text" id="address1" th:field="*{address1}" name="address1" placeholder="우편번호" class="form-control" required>
                                 <button type="button" onclick="execDaumPostcode()" class="btn btn-outline-secondary">우편번호 찾기</button>
                             </div>
-                            <input type="text" id="address2" th:field="*{address2}" name="address2" placeholder="주소" class="form-control mt-2">
+                            <input type="text" id="address2" th:field="*{address2}" name="address2" placeholder="주소" class="form-control mt-2" required>
                             <input type="text" id="address3" th:field="*{address3}" name="address3" placeholder="상세주소" class="form-control mt-2">
                             <input type="text" id="extraAddress" name="extraAddress" placeholder="참고항목" class="form-control mt-2">
                         </div>
@@ -54,7 +54,7 @@
 
                         <div class="mb-3">
                             <label for="deliverTime" class="form-label">Deliver Time(분):</label>
-                            <input type="text" id="deliverTime" th:field="*{deliver_time}" name="deliver_time" class="form-control">
+                            <input type="number" id="deliverTime" th:field="*{deliver_time}" name="deliver_time" class="form-control" min="0">
                         </div>
 
                         <div class="mb-3">

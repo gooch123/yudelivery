@@ -1,10 +1,148 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>고객 메인</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YU delivery</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <style>
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 36px;  /* Preferred icon size */
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+
+            /* Support for all WebKit browsers. */
+            -webkit-font-smoothing: antialiased;
+            /* Support for Safari and Chrome. */
+            text-rendering: optimizeLegibility;
+
+            /* Support for Firefox. */
+            -moz-osx-font-smoothing: grayscale;
+
+            /* Support for IE. */
+            font-feature-settings: 'liga';
+        }
+    </style>
 </head>
 <body>
-  
+<div class="row mb-3">
+    <div class="row">
+        <div class="col-md-3 mt-5">
+            <div class="text-center" style="margin-bottom: 5px ">
+                <a href="/basket">
+                    <span class="material-icons">shopping_cart</span>
+                </a>
+            </div>
+        </div>
+        <div class="mt-3 col-md-6" style="height: 50px">
+            <p class="text-center fs-2 fw-bold" onclick="location.href='/customer'" style="cursor: pointer">YU Delivery</p>
+        </div>
+        <div class="col-md-3 mt-5">
+            <p class="text-center fw-bold" onclick="location.href='/logout'" style="cursor: pointer">LogOut</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="border border-5">
+            <div class="row">
+                <div class="col-md-2 border border-1" style="height: 600px">
+                    <div class="d-grid gap-5">
+                        <div class="ms-2 px-2 mt-3 bg-light border" onclick="location.href='/info/review'"
+                             style="cursor: pointer">
+                            <p class="text-center" style="margin-bottom: 0px">리뷰 목록</p>
+                        </div>
+                        <div class="ms-2 px-2 bg-light border" onclick="location.href='/info/wishList'"
+                             style="cursor: pointer">
+                            <p class="text-center" style="margin-bottom: 0px">찜 목록</p>
+                        </div>
+                        <div class="ms-2 px-2 bg-light border" onclick="location.href='/info/orderList'"
+                             style="cursor: pointer">
+                            <p class="text-center" style="margin-bottom: 0px">주문 내역</p>
+                        </div>
+                        <div class="ms-2 px-2 bg-light border" onclick="location.href='/info/update'"
+                             style="cursor: pointer">
+                            <p class="text-center" style="margin-bottom: 0px">정보 수정</p>
+                        </div>
+                        <div class="ms-2 px-2 bg-light border" onclick="location.href='/info/orderStatus'"
+                             style="cursor: pointer">
+                            <p class="text-center" style="margin-bottom: 0px">주문 현황</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 border border-1" >
+                    <form role="form" action="/order" method="post">
+                        <div class=" h-75 row mb-2">
+                            <div>
+                                <p class="text-center"> 장바구니 </p>
+                            </div>
+                            <div class="h-100 d-inline-block border border-1">
+                                <table border="1" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>검색</th>
+                                    </tr>
+                                    </thead>
+                                    <tr>
+                                        <td onclick="location.href='/store/search'"
+                                            style="cursor: pointer">가게 검색</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-2 border border-1">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="container">
+        <div class="text-center">footer</div>
+    </div>
+</div>
+
 </body>
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/cancel");
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function add(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/add");
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function sub(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post"); form.setAttribute("action", "/basket/" + id + "/sub");
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function confirmModal() {
+        if (window.confirm("정말 주문하시겠습니까 ?")) {
+            var form = document.createElement("form");
+            form.setAttribute("method", "post"); form.setAttribute("action", "/order");
+            document.body.appendChild(form);
+            form.submit();
+        } else {
+            window.location.href = "/basket"
+        }
+    }
+</script>
 </html>
