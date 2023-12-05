@@ -116,10 +116,12 @@
 
             <label for="status">상태 업데이트:</label>
             <select id="status1" name="status" required>
+                <option value="배달 대기">배달 대기</option>
                 <option value="배송 준비 중">배송 준비 중</option>
                 <option value="배송 중">배송 중</option>
                 <option value="배송 완료">배송 완료</option>
             </select>
+
 
             <button type="submit">상태 업데이트</button>
         </form>
@@ -148,19 +150,22 @@
 <script>
     function updateStatus(event) {
         event.preventDefault();
+        var statusSelect = document.getElementById("status1");
+        var selectedStatus = statusSelect.options[statusSelect.selectedIndex].text;
+
         var statusMessage = document.getElementById("statusMessage");
-        statusMessage.innerHTML = "상태 업데이트 성공!";
+        statusMessage.innerHTML = "상태 업데이트 성공: " + selectedStatus;
         statusMessage.className = "status-message status-success";
         statusMessage.style.display = "block";
-
     }
+
 
     function updateDeliveryStatus(event) {
         event.preventDefault();
         var orderDistance = parseFloat(document.getElementById("orderDistance").value);
 
         var deliveryStatusMessage = document.getElementById("deliveryStatusMessage");
-        if (orderDistance <= 50) {
+        if (orderDistance <= 5) {
             deliveryStatusMessage.innerHTML = "배달 접수!";
             deliveryStatusMessage.className = "status-message status-success";
         } else {
