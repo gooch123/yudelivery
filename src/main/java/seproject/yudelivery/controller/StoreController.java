@@ -62,7 +62,7 @@ public class StoreController {
     @GetMapping("/delete") // 점주 스토어 삭제
     public String deleteStore(HttpServletRequest request, RedirectAttributes rttr) {
         UserEntity user = (UserEntity) request.getSession().getAttribute("user");
-        if(user == null || user.getRole() != UserRole.STORE) { // 로그인 안했을때 (임시)
+        if(user == null || user.getRole() != UserRole.STORE) { // 로그인 안했을때
             return "redirect:/login";
         }
         StoreEntity store = storeRepository.findMyStore(user.getId());
