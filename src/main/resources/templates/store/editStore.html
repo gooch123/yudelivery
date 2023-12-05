@@ -51,7 +51,16 @@
               <label for="close_time"><strong>Close Time:</strong></label>
               <input type="time" class="form-control" id="close_time" th:field="*{close_time}" required>
               <label for="deliver_time"><strong>Deliver Time(분):</strong></label>
-              <input type="text" class="form-control" id="deliver_time" th:field="*{deliver_time}" placeholder="Enter deliver time" required>
+              <input type="number" id="deliver_time" th:field="*{deliver_time}" name="deliver_time" class="form-control" min="0">
+              <script>
+                document.getElementById('deliver_time').addEventListener('input', function(e) {
+                  var value = e.target.value;
+                  if (value < 0) {
+                    alert('양수를 입력해주세요.');
+                    e.target.value = ''; // 입력 필드를 비웁니다.
+                  }
+                });
+              </script>
               <label for="store_info"><strong>Store Info:</strong></label>
               <textarea class="form-control" id="store_info" th:field="*{store_info}" placeholder="Enter store info"></textarea>
               <input type="hidden" name="sales" th:field="*{sales}"/>

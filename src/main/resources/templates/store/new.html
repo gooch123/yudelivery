@@ -57,6 +57,16 @@
                             <input type="number" id="deliverTime" th:field="*{deliver_time}" name="deliver_time" class="form-control" min="0">
                         </div>
 
+                        <script>
+                            document.getElementById('deliverTime').addEventListener('input', function(e) {
+                                var value = e.target.value;
+                                if (value < 0) {
+                                    alert('양수를 입력해주세요.');
+                                    e.target.value = ''; // 입력 필드를 비웁니다.
+                                }
+                            });
+                        </script>
+
                         <div class="mb-3">
                             <label for="phone1" class="form-label">Phone:</label>
                             <div class="input-group">
@@ -150,5 +160,6 @@
             document.getElementById('phone').value = phone1 + '-' + phone2 + '-' + phone3;
         }
     </script>
+
 </body>
 </html>

@@ -21,6 +21,15 @@
 
                     <label for="food_price"><strong>Price:</strong></label>
                     <input type="number" class="form-control" id="food_price" th:field="*{food_price}" placeholder="Enter price" required>
+                    <script>
+                        document.getElementById('food_price').addEventListener('input', function(e) {
+                            var value = e.target.value;
+                            if (value < 0) {
+                                alert('양수를 입력해주세요.');
+                                e.target.value = ''; // 입력 필드를 비웁니다.
+                            }
+                        });
+                    </script>
 
                     <label for="food_info"><strong>Info:</strong></label>
                     <input type="text" class="form-control" id="food_info" th:field="*{food_info}" placeholder="Enter food info">

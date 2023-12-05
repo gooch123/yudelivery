@@ -39,7 +39,7 @@ public class AdminRepository {
             // reviewEntity 가져오기
             reviewEntity = iter.next();
             id = reviewEntity.getId();
-            content = reviewEntity.getComment();
+            content = reviewEntity.getReview_content();
 
             // review에 욕설이 포함되어 있는지 확인
             if(content.contains("바보") || content.contains("멍청이"))
