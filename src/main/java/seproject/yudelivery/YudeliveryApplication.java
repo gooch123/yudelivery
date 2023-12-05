@@ -13,7 +13,7 @@ public class YudeliveryApplication {
 		//서예주
 		//신은석
 		//손병하1231234
-		//천성찬
+		//천성찬1
 		//이민재1
 	}
 }
