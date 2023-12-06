@@ -115,6 +115,7 @@ public class CustomerController {
     public String storeDetail(@PathVariable Long storeId, Model model){
         StoreEntity detail = storeService.getStoreDetail(storeId);
         model.addAttribute("store", detail);
+
         return "store/detail";
     }
 
@@ -176,6 +177,15 @@ public class CustomerController {
         model.addAttribute("wishList",wishList);
 
         return "customer/info/wishList";
+    }
+
+    @PostMapping("/store/addToWishList")
+    public String addToWishList(@RequestParam Long storeId, @SessionAttribute(name = "user") UserEntity user) {
+        if (user != null && user.getRole() == UserRole.CUSTOMER) {
+            wishListService.saveWishList(user.getId(), storeId);
+        }
+
+        return "redirect:/store/" + storeId;
     }
 
     @PostMapping("/info/wishList/{id}/delete")

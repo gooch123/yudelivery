@@ -49,6 +49,21 @@
             color: #333;
         }
     </style>
+    <script>
+        function addToWishList(storeId) {
+            console.log("storeId:", storeId);
+            var form = document.createElement("form");
+            form.setAttribute("method", "post");
+            form.setAttribute("action", "/store/addToWishList");
+            var input = document.createElement("input");
+            input.setAttribute("type", "hidden");
+            input.setAttribute("name", "storeId");
+            input.setAttribute("value", storeId);
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
 </head>
 <body>
     <h2>가게 상세 정보</h2>
@@ -113,6 +128,10 @@
                 </tr>
             </tbody>
         </table>
+        <form th:action="@{/store/addToWishList}" method="post">
+            <input type="hidden" name="storeId" th:value="${store.id}">
+            <button type="submit" class="btn btn-primary">찜하기</button>
+        </form>
         <div class="mov-customer"><p><a th:href="@{/customer}"><< 고객 페이지로</a></p></div>
     </div>
 </body>
