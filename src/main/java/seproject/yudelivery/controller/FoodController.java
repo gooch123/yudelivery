@@ -59,7 +59,7 @@ public class FoodController{
     @PostMapping("/update")
     public String update(@ModelAttribute("foodDTO") FoodDTO foodDTO, RedirectAttributes rttr) {
         FoodEntity existing = foodRepository.findFoodExisting(foodDTO.getFood_name()).orElse(null);
-        if(existing !=null){
+        if(existing !=null && !foodDTO.getId().equals(existing.getId())){
             rttr.addFlashAttribute("msg", "음식이 이미 존재합니다");
             return "redirect:/store/my";
         }

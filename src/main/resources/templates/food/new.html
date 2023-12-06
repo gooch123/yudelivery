@@ -17,8 +17,17 @@
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">음식 가격</label>
-                    <input type="number" id="price" th:field="*{food_price}" name="food_price" required class="form-control">
+                    <input type="number" id="price" th:field="*{food_price}" name="food_price" required class="form-control" min = "0">
                 </div>
+                <script>
+                    document.getElementById('price').addEventListener('input', function(e) {
+                        var value = e.target.value;
+                        if (value < 0) {
+                            alert('양수를 입력해주세요.');
+                            e.target.value = ''; // 입력 필드를 비웁니다.
+                        }
+                    });
+                </script>
                 <div class="mb-3">
                     <label for="info" class="form-label">음식 정보</label>
                     <input type="text" id="info" th:field="*{food_info}" name="food_info" maxlength="100" class="form-control">
