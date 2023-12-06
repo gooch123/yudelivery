@@ -110,16 +110,18 @@
 
     <section id="status">
         <h2>배송 상태 업데이트</h2>
-        <form id="statusForm" th:action="@{/rider/updateStatus}" method="post" onsubmit="updateStatus(event)">
+        <form id="statusForm" action="/rider/updateStatus" method="post" onsubmit="updateStatus(event)">
             <label for="orderID">주문 ID:</label>
             <input type="text" id="orderID" name="orderID" required>
 
             <label for="status">상태 업데이트:</label>
             <select id="status1" name="status" required>
+                <option value="배달 대기">배달 대기</option>
                 <option value="배송 준비 중">배송 준비 중</option>
                 <option value="배송 중">배송 중</option>
                 <option value="배송 완료">배송 완료</option>
             </select>
+
 
             <button type="submit">상태 업데이트</button>
         </form>
@@ -130,7 +132,7 @@
     <!-- 추가된 부분: 반경 5km 내 매장에서 배달 접수 및 주문 취소 -->
     <section id="delivery">
         <h2>배달 접수 및 주문 취소</h2>
-        <form id="deliveryForm" th:action="@{/rider/acceptAndCancel}" method="post" onsubmit="updateDeliveryStatus(event)">
+        <form id="deliveryForm" action="/rider/acceptAndCancel" method="post" onsubmit="updateDeliveryStatus(event)">
             <label for="orderDistance">주문 거리:</label>
             <input type="text" id="orderDistance" name="orderDistance" placeholder="주문 거리(KM)" required>
 
@@ -147,16 +149,19 @@
 
 <script>
     function updateStatus(event) {
-        event.preventDefault();
+        //event.preventDefault();
+        var statusSelect = document.getElementById("status1");
+        var selectedStatus = statusSelect.options[statusSelect.selectedIndex].text;
+
         var statusMessage = document.getElementById("statusMessage");
-        statusMessage.innerHTML = "상태 업데이트 성공!";
+        statusMessage.innerHTML = "상태 업데이트 성공: " + selectedStatus;
         statusMessage.className = "status-message status-success";
         statusMessage.style.display = "block";
-
     }
 
+
     function updateDeliveryStatus(event) {
-        event.preventDefault();
+        //event.preventDefault();
         var orderDistance = parseFloat(document.getElementById("orderDistance").value);
 
         var deliveryStatusMessage = document.getElementById("deliveryStatusMessage");

@@ -11,7 +11,7 @@ import java.util.Optional;
 public class ReviewDTO {
     private StoreEntity store;
     private UserEntity customer;
-    private OrderEntity order;
+    //private OrderEntity order;
     private String review_content;
     private Double review_starpoint;
     private String comment;

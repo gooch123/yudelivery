@@ -12,6 +12,7 @@ import java.sql.Date;
 public class OrderViewDTO {
 
     private Long orderId;
+    private Long storeId;
     private String storeName;
     private Date order_time;
     private int totalPrice;

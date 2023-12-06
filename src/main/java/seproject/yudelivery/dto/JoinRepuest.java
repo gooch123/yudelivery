@@ -2,25 +2,23 @@ package seproject.yudelivery.dto;
 
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import seproject.yudelivery.entity.UserEntity;
 
 @Data
+@AllArgsConstructor
 public class JoinRepuest {
     @NotBlank(message = " = ")
     private String userId;
-
     @NotBlank(message = " = ")
     private String password;
-
     @NotBlank(message =  " = ")
     private String nickname;
-
     private String username;
-
     private String email;
     private String phone;
-
+    private UserRole userRole;
 
 
     public UserEntity toEntity() {
@@ -31,7 +29,7 @@ public class JoinRepuest {
                 .nickname(this.nickname)
                 .email(this.email)
                 .phone(this.phone)
-                .role(UserRole.CUSTOMER)
+                .role(this.userRole)
                 .build();
     }
 }

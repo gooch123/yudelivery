@@ -29,8 +29,7 @@ public class BasketService {
      * @return 특정 유저의 장바구니 목록
      */
     public List<BasketDTO> getBasketList(Long userId){
-        BasketEntity basket = basketRepository.findBasket(userId);
-        List<BasketFoodEntity> basketFood = basketRepository.findBasketFood(basket.getId());
+        List<BasketFoodEntity> basketFood = basketRepository.findBasketFood(userId);
         List<BasketDTO> basketDTOList = new ArrayList<>();
         for (BasketFoodEntity food_in_basket : basketFood) {
             FoodEntity food = food_in_basket.getFood();
@@ -114,5 +113,10 @@ public class BasketService {
         for (OrderFoodEntity orderFood : orderFoodList) {
             addFoodToBasket(orderFood.getFood().getId(),orderFood.getQuantity(),order.getCustomer().getId());
         }
+    }
+
+    @Transactional
+    public void newBasket(BasketEntity basket){
+        basketRepository.saveNewBasket(basket);
     }
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>유저 리스트</title>
+</head>
+<body>
+<h1 class="text-center my-4">유저 리스트</h1>
+
+<div class="d-flex justify-content-center my-3">
+    <table border="1">
+        <tr>
+            <th>id</th>
+            <th>nickname</th>
+            <th>정지 사유</th>
+        </tr>
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.id}">id</td>
+            <td th:text="${customer.nickname}">nickname</td>
+            <td>
+                <form action="/admin/customer" method="post">
+                    <input type="hidden" name="id" th:value="${customer.id}">
+                    <input type="text" name="banned_reason" value="">
+                    <button type="submit"> 정지 </button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

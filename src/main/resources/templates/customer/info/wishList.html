@@ -50,7 +50,7 @@
             <p class="text-center fs-2 fw-bold">YU Delivery</p>
         </div>
         <div class="col-md-3 mt-5">
-            <p class="text-center fw-bold">LogOut</p>
+            <p class="text-center fw-bold" onclick="location.href='/logout'" style="cursor: pointer">LogOut</p>
         </div>
     </div>
 
@@ -101,7 +101,10 @@
                                     </thead>
                                     <tr th:each="list : ${wishList}">
                                         <td ></td>
-                                        <td th:text="${list.storeName}">0</td>
+                                        <td th:text="${list.storeName}"
+                                            th:storeId = "${list.storeId}"
+                                            th:onclick="goStore(this.getAttribute('storeId'))"
+                                            style="cursor: pointer">0</td>
                                         <td th:text="${list.storeInfo}">0</td>
                                         <td>
                                             <a href="#"
@@ -131,6 +134,13 @@
     function cancel(id) {
         var form = document.createElement("form");
         form.setAttribute("method", "post"); form.setAttribute("action", "/info/wishList/" + id + "/delete");
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function goStore(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "get"); form.setAttribute("action", "/store/" + id);
         document.body.appendChild(form);
         form.submit();
     }
