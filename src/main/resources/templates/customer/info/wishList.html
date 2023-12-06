@@ -100,11 +100,16 @@
                                     </tr>
                                     </thead>
                                     <tr th:each="list : ${wishList}">
-                                        <td>r</td>
-                                        <td th:text="${list.storeName}" style="cursor: pointer" onclick="goStore(${list.storeId})"></td>
-                                        <td th:text="${list.storeInfo}"></td>
+                                        <td><p>TESTTEST</p></td>
+                                        <td th:text="${list.storeName}"
+                                            th:storeId="${list.storeId}"
+                                            th:onclick="goStore(this.getAttribute('storeId'))"
+                                            style="cursor: pointer">0</td>
+                                        <td th:text="${list.storeInfo}">0</td>
                                         <td>
-                                            <a href="#" th:href="'javascript:cancel('+${list.wishListId}+')" class="btn btn-danger">X</a>
+                                            <a href="#"
+                                               th:href="'javascript:cancel('+${list.wishListId}+')'"
+                                               class="btn btn-danger">X</a>
                                         </td>
                                         <td></td>
                                     </tr>

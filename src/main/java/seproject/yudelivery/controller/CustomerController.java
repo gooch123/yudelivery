@@ -179,15 +179,21 @@ public class CustomerController {
         return "customer/info/wishList";
     }
 
-    @PostMapping("/store/addToWishList")
-    public String addToWishList(@RequestParam Long storeId, @SessionAttribute(name = "user") UserEntity user) {
-        if (user != null && user.getRole() == UserRole.CUSTOMER) {
-            wishListService.saveWishList(user.getId(), storeId);
+    @PostMapping("/info/addToWishList")
+    public String addToWishList(@RequestParam("storeId") Long storeId, @SessionAttribute(name = "user") UserEntity user) {
+        if (user == null || user.getRole() != UserRole.CUSTOMER) {
+            return "redirect:/login"; // 혹은 다른 경로로 리다이렉트
         }
 
-        return "redirect:/store/" + storeId;
-    }
+        Long userId = user.getId();
 
+        try {
+            wishListService.saveWishList(userId, storeId);
+            return "redirect:/store/" + storeId;
+        } catch (IllegalStateException e) {
+            return "redirect:/store/" + storeId + "?error=duplicateWishList";
+        }
+    }
     @PostMapping("/info/wishList/{id}/delete")
     public String wishListDelete(@PathVariable("id") Long wishListId){
         wishListService.deleteWishList(wishListId);
