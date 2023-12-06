@@ -1,13 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Save</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            width: 300px;
+            text-align: left; /* 입력 필드 왼쪽 정렬 */
+        }
+
+        input, select, button {
+            width: 100%; /* 입력 필드 100% 폭으로 확장 */
+            box-sizing: border-box; /* 패딩과 테두리를 포함한 전체 너비 사용 */
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-<!-- action : form에 작성한 데이터를 어디로 보낼지 지정 -->
+
 <form action="/join" method="post">
-    <!-- name : 서버로 전송 할 때 변수이름의 역할 -->
     아이디: <input type="text" name="ID"> <br>
     비밀번호: <input type="password" name="password"> <br>
     이름: <input type="text" name="name"> <br>
@@ -19,8 +38,9 @@
         <option value="customer">고객</option>
         <option value="rider">배달원</option>
         <option value="store">점주</option>
+        <option value="admin">관리자</option>
     </select>
-    <button type="submit" > 회원가입 </button>
+    <button type="submit">회원가입</button>
 </form>
 </body>
 </html>
