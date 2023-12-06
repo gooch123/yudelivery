@@ -191,7 +191,7 @@ public class CustomerController {
             wishListService.saveWishList(userId, storeId);
             return "redirect:/store/" + storeId;
         } catch (IllegalStateException e) {
-            return "redirect:/store/" + storeId + "?error=duplicateWishList";
+            return "redirect:/store/" + storeId + "?error=duplicateWishList"; // 고칠곳
         }
     }
     @PostMapping("/info/wishList/{id}/delete")
