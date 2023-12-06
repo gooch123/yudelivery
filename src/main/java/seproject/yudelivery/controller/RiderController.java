@@ -28,7 +28,7 @@ public class RiderController {
     private OrderService orderService;
 
     @GetMapping("/rider")
-    public String customerMain(@SessionAttribute(name = "user",required = false) UserEntity user){
+    public String riderMain(@SessionAttribute(name = "user",required = false) UserEntity user){
         if(user == null || user.getRole() != UserRole.RIDER){
             return "redirect:/login";
         }
