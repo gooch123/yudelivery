@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import seproject.yudelivery.dto.AdminDTO;
 import seproject.yudelivery.entity.AdminEntity;
 import seproject.yudelivery.entity.ReviewEntity;
+import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.repository.AdminRepository;
 
 import java.util.List;
@@ -19,6 +20,10 @@ public class AdminService {
     public List<AdminEntity> findAllReview() {
         return adminRepository.findAllReview();
     }
+    public List<AdminEntity> getAllBadReview() {
+        return adminRepository.getAllBadReview();
+    }
+
     public ReviewEntity findReviewById(Long reportedId) {
         return adminRepository.findReviewById(reportedId);
     }
@@ -38,5 +43,17 @@ public class AdminService {
 
     public void ignoreReviewById(Long reportedId) {
         adminRepository.ignoreReviewById(reportedId);
+    }
+
+    public List<UserEntity> getAllUsers() {
+        return adminRepository.getAllUsers();
+    }
+
+    public UserEntity findUserById(Long id) {
+        return adminRepository.findUserById(id);
+    }
+
+    public void banUserById(Long id, String banned_reason) {
+        adminRepository.banUserById(id, banned_reason);
     }
 }

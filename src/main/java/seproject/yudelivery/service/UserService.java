@@ -72,12 +72,14 @@ public class UserService {
 
     public UserEntity login(LoginRequest req) throws IllegalStateException {
         Optional<UserEntity> optionalUserEntity = userRepository.findByUserId(req.getUserId());
-
         if (optionalUserEntity.isEmpty()) {
             throw new IllegalStateException("존재하지 않는 아이디입니다");
         }
 
         UserEntity userEntity = optionalUserEntity.get();
+        if(userEntity.isBanned()) {
+            throw new IllegalStateException("어드민이 정지시킨 계정입니다.\n사유 : " + userEntity.getBanned_reason());
+        }
         //찾아온 User의 패스워드와 입력된 패스워드가 다르다면 null return
         if(!userEntity.getPassword().equals(req.getPassword())) {
             throw new IllegalStateException("비밀번호가 다릅니다");

@@ -2,6 +2,7 @@ package seproject.yudelivery.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface FoodRepository extends JpaRepository<FoodEntity, Long> {
     Optional<FoodEntity> findById(Long id);
 
     @Query("SELECT f FROM FoodEntity f WHERE f.food_name = :foodName")
-    Optional<FoodEntity> findFoodExisting(String foodName); // 음식이 이미 존재하는지 확인하는 메서드
+    Optional<FoodEntity> findFoodExisting(@Param("foodName") String foodName); // 음식이 이미 존재하는지 확인하는 메서드
 
     default FoodEntity saveNewFood(FoodEntity food) {
         return save(food); // 새로운 음식 저장
@@ -27,4 +28,5 @@ public interface FoodRepository extends JpaRepository<FoodEntity, Long> {
     default FoodEntity updateFood(FoodEntity food)   {
         return save(food); // 음식 업데이트
     }
+
 }

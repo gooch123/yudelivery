@@ -9,26 +9,66 @@
             text-decoration: none;
             color: #333;
         }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            transition: background-color 0.3s;
+        }
+
+        li:hover {
+            background-color: #e0e0e0;
+        }
+
+        a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        p {
+            color: #777;
+        }
+
+        #keyword {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 15px;
+        }
     </style>
 </head>
 <body>
-
 <div>
     <h1>가게 검색</h1>
-    <!-- 검색창 -->
     <form action="/store/search" method="get">
-        <label for="keyword">가게 검색:</label>
-        <input type="text" id="keyword" name="keyword" th:value="${keyword}" placeholder="가게 이름을 입력하세요">
-        <button type="submit">검색</button>
+        <label for="keyword">검색 :</label>
+        <input type="text" id="keyword" name="keyword" placeholder="원하는 가게 이름을 입력하세요.">
+        <button type="submit">찾기</button>
     </form>
+     <hr>
     <div>
-        <h2>검색 결과</h2>
+        <h2>가게 목록</h2>
         <th:block th:if="${#lists.isEmpty(searchResult)}">
             <p>검색 결과가 없습니다.</p>
         </th:block>
         <th:block th:unless="${#lists.isEmpty(searchResult)}">
-            <ul>
-                <li th:each="store : ${searchResult}">
+            <ul style="list-style-type: none; padding: 0;">
+                <li th:each="store : ${searchResult}" >
                     <a th:href="@{/store/{id}(id=${store.id})}" th:text="${store.store_name}"></a>
                 </li>
             </ul>

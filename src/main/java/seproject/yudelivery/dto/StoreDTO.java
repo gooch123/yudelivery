@@ -25,13 +25,25 @@ public class StoreDTO {
     private String phone;
     private String open_time;
     private String close_time;
-    private int deliver_time;
+    private String  deliver_time;
     private String store_info;
     private int sales;
 
     public StoreEntity toEntity() {
-        String openTimeFormatted = this.open_time.length() == 5 ? this.open_time + ":00" : this.open_time;
-        String closeTimeFormatted = this.close_time.length() == 5 ? this.close_time + ":00" : this.close_time;
+        String openTimeFormatted;
+        String closeTimeFormatted;
+        if(this.open_time.length() == 0)
+            openTimeFormatted = "00:00:00";
+        else
+            openTimeFormatted = this.open_time.length() == 5 ? this.open_time + ":00" : this.open_time;
+        if(this.close_time.length() == 0)
+            closeTimeFormatted = "00:00:00";
+        else
+            closeTimeFormatted = this.close_time.length() == 5 ? this.close_time + ":00" : this.close_time;
+        if(this.deliver_time.equals("")) {
+            this.deliver_time = "0";
+        }
+        int deliver = Integer.parseInt(this.deliver_time);
         return StoreEntity.builder()
                 .id(this.store_id)
                 .user(this.user)
@@ -43,15 +55,27 @@ public class StoreDTO {
                 .phone(this.phone)
                 .open_time(Time.valueOf(openTimeFormatted))
                 .close_time(Time.valueOf(closeTimeFormatted))
-                .deliver_time(this.deliver_time)
+                .deliver_time(deliver)
                 .store_info(this.store_info)
                 .sales(this.sales)
                 .build();
     }
 
     public StoreEntity createStore() {
-        String openTimeFormatted = this.open_time + ":00";
-        String closeTimeFormatted = this.close_time + ":00";
+        String openTimeFormatted;
+        String closeTimeFormatted;
+        if(this.open_time.length() == 0)
+            openTimeFormatted = "00:00:00";
+        else
+            openTimeFormatted = this.open_time + ":00";
+        if(this.close_time.length() == 0)
+            closeTimeFormatted = "00:00:00";
+        else
+            closeTimeFormatted = this.close_time + ":00";
+        if(this.deliver_time.equals("")) {
+            this.deliver_time = "0";
+        }
+        int deliver = Integer.parseInt(this.deliver_time);
         return StoreEntity.builder()
                 .user(this.user)
                 .store_name(this.store_name)
@@ -62,7 +86,7 @@ public class StoreDTO {
                 .phone(this.phone)
                 .open_time(Time.valueOf(openTimeFormatted))
                 .close_time(Time.valueOf(closeTimeFormatted))
-                .deliver_time(this.deliver_time)
+                .deliver_time(deliver)
                 .store_info(this.store_info)
                 .sales(0)
                 .build();
