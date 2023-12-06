@@ -110,7 +110,7 @@ public class UserController {
         else if(user.getRole() == UserRole.STORE)
             return "redirect:/store";
         else if(user.getRole() == UserRole.RIDER)
-            return "redirect:/login";
+            return "redirect:/rider";
         else if(user.getRole() == UserRole.ADMIN)
             return "redirect:/admin";
         return "redirect:/login";
