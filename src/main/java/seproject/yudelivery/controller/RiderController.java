@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import seproject.yudelivery.dto.LocationDTO;
 import seproject.yudelivery.entity.RiderEntity;
 import seproject.yudelivery.repository.RiderRepository;
+import seproject.yudelivery.service.OrderService;
 import seproject.yudelivery.service.RiderService;
 
 import java.util.Optional;
@@ -20,6 +21,9 @@ public class RiderController {
 
     @Autowired
     private RiderService riderService;
+
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/getByCustomerId/{customerId}")
     public String getRiderByCustomerId(@PathVariable Long customerId, Model model) {
@@ -64,8 +68,13 @@ public class RiderController {
 
     @PostMapping("/updateStatus")
     public String updateStatus(@RequestParam String orderID, @RequestParam String status) {
-        System.out.println("주문 ID: " + orderID + ", 새로운 상태: " + status);
-        return "redirect:/rider/main";
+
+        if(status.equals("배송 완료")) {
+            System.out.println("주문 ID: " + orderID + ", 새로운 상태: " + status);
+            orderService.completeOrder(Long.parseLong(orderID));
+        }
+
+        return "redirect:/rider";
     }
 
     @PostMapping("/acceptAndCancel")
