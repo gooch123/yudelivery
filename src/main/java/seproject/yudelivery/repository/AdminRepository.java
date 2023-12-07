@@ -1,5 +1,6 @@
 package seproject.yudelivery.repository;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.transaction.Transactional;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

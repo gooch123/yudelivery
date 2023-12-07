@@ -12,9 +12,7 @@ import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.service.AdminService;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -41,7 +39,7 @@ public class AdminController {
     public String getReview(Model model) {
         List<AdminEntity> reviews = new ArrayList<>();
         reviews.addAll(adminService.findAllReview());
-        reviews.addAll(adminService.getAllBadReview());
+        //reviews.addAll(adminService.getAllBadReview());
 
         model.addAttribute("reviews", reviews);
         return "admin/review";
