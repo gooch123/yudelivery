@@ -48,6 +48,30 @@
             text-decoration: none;
             color: #333;
         }
+
+        .wish-btn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .wish-btn:hover {
+            background-color: #45a049;
+        }
+
+        .wish-btn-container {
+            text-align: right;
+            margin-top: 10px;
+        }
+
     </style>
     <script>
         /*<![CDATA[*/
@@ -56,10 +80,16 @@
             var successMessage = urlParams.get('success');
             var errorMessage = urlParams.get('error');
 
-            if (successMessage) {
-                alert(successMessage);
-            } else if (errorMessage) {
-                alert(errorMessage);
+            var wishBtn = document.getElementById('wish-btn');
+
+            if (wishBtn) {
+                wishBtn.addEventListener('click', function () {
+                    if (successMessage) {
+                        alert(successMessage);
+                    } else if (errorMessage) {
+                        alert(errorMessage);
+                    }
+                });
             }
         });
         /*]]>*/
@@ -128,10 +158,13 @@
                 </tr>
             </tbody>
         </table>
-        <form th:action="@{/info/addToWishList}" method="post" onsubmit="showPopup()">
-            <input type="hidden" name="storeId" th:value="${store.id}" />
-            <button type="submit" class="btn btn-primary">찜하기</button>
-        </form>
+
+        <div class="wish-btn-container">
+            <form th:action="@{/info/addToWishList}" method="post">
+                <input type="hidden" name="storeId" th:value="${store.id}" />
+                <button type="submit" class="wish-btn" id="wish-btn">찜하기</button>
+            </form>
+        </div>
         <div class="mov-customer"><p><a th:href="@{/customer}"><< 고객 페이지로</a></p></div>
     </div>
 </body>
