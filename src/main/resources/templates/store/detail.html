@@ -73,27 +73,19 @@
         }
 
     </style>
-    <script>
-        /*<![CDATA[*/
-        document.addEventListener('DOMContentLoaded', function () {
-            var urlParams = new URLSearchParams(window.location.search);
-            var successMessage = urlParams.get('success');
-            var errorMessage = urlParams.get('error');
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    document.addEventListener('DOMContentLoaded', function () {
+        var wishBtn = document.getElementById('wish-btn');
 
-            var wishBtn = document.getElementById('wish-btn');
-
-            if (wishBtn) {
-                wishBtn.addEventListener('click', function () {
-                    if (successMessage) {
-                        alert(successMessage);
-                    } else if (errorMessage) {
-                        alert(errorMessage);
-                    }
-                });
-            }
-        });
-        /*]]>*/
-    </script>
+        if (wishBtn) {
+            wishBtn.addEventListener('click', function () {
+                alert("해당 가게가 찜 목록에 추가되었습니다.");
+            });
+        }
+    });
+    /*]]>*/
+</script>
 </head>
 <body>
     <h2>가게 상세 정보</h2>

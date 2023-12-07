@@ -194,7 +194,7 @@ public class CustomerController {
             String successMessage = "가게를 찜하였습니다!";
             return "redirect:/store/" + storeId + "?success=" + URLEncoder.encode(successMessage, StandardCharsets.UTF_8);
         } catch (IllegalStateException e) {
-            String errorMessage = "이미 찜한 가게입니다.";
+            String errorMessage = "이미 가게를 찜하였습니다!";
             return "redirect:/store/" + storeId + "?error=" + URLEncoder.encode(errorMessage, StandardCharsets.UTF_8);
         }
     }
