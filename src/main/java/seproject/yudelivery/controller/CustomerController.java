@@ -117,7 +117,6 @@ public class CustomerController {
     public String storeDetail(@PathVariable Long storeId, Model model){
         StoreEntity detail = storeService.getStoreDetail(storeId);
         model.addAttribute("store", detail);
-
         return "store/detail";
     }
 
@@ -170,11 +169,10 @@ public class CustomerController {
 
     @GetMapping("/info/wishList")
     public String wishListHome(Model model, @SessionAttribute(name = "user",required = false) UserEntity user){
-//        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
-//        }
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return null;
+        }
         Long userId = user.getId();
-//        Long userId = 1L;
         List<WishListDTO> wishList = wishListService.getWishList(userId);
         model.addAttribute("wishList",wishList);
 
@@ -211,4 +209,6 @@ public class CustomerController {
         model.addAttribute("params",params);
         return "common/redirectMessage";
     }
+
+
 }

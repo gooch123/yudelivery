@@ -27,8 +27,8 @@ public class RiderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/rider")
-    public String customerMain(@SessionAttribute(name = "user",required = false) UserEntity user){
+    @GetMapping()
+    public String riderMain(@SessionAttribute(name = "user",required = false) UserEntity user){
         if(user == null || user.getRole() != UserRole.RIDER){
             return "redirect:/login";
         }
@@ -65,10 +65,6 @@ public class RiderController {
         return "redirect:/rider/main";
     }
 
-    @GetMapping("")
-    public String showMainPage() {
-        return "rider/main";
-    }
 
     // 수정된 컨트롤러 메소드
     @GetMapping("/rider/order_info")
