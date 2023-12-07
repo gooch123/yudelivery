@@ -171,8 +171,8 @@ public class CustomerController {
 //        if(user == null || user.getRole() != UserRole.CUSTOMER){
 //            return null;
 //        }
-//        Long userId = user.getId();
-        Long userId = 1L;
+        Long userId = user.getId();
+//        Long userId = 1L;
         List<WishListDTO> wishList = wishListService.getWishList(userId);
         model.addAttribute("wishList",wishList);
 
@@ -182,17 +182,13 @@ public class CustomerController {
     @PostMapping("/info/addToWishList")
     public String addToWishList(@RequestParam("storeId") Long storeId, @SessionAttribute(name = "user") UserEntity user) {
         if (user == null || user.getRole() != UserRole.CUSTOMER) {
-            return "redirect:/login"; // 혹은 다른 경로로 리다이렉트
+            return "redirect:/login";
         }
 
         Long userId = user.getId();
 
-        try {
-            wishListService.saveWishList(userId, storeId);
-            return "redirect:/store/" + storeId;
-        } catch (IllegalStateException e) {
-            return "redirect:/store/" + storeId + "?error=duplicateWishList"; // 고칠곳
-        }
+        wishListService.saveWishList(userId, storeId);
+        return "redirect:/store/" + storeId;
     }
     @PostMapping("/info/wishList/{id}/delete")
     public String wishListDelete(@PathVariable("id") Long wishListId){
