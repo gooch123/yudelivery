@@ -49,6 +49,21 @@
             color: #333;
         }
     </style>
+    <script>
+        /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            var successMessage = urlParams.get('success');
+            var errorMessage = urlParams.get('error');
+
+            if (successMessage) {
+                alert(successMessage);
+            } else if (errorMessage) {
+                alert(errorMessage);
+            }
+        });
+        /*]]>*/
+    </script>
 </head>
 <body>
     <h2>가게 상세 정보</h2>
@@ -113,7 +128,7 @@
                 </tr>
             </tbody>
         </table>
-        <form th:action="@{/info/addToWishList}" method="post">
+        <form th:action="@{/info/addToWishList}" method="post" onsubmit="showPopup()">
             <input type="hidden" name="storeId" th:value="${store.id}" />
             <button type="submit" class="btn btn-primary">찜하기</button>
         </form>

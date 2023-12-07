@@ -16,6 +16,8 @@ import seproject.yudelivery.service.StoreService;
 import seproject.yudelivery.service.UserService;
 import seproject.yudelivery.service.*;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -187,8 +189,14 @@ public class CustomerController {
 
         Long userId = user.getId();
 
-        wishListService.saveWishList(userId, storeId);
-        return "redirect:/store/" + storeId;
+        try {
+            wishListService.saveWishList(userId, storeId);
+            String successMessage = "가게를 찜하였습니다!";
+            return "redirect:/store/" + storeId + "?success=" + URLEncoder.encode(successMessage, StandardCharsets.UTF_8);
+        } catch (IllegalStateException e) {
+            String errorMessage = "이미 찜한 가게입니다.";
+            return "redirect:/store/" + storeId + "?error=" + URLEncoder.encode(errorMessage, StandardCharsets.UTF_8);
+        }
     }
     @PostMapping("/info/wishList/{id}/delete")
     public String wishListDelete(@PathVariable("id") Long wishListId){
@@ -203,6 +211,4 @@ public class CustomerController {
         model.addAttribute("params",params);
         return "common/redirectMessage";
     }
-
-
 }
