@@ -39,7 +39,7 @@ public class AdminController {
      */
     @GetMapping("/review")
     public String getReview(Model model) {
-        Set<AdminEntity> reviews = new HashSet<>();
+        List<AdminEntity> reviews = new ArrayList<>();
         reviews.addAll(adminService.findAllReview());
         reviews.addAll(adminService.getAllBadReview());
 
