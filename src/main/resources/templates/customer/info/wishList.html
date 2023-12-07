@@ -100,9 +100,9 @@
                                     </tr>
                                     </thead>
                                     <tr th:each="list : ${wishList}">
-                                        <td ></td>
+                                        <td></td>
                                         <td th:text="${list.storeName}"
-                                            th:storeId = "${list.storeId}"
+                                            th:storeId="${list.storeId}"
                                             th:onclick="goStore(this.getAttribute('storeId'))"
                                             style="cursor: pointer">0</td>
                                         <td th:text="${list.storeInfo}">0</td>
@@ -144,6 +144,5 @@
         document.body.appendChild(form);
         form.submit();
     }
-
 </script>
 </html>

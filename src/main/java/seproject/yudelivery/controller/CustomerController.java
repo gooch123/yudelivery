@@ -16,6 +16,8 @@ import seproject.yudelivery.service.StoreService;
 import seproject.yudelivery.service.UserService;
 import seproject.yudelivery.service.*;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -167,17 +169,33 @@ public class CustomerController {
 
     @GetMapping("/info/wishList")
     public String wishListHome(Model model, @SessionAttribute(name = "user",required = false) UserEntity user){
-//        if(user == null || user.getRole() != UserRole.CUSTOMER){
-//            return null;
-//        }
-//        Long userId = user.getId();
-        Long userId = 1L;
+        if(user == null || user.getRole() != UserRole.CUSTOMER){
+            return null;
+        }
+        Long userId = user.getId();
         List<WishListDTO> wishList = wishListService.getWishList(userId);
         model.addAttribute("wishList",wishList);
 
         return "customer/info/wishList";
     }
 
+    @PostMapping("/info/addToWishList")
+    public String addToWishList(@RequestParam("storeId") Long storeId, @SessionAttribute(name = "user") UserEntity user) {
+        if (user == null || user.getRole() != UserRole.CUSTOMER) {
+            return "redirect:/login";
+        }
+
+        Long userId = user.getId();
+
+        try {
+            wishListService.saveWishList(userId, storeId);
+            String successMessage = "가게를 찜하였습니다!";
+            return "redirect:/store/" + storeId + "?success=" + URLEncoder.encode(successMessage, StandardCharsets.UTF_8);
+        } catch (IllegalStateException e) {
+            String errorMessage = "이미 가게를 찜하였습니다!";
+            return "redirect:/store/" + storeId + "?error=" + URLEncoder.encode(errorMessage, StandardCharsets.UTF_8);
+        }
+    }
     @PostMapping("/info/wishList/{id}/delete")
     public String wishListDelete(@PathVariable("id") Long wishListId){
         wishListService.deleteWishList(wishListId);
