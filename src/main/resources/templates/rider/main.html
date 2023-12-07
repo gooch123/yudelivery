@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>라이더 홈페이지</title>
@@ -98,7 +99,7 @@
 <header>
     <h1>라이더 홈페이지</h1>
 </header>
-
+<div id="statusMessage" class="status-message"></div>
 <main>
     <section id="orders">
         <h2>배송 목록</h2>
@@ -110,8 +111,10 @@
 
     <section id="status">
         <h2>배송 상태 업데이트</h2>
-        <form id="statusForm" action="/rider/updateStatus" method="post" onsubmit="updateStatus(event)">
-            <label for="orderID">주문 ID:</label>
+        <form id="statusForm" action="/rider/updateStatus" method="post" onsubmit="updateStatusHandler(event)">
+            <!-- 이하 생략 -->
+        </form>
+        <label for="orderID">주문 ID:</label>
             <input type="text" id="orderID" name="orderID" required>
 
             <label for="status">상태 업데이트:</label>
@@ -126,7 +129,7 @@
             <button type="submit">상태 업데이트</button>
         </form>
 
-        <div id="statusMessage" class="status-message"></div>
+
     </section>
 
     <!-- 추가된 부분: 반경 5km 내 매장에서 배달 접수 및 주문 취소 -->
@@ -148,7 +151,7 @@
 </footer>
 
 <script>
-    function updateStatus(event) {
+    function updateStatusHandler(event) {
         //event.preventDefault();
         var statusSelect = document.getElementById("status1");
         var selectedStatus = statusSelect.options[statusSelect.selectedIndex].text;
@@ -161,7 +164,7 @@
 
 
     function updateDeliveryStatus(event) {
-        //event.preventDefault();
+        event.preventDefault();
         var orderDistance = parseFloat(document.getElementById("orderDistance").value);
 
         var deliveryStatusMessage = document.getElementById("deliveryStatusMessage");

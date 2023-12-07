@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import seproject.yudelivery.dto.LocationDTO;
+import seproject.yudelivery.dto.UserRole;
 import seproject.yudelivery.entity.RiderEntity;
+import seproject.yudelivery.entity.UserEntity;
 import seproject.yudelivery.repository.RiderRepository;
 import seproject.yudelivery.service.OrderService;
 import seproject.yudelivery.service.RiderService;
@@ -24,6 +26,14 @@ public class RiderController {
 
     @Autowired
     private OrderService orderService;
+
+    @GetMapping("/rider")
+    public String customerMain(@SessionAttribute(name = "user",required = false) UserEntity user){
+        if(user == null || user.getRole() != UserRole.RIDER){
+            return "redirect:/login";
+        }
+        return "rider/main";
+    }
 
     @GetMapping("/getByCustomerId/{customerId}")
     public String getRiderByCustomerId(@PathVariable Long customerId, Model model) {

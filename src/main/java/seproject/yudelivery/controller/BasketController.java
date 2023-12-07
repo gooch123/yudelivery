@@ -24,7 +24,6 @@ import java.util.List;
 public class BasketController {
 
     private final BasketService basketService;
-    private final OrderService orderService;
 
     @GetMapping
     public String basketHome(Model model, @SessionAttribute(name = "user",required = false) UserEntity user){

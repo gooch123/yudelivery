@@ -22,12 +22,6 @@ public class ReviewEntity{
     @JoinColumn(name = "customer_id")
     private UserEntity customer;
 
-    /*
-    @OneToOne
-    @JoinColumn(name = "order_id")
-    private OrderEntity order;
-     */
-
     @Column(name = "review_content")
     private String review_content;
 
