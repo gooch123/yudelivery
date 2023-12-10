@@ -113,19 +113,20 @@
         <h2>배송 상태 업데이트</h2>
         <form id="statusForm" action="/rider/updateStatus" method="post" onsubmit="updateStatusHandler(event)">
             <!-- 이하 생략 -->
+        </form>
         <label for="orderID">주문 ID:</label>
-            <input type="text" id="orderID" name="orderID" required>
+        <input type="text" id="orderID" name="orderID" required>
 
-            <label for="status">상태 업데이트:</label>
-            <select id="status1" name="status" required>
-                <option value="배달 대기">배달 대기</option>
-                <option value="배송 준비 중">배송 준비 중</option>
-                <option value="배송 중">배송 중</option>
-                <option value="배송 완료">배송 완료</option>
-            </select>
+        <label for="status">상태 업데이트:</label>
+        <select id="status1" name="status" required>
+            <option value="배달 대기">배달 대기</option>
+            <option value="배송 준비 중">배송 준비 중</option>
+            <option value="배송 중">배송 중</option>
+            <option value="배송 완료">배송 완료</option>
+        </select>
 
 
-            <button type="submit">상태 업데이트</button>
+        <button type="submit">상태 업데이트</button>
         </form>
 
 
