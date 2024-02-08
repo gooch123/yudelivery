@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/join")
     public String joinForm(@ModelAttribute UserEntity userEntity) {
-        return "/user/join";
+        return "user/join";
     }
 
     @PostMapping("/join")
